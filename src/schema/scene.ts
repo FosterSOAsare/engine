@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { ICON_NAMES } from "../elements/icons";
 
 // The scene file: one JSON file describes a whole video. Positions are in
 // percent of the frame (0 to 100), sizes in percent of the frame's shorter
@@ -57,14 +58,6 @@ const arrow = z.strictObject({
   label: z.string().optional(),
 });
 
-export const ICON_NAMES = [
-  "user",
-  "server",
-  "database",
-  "phone",
-  "cloud",
-] as const;
-
 const icon = z.strictObject({
   type: z.literal("icon"),
   ...common,
@@ -107,4 +100,3 @@ export type VideoInput = z.input<typeof videoSchema>;
 export type Video = z.output<typeof videoSchema>;
 export type Scene = z.output<typeof sceneSchema>;
 export type SceneElement = z.output<typeof elementSchema>;
-export type IconName = (typeof ICON_NAMES)[number];
