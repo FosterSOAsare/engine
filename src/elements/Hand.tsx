@@ -30,8 +30,12 @@ export const Hand: React.FC<{ tracks: HandTrack[] }> = ({ tracks }) => {
         position: "absolute",
         left: tip.x - HAND_TIP.x * scale,
         top: tip.y - HAND_TIP.y * scale,
-        width: HAND_IMAGE.width * scale,
+        // Size by height and let the width follow, so the photo keeps its
+        // proportions. Tailwind caps images at max-width: 100%, which
+        // squeezed the hand in portrait, where it is wider than the frame.
         height: HAND_IMAGE.height * scale,
+        width: "auto",
+        maxWidth: "none",
       }}
     />
   );
