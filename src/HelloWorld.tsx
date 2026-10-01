@@ -22,7 +22,13 @@ export const HelloWorld: React.FC<HelloWorldProps> = ({
   const { durationInFrames, fps } = useVideoConfig();
 
   return (
-    <AbsoluteFill style={{ backgroundColor: "white" }}>
+    <AbsoluteFill
+      style={{
+        backgroundColor: "white",
+        translate: "328.2px 143.4px",
+        scale: 2.297
+      }}
+    >
       <Interactive.Div
         name="Content fade"
         premountFor={fps}
@@ -43,11 +49,27 @@ export const HelloWorld: React.FC<HelloWorldProps> = ({
           logoColor1="#91EAE4"
           logoColor2="#86A8E7"
           style={{
-            translate: interpolate(frame, [25, 55], ["0px 0px", "0px -150px"], {
-              easing: Easing.spring({ damping: 100 }),
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-            }),
+            translate: interpolate(
+              frame,
+              [25, 26, 55, 61],
+              ["0px 0px", "-168px -148.8px", "0px -150px", "-73.9px -254.3px"],
+              {
+                easing: [Easing.spring({
+                  damping: 100,
+                  mass: 1,
+                  stiffness: 100,
+                  overshootClamping: false
+                }), Easing.spring({
+                  damping: 100,
+                  mass: 1,
+                  stiffness: 100,
+                  overshootClamping: false
+                }), Easing.linear],
+                extrapolateLeft: "clamp",
+                extrapolateRight: "clamp",
+                outputType: "translate"
+              }
+            )
           }}
         />
         <Title
@@ -74,8 +96,8 @@ export const HelloWorld: React.FC<HelloWorldProps> = ({
             }),
           }}
         >
-          Edit <code style={{ color: "#86A8E7" }}>src/Root.tsx</code> and save to reload.
-        </Interactive.Div>
+          Asare Foster
+               </Interactive.Div>
       </Interactive.Div>
     </AbsoluteFill>
   );
