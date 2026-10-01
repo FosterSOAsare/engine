@@ -2,21 +2,22 @@ import { Img, staticFile, useCurrentFrame } from "remotion";
 import { handPosition, type HandTrack } from "../animation/hand";
 import { useFrameUnits } from "./shared";
 
-// public/hand-long.png: public/hand.png (a photo of a hand holding a
-// pencil, transparent around it) with the forearm continued 3000 px
-// further, so it runs off the frame instead of ending in a cut. The pencil
-// points left; the hand is to the right of the tip, reaching above and
-// below it.
-const HAND_IMAGE = { src: "hand-long.png", width: 2067, height: 3886 };
-const HAND_TIP = { x: 86, y: 247 }; // the pixel of the image touching the board
-const HAND_SIZE = 126; // image width, percent of the frame's shorter side
+// public/hero.png: a photo of a hand holding a pencil, transparent around
+// it and cropped tight. The pencil points left; the hand is to the right of
+// the tip, and the forearm leaves the image at its bottom edge.
+const HAND_IMAGE = { src: "hero.png", height: 299 };
+const HAND_TIP = { x: 3, y: 86 }; // the pixel of the image touching the board
+// Size the hand by its pencil (tip to eraser end), not by the image, so
+// empty space around the photo does not change how big the hand looks.
+const PENCIL_LENGTH = 245; // pixels in the image
+const HAND_SIZE = 45; // pencil length, percent of the frame's shorter side
 
 // Follows the pen across every element's tracks, and leaves the frame
 // between elements that are far apart in time.
 export const Hand: React.FC<{ tracks: HandTrack[] }> = ({ tracks }) => {
   const frame = useCurrentFrame();
   const { width, height, unit } = useFrameUnits();
-  const scale = (HAND_SIZE * unit) / HAND_IMAGE.width;
+  const scale = (HAND_SIZE * unit) / PENCIL_LENGTH;
 
   // Below the frame, where the forearm comes from: the image reaches this
   // far above the tip, so the tip must be at least that far below the edge.
