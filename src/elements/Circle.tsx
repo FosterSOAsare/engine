@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import rough from "roughjs";
 import { strokeTrack, type HandTrack } from "../animation/hand";
+import { labelFor, Text, textTrack } from "./Text";
 import {
   roughStyle,
   StrokePaths,
@@ -19,6 +20,7 @@ export type CircleProps = Timing &
     y: number;
     size: number; // diameter, percent of the frame's shorter side
     seed: number;
+    label?: string; // written in once the outline is finished
   };
 
 type CircleShape = Pick<CircleProps, "x" | "y" | "size" | "seed">;
@@ -40,28 +42,33 @@ export const circleStrokes = (
   ]);
 };
 
+// Outline first, then the label.
 export const circleTracks = (
   props: CircleProps,
   frame: FrameSize,
-): HandTrack[] => [
-  strokeTrack(circleStrokes(props, frame), props.start, props.draw),
-];
+): HandTrack[] => {
+  const label = labelFor(props);
+  return [
+    strokeTrack(circleStrokes(props, frame), props.start, props.draw),
+    ...(label ? [textTrack(label, frame)] : []),
+  ];
+};
 
-export const Circle: React.FC<CircleProps> = ({
-  x,
-  y,
-  size,
-  seed,
-  color,
-  ...timing
-}) => {
+export const Circle: React.FC<CircleProps> = (props) => {
   const { width, height } = useFrameUnits();
-  const t = useDrawProgress(timing);
+  const t = useDrawProgress(props);
+  const { x, y, size, seed } = props;
 
   const strokes = useMemo(
     () => circleStrokes({ x, y, size, seed }, { width, height }),
     [x, y, size, seed, width, height],
   );
+  const label = labelFor(props);
 
-  return <StrokePaths strokes={strokes} t={t} color={color} />;
+  return (
+    <>
+      <StrokePaths strokes={strokes} t={t} color={props.color} />
+      {label ? <Text {...label} /> : null}
+    </>
+  );
 };

@@ -1,5 +1,6 @@
 import type { z } from "zod";
 import { LABEL_WRITE_SECONDS } from "../animation/labels";
+import { FPS } from "../layout/formats";
 import { videoSchema, type SceneElement, type Video } from "./scene";
 
 // Checks a scene file and describes every problem in plain words, with
@@ -68,6 +69,11 @@ const crossCheck = (video: Video): string[] => {
   const errors: string[] = [];
   // Elements still on the board from earlier scenes (keepPrevious).
   let board = new Map<string, SceneElement>();
+
+  // Element and hand timing are computed at the engine's frame rate.
+  if (video.fps !== FPS) {
+    errors.push(`file: fps ${video.fps} is not supported yet; use ${FPS}`);
+  }
 
   video.scenes.forEach((scene, sceneIndex) => {
     const sceneName = describeScene(sceneIndex, scene.id);

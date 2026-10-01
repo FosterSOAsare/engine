@@ -1,8 +1,7 @@
 import { useMemo } from "react";
 import rough from "roughjs";
 import { strokeTrack, type HandTrack } from "../animation/hand";
-import { LABEL_SIZE, LABEL_WRITE_SECONDS } from "../animation/labels";
-import { Text, textTrack, type TextProps } from "./Text";
+import { labelFor, Text, textTrack } from "./Text";
 import {
   roughStyle,
   StrokePaths,
@@ -14,7 +13,6 @@ import {
   type FrameSize,
   type Timing,
 } from "./shared";
-
 
 export type BoxProps = Timing &
   Colored & {
@@ -47,30 +45,9 @@ export const boxStrokes = (
   ]);
 };
 
-// The label is written in the same colour as the outline.
-const labelOf = ({
-  x,
-  y,
-  label,
-  color,
-  start,
-  draw,
-}: BoxProps): TextProps | null =>
-  label
-    ? {
-        x,
-        y,
-        size: LABEL_SIZE,
-        text: label,
-        color,
-        start: start + draw,
-        draw: LABEL_WRITE_SECONDS,
-      }
-    : null;
-
 // Outline first, then the label.
 export const boxTracks = (props: BoxProps, frame: FrameSize): HandTrack[] => {
-  const label = labelOf(props);
+  const label = labelFor(props);
   return [
     strokeTrack(boxStrokes(props, frame), props.start, props.draw),
     ...(label ? [textTrack(label, frame)] : []),
@@ -86,7 +63,7 @@ export const Box: React.FC<BoxProps> = (props) => {
     () => boxStrokes({ x, y, w, h, seed }, { width, height }),
     [x, y, w, h, seed, width, height],
   );
-  const label = labelOf(props);
+  const label = labelFor(props);
 
   return (
     <>

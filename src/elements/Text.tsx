@@ -1,5 +1,6 @@
 import { loadFont } from "@remotion/google-fonts/Caveat";
 import { writingTrack, type HandTrack } from "../animation/hand";
+import { LABEL_SIZE, LABEL_WRITE_SECONDS } from "../animation/labels";
 import {
   INK,
   unitOf,
@@ -31,12 +32,39 @@ export type TextProps = Timing &
     text: string;
   };
 
+// Roughly how wide a line of text is, in pixels.
+export const textWidth = (text: string, fontSize: number) =>
+  text.length * LETTER_WIDTH * fontSize;
+
+// A shape's label: written at (x, y) in the shape's colour once the shape
+// is finished.
+export const labelFor = ({
+  x,
+  y,
+  label,
+  color,
+  start,
+  draw,
+}: Timing &
+  Colored & { x: number; y: number; label?: string }): TextProps | null =>
+  label
+    ? {
+        x,
+        y,
+        size: LABEL_SIZE,
+        text: label,
+        color,
+        start: start + draw,
+        draw: LABEL_WRITE_SECONDS,
+      }
+    : null;
+
 export const textTrack = (
   { x, y, size, text, start, draw }: TextProps,
   frame: FrameSize,
 ): HandTrack => {
   const fontSize = size * unitOf(frame);
-  const width = text.length * LETTER_WIDTH * fontSize;
+  const width = textWidth(text, fontSize);
   return writingTrack(
     {
       x: (x / 100) * frame.width - width / 2,
@@ -72,6 +100,9 @@ export const Text: React.FC<TextProps> = ({
         fontWeight: 700,
         fontSize: size * unit,
         color,
+        // Handwriting glyphs reach past their letter box (the tail of a
+        // final "d"); padding keeps them inside the reveal's clip.
+        padding: "0 0.25em",
         clipPath: `inset(0 ${100 - written}% 0 0)`,
       }}
     >

@@ -19,6 +19,7 @@ import { secondsToFrames } from "../layout/formats";
 // proportions in every format. Times are in seconds, like the scene file.
 
 export const INK = "#222222";
+export const BOARD = "#faf8f3"; // the whiteboard background
 export const STROKE_WIDTH = 8;
 
 export const roughStyle = (seed: number): Options => ({

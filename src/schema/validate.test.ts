@@ -46,6 +46,12 @@ describe("validateVideo", () => {
     ]);
   });
 
+  it("only supports the engine's frame rate", () => {
+    expect(errorsOf({ ...video([box("a", 0)]), fps: 60 })).toEqual([
+      "file: fps 60 is not supported yet; use 30",
+    ]);
+  });
+
   it("requires a scene duration", () => {
     expect(errorsOf(video([box("a", 0)], null))).toEqual([
       'scene "main": needs a "duration" (in seconds)',

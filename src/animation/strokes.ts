@@ -105,7 +105,11 @@ export const penPosition = (
       };
     }
     if (share > 0 && t >= start && t < start + share) {
-      return { state: "drawing", stroke: i, progress: ease((t - start) / share) };
+      return {
+        state: "drawing",
+        stroke: i,
+        progress: ease((t - start) / share),
+      };
     }
   }
   return null;
