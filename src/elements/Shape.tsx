@@ -4,6 +4,7 @@ import type { Drawable } from "roughjs/bin/core";
 import { strokeTrack, type HandTrack } from "../animation/hand";
 import { LABEL_SIZE } from "../animation/labels";
 import { ICONS, type IconName } from "./icons";
+import { scalePath } from "./icons/types";
 import { labelFor, Text, textTrack } from "./Text";
 import {
   FillPaths,
@@ -90,14 +91,18 @@ const outline = (
           o,
         ),
       ];
-    case "icon":
+    case "icon": {
+      const X = (u: number) => left + u * pw;
+      const Y = (u: number) => top + u * ph;
       return ICONS[icon ?? "user"]({
         g,
         o,
-        X: (u) => left + u * pw,
-        Y: (u) => top + u * ph,
+        X,
+        Y,
         S: (u) => u * pw,
+        P: (d) => scalePath(d, X, Y),
       });
+    }
   }
 };
 

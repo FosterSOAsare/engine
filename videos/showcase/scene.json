@@ -1,0 +1,1489 @@
+{
+  "version": 1,
+  "title": "Showcase: elements and icons",
+  "format": "landscape",
+  "scenes": [
+    {
+      "id": "shapes",
+      "narration": "Boxes, ellipses, diamonds, triangles and circles, each with a fill style.",
+      "elements": [
+        {
+          "type": "text",
+          "text": "Shapes and fills",
+          "x": 50,
+          "y": 12,
+          "size": 7,
+          "draw": 1,
+          "start": 0.3
+        },
+        {
+          "type": "box",
+          "x": 12,
+          "y": 50,
+          "fill": "#ffd8a8",
+          "fillStyle": "solid",
+          "draw": 0.8,
+          "w": 20,
+          "h": 14,
+          "start": 1.45
+        },
+        {
+          "type": "text",
+          "text": "box, solid",
+          "x": 12,
+          "y": 72,
+          "size": 3.6,
+          "draw": 0.5,
+          "start": 2.4
+        },
+        {
+          "type": "ellipse",
+          "x": 31,
+          "y": 50,
+          "fill": "#74c0fc",
+          "fillStyle": "hachure",
+          "draw": 0.8,
+          "w": 22,
+          "h": 15,
+          "start": 3.05
+        },
+        {
+          "type": "text",
+          "text": "ellipse, hachure",
+          "x": 31,
+          "y": 72,
+          "size": 3.6,
+          "draw": 0.5,
+          "start": 4.0
+        },
+        {
+          "type": "diamond",
+          "x": 50,
+          "y": 50,
+          "fill": "#8ce99a",
+          "fillStyle": "cross-hatch",
+          "draw": 0.8,
+          "w": 22,
+          "h": 16,
+          "start": 4.65
+        },
+        {
+          "type": "text",
+          "text": "diamond, cross-hatch",
+          "x": 50,
+          "y": 72,
+          "size": 3.6,
+          "draw": 0.5,
+          "start": 5.6
+        },
+        {
+          "type": "triangle",
+          "x": 69,
+          "y": 50,
+          "fill": "#ffa8a8",
+          "fillStyle": "zigzag",
+          "draw": 0.8,
+          "w": 20,
+          "h": 17,
+          "start": 6.25
+        },
+        {
+          "type": "text",
+          "text": "triangle, zigzag",
+          "x": 69,
+          "y": 72,
+          "size": 3.6,
+          "draw": 0.5,
+          "start": 7.2
+        },
+        {
+          "type": "circle",
+          "x": 88,
+          "y": 50,
+          "fill": "#b197fc",
+          "fillStyle": "dots",
+          "draw": 0.8,
+          "size": 17,
+          "start": 7.85
+        },
+        {
+          "type": "text",
+          "text": "circle, dots",
+          "x": 88,
+          "y": 72,
+          "size": 3.6,
+          "draw": 0.5,
+          "start": 8.8
+        }
+      ],
+      "duration": 10.7
+    },
+    {
+      "id": "connectors",
+      "narration": "Arrows with one head, two heads, a curve or none, plus lines and rings.",
+      "elements": [
+        {
+          "type": "text",
+          "text": "Arrows, lines and rings",
+          "x": 50,
+          "y": 12,
+          "size": 7,
+          "draw": 1,
+          "start": 0.3
+        },
+        {
+          "type": "box",
+          "id": "a1",
+          "x": 14,
+          "y": 26,
+          "w": 12,
+          "h": 9,
+          "draw": 0.5,
+          "start": 1.45
+        },
+        {
+          "type": "box",
+          "id": "b1",
+          "x": 50,
+          "y": 26,
+          "w": 12,
+          "h": 9,
+          "draw": 0.5,
+          "start": 2.1
+        },
+        {
+          "type": "arrow",
+          "from": "a1",
+          "to": "b1",
+          "label": "arrow",
+          "draw": 0.6,
+          "start": 2.75
+        },
+        {
+          "type": "box",
+          "id": "a2",
+          "x": 14,
+          "y": 44,
+          "w": 12,
+          "h": 9,
+          "draw": 0.5,
+          "start": 4.0
+        },
+        {
+          "type": "box",
+          "id": "b2",
+          "x": 50,
+          "y": 44,
+          "w": 12,
+          "h": 9,
+          "draw": 0.5,
+          "start": 4.65
+        },
+        {
+          "type": "arrow",
+          "from": "a2",
+          "to": "b2",
+          "label": "both ends",
+          "draw": 0.6,
+          "head": "both",
+          "color": "#1e6fd9",
+          "start": 5.3
+        },
+        {
+          "type": "box",
+          "id": "a3",
+          "x": 14,
+          "y": 62,
+          "w": 12,
+          "h": 9,
+          "draw": 0.5,
+          "start": 6.55
+        },
+        {
+          "type": "box",
+          "id": "b3",
+          "x": 50,
+          "y": 62,
+          "w": 12,
+          "h": 9,
+          "draw": 0.5,
+          "start": 7.2
+        },
+        {
+          "type": "arrow",
+          "from": "a3",
+          "to": "b3",
+          "label": "curved",
+          "draw": 0.6,
+          "bend": 6,
+          "color": "#2a9d4b",
+          "start": 7.85
+        },
+        {
+          "type": "box",
+          "id": "a4",
+          "x": 14,
+          "y": 80,
+          "w": 12,
+          "h": 9,
+          "draw": 0.5,
+          "start": 9.1
+        },
+        {
+          "type": "box",
+          "id": "b4",
+          "x": 50,
+          "y": 80,
+          "w": 12,
+          "h": 9,
+          "draw": 0.5,
+          "start": 9.75
+        },
+        {
+          "type": "arrow",
+          "from": "a4",
+          "to": "b4",
+          "label": "connector",
+          "draw": 0.6,
+          "head": "none",
+          "start": 10.4
+        },
+        {
+          "type": "line",
+          "x1": 66,
+          "y1": 30,
+          "x2": 94,
+          "y2": 30,
+          "draw": 0.6,
+          "start": 11.65
+        },
+        {
+          "type": "text",
+          "id": "note",
+          "text": "a line, and a ring",
+          "x": 80,
+          "y": 50,
+          "size": 5,
+          "draw": 0.8,
+          "start": 12.4
+        },
+        {
+          "type": "ring",
+          "target": "note",
+          "draw": 0.8,
+          "start": 13.35
+        }
+      ],
+      "duration": 15.5
+    },
+    {
+      "id": "text",
+      "narration": "Text in any colour, and lists written one line at a time.",
+      "elements": [
+        {
+          "type": "text",
+          "text": "Text and lists",
+          "x": 50,
+          "y": 12,
+          "size": 7,
+          "draw": 1,
+          "start": 0.3
+        },
+        {
+          "type": "text",
+          "text": "Handwritten text, any colour",
+          "x": 50,
+          "y": 34,
+          "size": 6,
+          "color": "#c0392b",
+          "draw": 1.2,
+          "start": 1.45
+        },
+        {
+          "type": "list",
+          "x": 30,
+          "y": 52,
+          "size": 5,
+          "draw": 3,
+          "items": [
+            "bullets are written line by line",
+            "each line at the same speed",
+            "custom bullets, or none"
+          ],
+          "start": 2.8
+        }
+      ],
+      "duration": 7.1
+    },
+    {
+      "id": "devices",
+      "narration": "Icons for devices.",
+      "elements": [
+        {
+          "type": "text",
+          "text": "Icons: devices",
+          "x": 50,
+          "y": 12,
+          "size": 7,
+          "draw": 1,
+          "start": 0.3
+        },
+        {
+          "type": "icon",
+          "name": "phone",
+          "x": 10.0,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 1.45
+        },
+        {
+          "type": "text",
+          "text": "phone",
+          "x": 10.0,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 2.1
+        },
+        {
+          "type": "icon",
+          "name": "laptop",
+          "x": 20.0,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 2.5
+        },
+        {
+          "type": "text",
+          "text": "laptop",
+          "x": 20.0,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 3.15
+        },
+        {
+          "type": "icon",
+          "name": "monitor",
+          "x": 30.0,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 3.55
+        },
+        {
+          "type": "text",
+          "text": "monitor",
+          "x": 30.0,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 4.2
+        },
+        {
+          "type": "icon",
+          "name": "tablet",
+          "x": 40.0,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 4.6
+        },
+        {
+          "type": "text",
+          "text": "tablet",
+          "x": 40.0,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 5.25
+        },
+        {
+          "type": "icon",
+          "name": "keyboard",
+          "x": 50.0,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 5.65
+        },
+        {
+          "type": "text",
+          "text": "keyboard",
+          "x": 50.0,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 6.3
+        },
+        {
+          "type": "icon",
+          "name": "browser",
+          "x": 60.0,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 6.7
+        },
+        {
+          "type": "text",
+          "text": "browser",
+          "x": 60.0,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 7.35
+        },
+        {
+          "type": "icon",
+          "name": "camera",
+          "x": 70.0,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 7.75
+        },
+        {
+          "type": "text",
+          "text": "camera",
+          "x": 70.0,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 8.4
+        },
+        {
+          "type": "icon",
+          "name": "robot",
+          "x": 80.0,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 8.8
+        },
+        {
+          "type": "text",
+          "text": "robot",
+          "x": 80.0,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 9.45
+        },
+        {
+          "type": "icon",
+          "name": "battery",
+          "x": 90.0,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 9.85
+        },
+        {
+          "type": "text",
+          "text": "battery",
+          "x": 90.0,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 10.5
+        }
+      ],
+      "duration": 12.1
+    },
+    {
+      "id": "hardware",
+      "narration": "Icons for hardware.",
+      "elements": [
+        {
+          "type": "text",
+          "text": "Icons: hardware",
+          "x": 50,
+          "y": 12,
+          "size": 7,
+          "draw": 1,
+          "start": 0.3
+        },
+        {
+          "type": "icon",
+          "name": "server",
+          "x": 16.7,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 1.45
+        },
+        {
+          "type": "text",
+          "text": "server",
+          "x": 16.7,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 2.1
+        },
+        {
+          "type": "icon",
+          "name": "chip",
+          "x": 33.3,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 2.5
+        },
+        {
+          "type": "text",
+          "text": "chip",
+          "x": 33.3,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 3.15
+        },
+        {
+          "type": "icon",
+          "name": "memory",
+          "x": 50.0,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 3.55
+        },
+        {
+          "type": "text",
+          "text": "memory",
+          "x": 50.0,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 4.2
+        },
+        {
+          "type": "icon",
+          "name": "disk",
+          "x": 66.7,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 4.6
+        },
+        {
+          "type": "text",
+          "text": "disk",
+          "x": 66.7,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 5.25
+        },
+        {
+          "type": "icon",
+          "name": "cube",
+          "x": 83.3,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 5.65
+        },
+        {
+          "type": "text",
+          "text": "cube",
+          "x": 83.3,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 6.3
+        }
+      ],
+      "duration": 7.9
+    },
+    {
+      "id": "files-and-data",
+      "narration": "Icons for files and data.",
+      "elements": [
+        {
+          "type": "text",
+          "text": "Icons: files and data",
+          "x": 50,
+          "y": 12,
+          "size": 7,
+          "draw": 1,
+          "start": 0.3
+        },
+        {
+          "type": "icon",
+          "name": "database",
+          "x": 14.3,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 1.45
+        },
+        {
+          "type": "text",
+          "text": "database",
+          "x": 14.3,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 2.1
+        },
+        {
+          "type": "icon",
+          "name": "folder",
+          "x": 28.6,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 2.5
+        },
+        {
+          "type": "text",
+          "text": "folder",
+          "x": 28.6,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 3.15
+        },
+        {
+          "type": "icon",
+          "name": "file",
+          "x": 42.9,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 3.55
+        },
+        {
+          "type": "text",
+          "text": "file",
+          "x": 42.9,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 4.2
+        },
+        {
+          "type": "icon",
+          "name": "book",
+          "x": 57.1,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 4.6
+        },
+        {
+          "type": "text",
+          "text": "book",
+          "x": 57.1,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 5.25
+        },
+        {
+          "type": "icon",
+          "name": "chart",
+          "x": 71.4,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 5.65
+        },
+        {
+          "type": "text",
+          "text": "chart",
+          "x": 71.4,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 6.3
+        },
+        {
+          "type": "icon",
+          "name": "queue",
+          "x": 85.7,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 6.7
+        },
+        {
+          "type": "text",
+          "text": "queue",
+          "x": 85.7,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 7.35
+        }
+      ],
+      "duration": 9.0
+    },
+    {
+      "id": "networking",
+      "narration": "Icons for networking.",
+      "elements": [
+        {
+          "type": "text",
+          "text": "Icons: networking",
+          "x": 50,
+          "y": 12,
+          "size": 7,
+          "draw": 1,
+          "start": 0.3
+        },
+        {
+          "type": "icon",
+          "name": "cloud",
+          "x": 11.1,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 1.45
+        },
+        {
+          "type": "text",
+          "text": "cloud",
+          "x": 11.1,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 2.1
+        },
+        {
+          "type": "icon",
+          "name": "globe",
+          "x": 22.2,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 2.5
+        },
+        {
+          "type": "text",
+          "text": "globe",
+          "x": 22.2,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 3.15
+        },
+        {
+          "type": "icon",
+          "name": "wifi",
+          "x": 33.3,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 3.55
+        },
+        {
+          "type": "text",
+          "text": "wifi",
+          "x": 33.3,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 4.2
+        },
+        {
+          "type": "icon",
+          "name": "router",
+          "x": 44.4,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 4.6
+        },
+        {
+          "type": "text",
+          "text": "router",
+          "x": 44.4,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 5.25
+        },
+        {
+          "type": "icon",
+          "name": "network",
+          "x": 55.6,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 5.65
+        },
+        {
+          "type": "text",
+          "text": "network",
+          "x": 55.6,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 6.3
+        },
+        {
+          "type": "icon",
+          "name": "link",
+          "x": 66.7,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 6.7
+        },
+        {
+          "type": "text",
+          "text": "link",
+          "x": 66.7,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 7.35
+        },
+        {
+          "type": "icon",
+          "name": "download",
+          "x": 77.8,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 7.75
+        },
+        {
+          "type": "text",
+          "text": "download",
+          "x": 77.8,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 8.4
+        },
+        {
+          "type": "icon",
+          "name": "upload",
+          "x": 88.9,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 8.8
+        },
+        {
+          "type": "text",
+          "text": "upload",
+          "x": 88.9,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 9.45
+        }
+      ],
+      "duration": 11.1
+    },
+    {
+      "id": "security",
+      "narration": "Icons for security.",
+      "elements": [
+        {
+          "type": "text",
+          "text": "Icons: security",
+          "x": 50,
+          "y": 12,
+          "size": 7,
+          "draw": 1,
+          "start": 0.3
+        },
+        {
+          "type": "icon",
+          "name": "lock",
+          "x": 20.0,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 1.45
+        },
+        {
+          "type": "text",
+          "text": "lock",
+          "x": 20.0,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 2.1
+        },
+        {
+          "type": "icon",
+          "name": "key",
+          "x": 40.0,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 2.5
+        },
+        {
+          "type": "text",
+          "text": "key",
+          "x": 40.0,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 3.15
+        },
+        {
+          "type": "icon",
+          "name": "shield",
+          "x": 60.0,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 3.55
+        },
+        {
+          "type": "text",
+          "text": "shield",
+          "x": 60.0,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 4.2
+        },
+        {
+          "type": "icon",
+          "name": "warning",
+          "x": 80.0,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 4.6
+        },
+        {
+          "type": "text",
+          "text": "warning",
+          "x": 80.0,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 5.25
+        }
+      ],
+      "duration": 6.9
+    },
+    {
+      "id": "people-and-communication",
+      "narration": "Icons for people and communication.",
+      "elements": [
+        {
+          "type": "text",
+          "text": "Icons: people and communication",
+          "x": 50,
+          "y": 12,
+          "size": 7,
+          "draw": 1,
+          "start": 0.3
+        },
+        {
+          "type": "icon",
+          "name": "user",
+          "x": 16.7,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 1.45
+        },
+        {
+          "type": "text",
+          "text": "user",
+          "x": 16.7,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 2.1
+        },
+        {
+          "type": "icon",
+          "name": "users",
+          "x": 33.3,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 2.5
+        },
+        {
+          "type": "text",
+          "text": "users",
+          "x": 33.3,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 3.15
+        },
+        {
+          "type": "icon",
+          "name": "mail",
+          "x": 50.0,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 3.55
+        },
+        {
+          "type": "text",
+          "text": "mail",
+          "x": 50.0,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 4.2
+        },
+        {
+          "type": "icon",
+          "name": "chat",
+          "x": 66.7,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 4.6
+        },
+        {
+          "type": "text",
+          "text": "chat",
+          "x": 66.7,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 5.25
+        },
+        {
+          "type": "icon",
+          "name": "bell",
+          "x": 83.3,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 5.65
+        },
+        {
+          "type": "text",
+          "text": "bell",
+          "x": 83.3,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 6.3
+        }
+      ],
+      "duration": 7.9
+    },
+    {
+      "id": "development",
+      "narration": "Icons for development.",
+      "elements": [
+        {
+          "type": "text",
+          "text": "Icons: development",
+          "x": 50,
+          "y": 12,
+          "size": 7,
+          "draw": 1,
+          "start": 0.3
+        },
+        {
+          "type": "icon",
+          "name": "code",
+          "x": 16.7,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 1.45
+        },
+        {
+          "type": "text",
+          "text": "code",
+          "x": 16.7,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 2.1
+        },
+        {
+          "type": "icon",
+          "name": "terminal",
+          "x": 33.3,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 2.5
+        },
+        {
+          "type": "text",
+          "text": "terminal",
+          "x": 33.3,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 3.15
+        },
+        {
+          "type": "icon",
+          "name": "bug",
+          "x": 50.0,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 3.55
+        },
+        {
+          "type": "text",
+          "text": "bug",
+          "x": 50.0,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 4.2
+        },
+        {
+          "type": "icon",
+          "name": "gear",
+          "x": 66.7,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 4.6
+        },
+        {
+          "type": "text",
+          "text": "gear",
+          "x": 66.7,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 5.25
+        },
+        {
+          "type": "icon",
+          "name": "search",
+          "x": 83.3,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 5.65
+        },
+        {
+          "type": "text",
+          "text": "search",
+          "x": 83.3,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 6.3
+        }
+      ],
+      "duration": 7.9
+    },
+    {
+      "id": "everyday",
+      "narration": "Icons for everyday.",
+      "elements": [
+        {
+          "type": "text",
+          "text": "Icons: everyday",
+          "x": 50,
+          "y": 12,
+          "size": 7,
+          "draw": 1,
+          "start": 0.3
+        },
+        {
+          "type": "icon",
+          "name": "home",
+          "x": 10.0,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 1.45
+        },
+        {
+          "type": "text",
+          "text": "home",
+          "x": 10.0,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 2.1
+        },
+        {
+          "type": "icon",
+          "name": "clock",
+          "x": 20.0,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 2.5
+        },
+        {
+          "type": "text",
+          "text": "clock",
+          "x": 20.0,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 3.15
+        },
+        {
+          "type": "icon",
+          "name": "calendar",
+          "x": 30.0,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 3.55
+        },
+        {
+          "type": "text",
+          "text": "calendar",
+          "x": 30.0,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 4.2
+        },
+        {
+          "type": "icon",
+          "name": "cart",
+          "x": 40.0,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 4.6
+        },
+        {
+          "type": "text",
+          "text": "cart",
+          "x": 40.0,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 5.25
+        },
+        {
+          "type": "icon",
+          "name": "money",
+          "x": 50.0,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 5.65
+        },
+        {
+          "type": "text",
+          "text": "money",
+          "x": 50.0,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 6.3
+        },
+        {
+          "type": "icon",
+          "name": "lightbulb",
+          "x": 60.0,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 6.7
+        },
+        {
+          "type": "text",
+          "text": "lightbulb",
+          "x": 60.0,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 7.35
+        },
+        {
+          "type": "icon",
+          "name": "pin",
+          "x": 70.0,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 7.75
+        },
+        {
+          "type": "text",
+          "text": "pin",
+          "x": 70.0,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 8.4
+        },
+        {
+          "type": "icon",
+          "name": "trash",
+          "x": 80.0,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 8.8
+        },
+        {
+          "type": "text",
+          "text": "trash",
+          "x": 80.0,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 9.45
+        },
+        {
+          "type": "icon",
+          "name": "lightning",
+          "x": 90.0,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 9.85
+        },
+        {
+          "type": "text",
+          "text": "lightning",
+          "x": 90.0,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 10.5
+        }
+      ],
+      "duration": 12.1
+    },
+    {
+      "id": "marks",
+      "narration": "Icons for marks.",
+      "elements": [
+        {
+          "type": "text",
+          "text": "Icons: marks",
+          "x": 50,
+          "y": 12,
+          "size": 7,
+          "draw": 1,
+          "start": 0.3
+        },
+        {
+          "type": "icon",
+          "name": "check",
+          "x": 14.3,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 1.45
+        },
+        {
+          "type": "text",
+          "text": "check",
+          "x": 14.3,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 2.1
+        },
+        {
+          "type": "icon",
+          "name": "cross",
+          "x": 28.6,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 2.5
+        },
+        {
+          "type": "text",
+          "text": "cross",
+          "x": 28.6,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 3.15
+        },
+        {
+          "type": "icon",
+          "name": "star",
+          "x": 42.9,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 3.55
+        },
+        {
+          "type": "text",
+          "text": "star",
+          "x": 42.9,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 4.2
+        },
+        {
+          "type": "icon",
+          "name": "heart",
+          "x": 57.1,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 4.6
+        },
+        {
+          "type": "text",
+          "text": "heart",
+          "x": 57.1,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 5.25
+        },
+        {
+          "type": "icon",
+          "name": "info",
+          "x": 71.4,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 5.65
+        },
+        {
+          "type": "text",
+          "text": "info",
+          "x": 71.4,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 6.3
+        },
+        {
+          "type": "icon",
+          "name": "question",
+          "x": 85.7,
+          "y": 48,
+          "size": 12,
+          "draw": 0.5,
+          "start": 6.7
+        },
+        {
+          "type": "text",
+          "text": "question",
+          "x": 85.7,
+          "y": 64,
+          "size": 3.6,
+          "draw": 0.25,
+          "start": 7.35
+        }
+      ],
+      "duration": 9.0
+    }
+  ]
+}

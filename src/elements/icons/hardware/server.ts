@@ -1,4 +1,4 @@
-import type { IconDrawing } from "./types";
+import type { IconDrawing } from "../types";
 
 // Two stacked rack units, each with a slot.
 export const server: IconDrawing = ({ g, o, X, Y, S }) => [

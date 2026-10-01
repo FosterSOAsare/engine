@@ -1,4 +1,4 @@
-import type { IconDrawing } from "./types";
+import type { IconDrawing } from "../types";
 
 // Three bumps along the top and a flat base, as one stroke.
 export const cloud: IconDrawing = ({ g, o, X, Y, S }) => [

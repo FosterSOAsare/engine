@@ -1,4 +1,4 @@
-import type { IconDrawing } from "./types";
+import type { IconDrawing } from "../types";
 
 // A cylinder: top ellipse, sides, then the curved lines across it.
 export const database: IconDrawing = ({ g, o, X, Y, S }) => [
