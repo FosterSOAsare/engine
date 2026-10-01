@@ -19,26 +19,36 @@ import { secondsToFrames } from "../layout/formats";
 // proportions in every format. Times are in seconds, like the scene file.
 
 export const INK = "#222222";
-export const STROKE_WIDTH = 5;
+export const STROKE_WIDTH = 8;
 
 export const roughStyle = (seed: number): Options => ({
   stroke: INK,
   strokeWidth: STROKE_WIDTH,
   roughness: 1.2,
+  // One pass per line, like a single stroke of a marker (Rough.js draws
+  // every line twice by default).
+  disableMultiStroke: true,
   seed,
 });
 
-export type Point = { x: number; y: number };
+export type { Point } from "../animation/strokes";
 
 export type Timing = {
   start: number; // seconds, when drawing begins
   draw: number; // seconds, how long drawing takes
 };
 
-// The frame size, and `unit`: 1% of the shorter side in pixels.
+// Elements build their strokes from the frame size alone, so the same
+// builders serve the element itself and the hand that follows it.
+export type FrameSize = { width: number; height: number };
+
+// 1% of the frame's shorter side, in pixels.
+export const unitOf = ({ width, height }: FrameSize) =>
+  Math.min(width, height) / 100;
+
 export const useFrameUnits = () => {
   const { width, height } = useVideoConfig();
-  return { width, height, unit: Math.min(width, height) / 100 };
+  return { width, height, unit: unitOf({ width, height }) };
 };
 
 // The element's progress from 0 (not started) to 1 (finished).

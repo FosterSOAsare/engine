@@ -1,13 +1,23 @@
 import { Easing } from "remotion";
 import { describe, expect, it } from "vitest";
 import {
+  measureStrokes,
+  penPoint,
   penPosition,
   splitStrokes,
   strokeProgress,
   type Stroke,
 } from "./strokes";
 
-const stroke = (length: number): Stroke => ({ d: "", length });
+// A stroke of a given length that starts where the previous one ended, so
+// there is no pen lift between strokes.
+const origin = { x: 0, y: 0 };
+const stroke = (length: number): Stroke => ({
+  d: "",
+  length,
+  start: origin,
+  end: origin,
+});
 const linear = Easing.linear;
 
 describe("splitStrokes", () => {
@@ -57,10 +67,12 @@ describe("penPosition", () => {
 
   it("follows the stroke being drawn", () => {
     expect(penPosition(strokes, 0.125, linear)).toEqual({
+      state: "drawing",
       stroke: 0,
       progress: 0.5,
     });
     expect(penPosition(strokes, 0.625, linear)).toEqual({
+      state: "drawing",
       stroke: 1,
       progress: 0.5,
     });
@@ -74,5 +86,32 @@ describe("penPosition", () => {
         pen!.progress,
       );
     }
+  });
+});
+
+describe("pen lifts", () => {
+  // Two 100 px strokes, 30 px apart. The lift moves 3x faster than drawing,
+  // so it counts as 10 px: total 210, the lift runs from 100/210 to 110/210.
+  const strokes = measureStrokes(["M0 0 L100 0", "M100 30 L0 30"]);
+
+  it("leaves time to move between strokes", () => {
+    expect(strokeProgress(strokes, 105 / 210, linear)).toEqual([1, 0]);
+    expect(penPosition(strokes, 105 / 210, linear)).toEqual({
+      state: "lifted",
+      stroke: 1,
+      progress: expect.closeTo(0.5),
+    });
+  });
+
+  it("puts the pen tip on the line while drawing", () => {
+    const point = penPoint(strokes, 50 / 210, linear)!;
+    expect(point.x).toBeCloseTo(50);
+    expect(point.y).toBeCloseTo(0);
+  });
+
+  it("moves the pen tip straight to the next stroke while lifted", () => {
+    const point = penPoint(strokes, 105 / 210, linear)!;
+    expect(point.x).toBeCloseTo(100);
+    expect(point.y).toBeCloseTo(15);
   });
 });

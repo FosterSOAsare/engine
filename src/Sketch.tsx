@@ -1,17 +1,21 @@
+import { useMemo } from "react";
 import { AbsoluteFill, useVideoConfig } from "remotion";
-import { Arrow } from "./elements/Arrow";
-import { Box, type BoxProps } from "./elements/Box";
+import { Arrow, arrowTracks, type ArrowProps } from "./elements/Arrow";
+import { Box, boxTracks, type BoxProps } from "./elements/Box";
+import { Hand } from "./elements/Hand";
 import type { Point } from "./elements/shared";
 
 // M1 playground: Browser -> Server, built from the reusable elements.
 
 type BoxSpec = Pick<BoxProps, "x" | "y" | "w" | "h" | "seed">;
 
-// Times in seconds, like the scene file in M2.
+// Times in seconds, like the scene file in M2. Elements must not overlap
+// (each label takes 0.5 s after its outline): the hand can only draw one
+// thing at a time.
 const TIMING = {
   browser: { start: 0.3, draw: 1.2 },
-  arrow: { start: 1.9, draw: 0.7 },
-  server: { start: 2.9, draw: 1.2 },
+  arrow: { start: 2.1, draw: 0.7 },
+  server: { start: 3.0, draw: 1.2 },
 };
 const ARROW_SEED = 3;
 const ARROW_GAP = 3; // percent of the shorter side, between arrow and box
@@ -56,16 +60,40 @@ const arrowBetween = (
       };
 };
 
+const sceneFor = (width: number, height: number) => {
+  const { browser, server } = layoutFor(width, height);
+  const boxes: BoxProps[] = [
+    { ...browser, ...TIMING.browser, label: "Browser" },
+    { ...server, ...TIMING.server, label: "Server" },
+  ];
+  const arrow: ArrowProps = {
+    ...arrowBetween(browser, server, width, height),
+    ...TIMING.arrow,
+    seed: ARROW_SEED,
+  };
+  return { boxes, arrow };
+};
+
 export const Sketch: React.FC = () => {
   const { width, height } = useVideoConfig();
-  const { browser, server } = layoutFor(width, height);
-  const arrow = arrowBetween(browser, server, width, height);
+  const { boxes, arrow } = sceneFor(width, height);
+
+  const tracks = useMemo(() => {
+    const frame = { width, height };
+    const scene = sceneFor(width, height);
+    return [
+      ...scene.boxes.flatMap((box) => boxTracks(box, frame)),
+      ...arrowTracks(scene.arrow, frame),
+    ];
+  }, [width, height]);
 
   return (
     <AbsoluteFill className="bg-[#faf8f3]">
-      <Box {...browser} {...TIMING.browser} label="Browser" />
-      <Arrow {...arrow} {...TIMING.arrow} seed={ARROW_SEED} />
-      <Box {...server} {...TIMING.server} label="Server" />
+      {boxes.map((box) => (
+        <Box key={box.label} {...box} />
+      ))}
+      <Arrow {...arrow} />
+      <Hand tracks={tracks} />
     </AbsoluteFill>
   );
 };

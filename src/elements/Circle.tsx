@@ -1,11 +1,14 @@
 import { useMemo } from "react";
 import rough from "roughjs";
+import { strokeTrack, type HandTrack } from "../animation/hand";
 import {
   roughStyle,
   StrokePaths,
   toStrokes,
+  unitOf,
   useDrawProgress,
   useFrameUnits,
+  type FrameSize,
   type Timing,
 } from "./shared";
 
@@ -16,8 +19,32 @@ export type CircleProps = Timing & {
   seed: number;
 };
 
+type CircleShape = Pick<CircleProps, "x" | "y" | "size" | "seed">;
+
 // Rough.js draws a circle as one long stroke that overlaps its start a
 // little, then a second pass, so it reads as drawn in one motion.
+export const circleStrokes = (
+  { x, y, size, seed }: CircleShape,
+  frame: FrameSize,
+) => {
+  const generator = rough.generator();
+  return toStrokes(generator, [
+    generator.circle(
+      (x / 100) * frame.width,
+      (y / 100) * frame.height,
+      size * unitOf(frame),
+      roughStyle(seed),
+    ),
+  ]);
+};
+
+export const circleTracks = (
+  props: CircleProps,
+  frame: FrameSize,
+): HandTrack[] => [
+  strokeTrack(circleStrokes(props, frame), props.start, props.draw),
+];
+
 export const Circle: React.FC<CircleProps> = ({
   x,
   y,
@@ -25,20 +52,13 @@ export const Circle: React.FC<CircleProps> = ({
   seed,
   ...timing
 }) => {
-  const { width, height, unit } = useFrameUnits();
+  const { width, height } = useFrameUnits();
   const t = useDrawProgress(timing);
 
-  const strokes = useMemo(() => {
-    const generator = rough.generator();
-    return toStrokes(generator, [
-      generator.circle(
-        (x / 100) * width,
-        (y / 100) * height,
-        size * unit,
-        roughStyle(seed),
-      ),
-    ]);
-  }, [x, y, size, seed, width, height, unit]);
+  const strokes = useMemo(
+    () => circleStrokes({ x, y, size, seed }, { width, height }),
+    [x, y, size, seed, width, height],
+  );
 
   return <StrokePaths strokes={strokes} t={t} />;
 };

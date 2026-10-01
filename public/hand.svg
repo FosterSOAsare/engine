@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 2500" width="2000" height="2500">
+  <!-- A right hand holding a marker, in the same ink style as the board.
+       Drawn in a frame where the marker runs along +x with its tip at the
+       origin; the group places the tip at (40, 40) of the image (HAND_TIP).
+       The forearm is long enough to run off the video frame wherever the
+       hand is. -->
+  <g transform="translate(40 40) rotate(52)" stroke="#222222" stroke-width="6"
+     stroke-linejoin="round" stroke-linecap="round">
+    <!-- forearm and sleeve -->
+    <path d="M330 -100 C 600 -120, 1100 -150, 3200 -190 L 3200 180 C 1100 130, 620 110, 360 80 Z"
+          fill="#f2c9a8" />
+    <path d="M700 -125 C 1000 -142, 1300 -152, 3200 -190 L 3200 180 C 1300 140, 1000 128, 720 112 Z"
+          fill="#4a6fa5" />
+
+    <!-- marker: nib, cone, body -->
+    <path d="M0 0 L26 -9 L26 9 Z" fill="#222222" />
+    <path d="M26 -9 L54 -22 L54 22 L26 9 Z" fill="#e6e6e6" />
+    <rect x="54" y="-24" width="300" height="48" rx="8" fill="#fafafa" />
+    <rect x="54" y="-24" width="34" height="48" fill="#2f2f2f" />
+
+    <!-- index finger lying along the top of the marker; its base is
+         hidden under the fist -->
+    <path d="M100 -30 C 140 -48, 220 -58, 300 -52 L 300 -14
+             C 220 -18, 160 -10, 112 -6 C 90 -6, 84 -24, 100 -30 Z"
+          fill="#f2c9a8" />
+    <path d="M106 -24 C 114 -30, 128 -31, 136 -26" fill="none" stroke-width="4" />
+
+    <!-- thumb wrapping the marker from the other side -->
+    <path d="M132 20 C 170 6, 250 4, 300 18 L 300 66
+             C 240 64, 176 56, 136 46 C 116 40, 116 26, 132 20 Z"
+          fill="#f2c9a8" />
+    <path d="M138 26 C 146 22, 158 22, 166 26" fill="none" stroke-width="4" />
+
+    <!-- fist wrapped around the marker -->
+    <path d="M200 -40 C 210 -106, 290 -134, 365 -122 C 442 -110, 472 -40, 456 30
+             C 442 90, 380 108, 312 98 C 254 90, 212 62, 200 24 C 196 4, 196 -20, 200 -40 Z"
+          fill="#f2c9a8" />
+    <!-- curled fingers (knuckle folds) -->
+    <path d="M330 -124 C 322 -96, 316 -70, 304 -48" fill="none" stroke-width="5" />
+    <path d="M392 -116 C 392 -86, 386 -60, 372 -36" fill="none" stroke-width="5" />
+    <path d="M440 -78 C 436 -52, 428 -30, 414 -12" fill="none" stroke-width="5" />
+  </g>
+</svg>
