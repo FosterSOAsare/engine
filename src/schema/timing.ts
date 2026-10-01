@@ -1,0 +1,128 @@
+import { LABEL_WRITE_SECONDS } from "../animation/labels";
+import { alignWords, findWord, type TimedWord } from "../captions/align";
+import type { Scene, SceneElement, Video } from "./scene";
+
+// Decides when every element starts. In file order, each element asks for
+// a time:
+//   "start": 2.5        that time (seconds into its scene)
+//   "at": "resolver"    when the narration says "resolver"
+//   neither             when the narration says its label, text or icon
+//                       name; otherwise right after the previous element
+// and never starts before the previous element is finished: the hand
+// draws one thing at a time, so elements queue rather than clash.
+
+const QUEUE_GAP = 0.15; // between drawings that just follow each other
+const FIRST_START = 0.3; // a scene's first drawing, if nothing says when
+const END_PAUSE = 0.5; // a narrated scene lasts this long past its drawings
+const MAX_STRETCH = 3; // a narrated drawing slows to at most 3x its "draw"
+
+// Whisper's timed words per scene id (public/videos/<id>/captions.json).
+export type HeardWords = Record<string, { words: TimedWord[] }>;
+
+// How long an element keeps the hand busy: its shape, then its label.
+export const busyFor = (element: SceneElement) => {
+  const hasLabel = "label" in element && element.label;
+  return element.draw + (hasLabel ? LABEL_WRITE_SECONDS : 0);
+};
+
+// What an element is called, to find it in the narration.
+const namesOf = (element: SceneElement): string[] => {
+  const names: string[] = [];
+  if ("label" in element && element.label) names.push(element.label);
+  if (element.type === "text") names.push(element.text);
+  if (element.type === "icon") names.push(element.name.replace(/-/g, " "));
+  return names;
+};
+
+// The narration word that names the element: the whole label first, then
+// its words one by one (longest first, short words skipped).
+const autoWord = (element: SceneElement, words: TimedWord[]) => {
+  for (const name of namesOf(element)) {
+    const phrase = findWord(words, name);
+    if (phrase) return phrase;
+    const parts = name
+      .split(/\s+/)
+      .filter((part) => part.replace(/\W/g, "").length >= 4)
+      .sort((a, b) => b.length - a.length);
+    for (const part of parts) {
+      const word = findWord(words, part);
+      if (word) return word;
+    }
+  }
+  return null;
+};
+
+export type TimedScene = Scene & { words: TimedWord[] | null };
+
+export const resolveTiming = (
+  video: Video,
+  heard: HeardWords | undefined,
+  audio: (number | null)[] | undefined,
+) => {
+  const errors: string[] = [];
+  const scenes: TimedScene[] = video.scenes.map((scene, index) => {
+    const name = `scene "${scene.id}"`;
+    const said = heard?.[scene.id]?.words;
+    const words = said
+      ? alignWords(scene.narration, said, audio?.[index] ?? undefined)
+      : null;
+
+    // 1. When each element wants to start, if anything says.
+    const wanted = scene.elements.map((element, i) => {
+      if (element.start !== undefined) return element.start;
+      if (element.at !== undefined) {
+        const where = `${name}, element ${i + 1} (${element.type})`;
+        if (!words) {
+          errors.push(`${where}: "at" needs captions; run npm run captions`);
+          return undefined;
+        }
+        const word = findWord(words, element.at);
+        if (!word) {
+          errors.push(`${where}: the narration never says "${element.at}"`);
+        }
+        return word?.start;
+      }
+      return words ? autoWord(element, words)?.start : undefined;
+    });
+
+    // 2. Place them in order. Narrated drawings also slow down to fill the
+    // time until the next element's word (sharing it with any elements in
+    // between), so the hand keeps drawing while the voice talks instead of
+    // finishing early and waiting. "draw" is then the fastest it goes.
+    const stretch = video.voiceover && words !== null;
+    const narrationEnd = words?.[words.length - 1]?.end ?? 0;
+    let previousEnd = 0;
+    const elements = scene.elements.map((element, i) => {
+      const start =
+        wanted[i] !== undefined
+          ? Math.max(wanted[i]!, previousEnd)
+          : i === 0
+            ? FIRST_START
+            : previousEnd + QUEUE_GAP;
+      let draw = element.draw;
+      if (stretch) {
+        let next = i + 1;
+        while (next < wanted.length && wanted[next] === undefined) next++;
+        const until = next < wanted.length ? wanted[next]! : narrationEnd;
+        const share = (until - start) / (next - i);
+        const label = busyFor(element) - element.draw;
+        draw = Math.min(
+          Math.max(share - QUEUE_GAP - label, element.draw),
+          element.draw * MAX_STRETCH,
+        );
+      }
+      const placed = { ...element, start, draw };
+      previousEnd = start + busyFor(placed);
+      return placed;
+    });
+
+    // A narrated scene stretches to fit its drawings.
+    const duration =
+      video.voiceover && scene.duration !== undefined
+        ? Math.max(scene.duration, previousEnd + END_PAUSE)
+        : scene.duration;
+    return { ...scene, elements, duration, words };
+  });
+
+  return { video: { ...video, scenes }, errors };
+};

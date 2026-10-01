@@ -16,8 +16,7 @@
           "x": 50,
           "y": 18,
           "size": 10,
-          "draw": 1.2,
-          "start": 0.3
+          "draw": 1.2
         },
         {
           "type": "icon",
@@ -27,8 +26,7 @@
           "size": 16,
           "draw": 0.8,
           "id": "click",
-          "label": "click",
-          "start": 2.92
+          "label": "click"
         },
         {
           "type": "arrow",
@@ -36,8 +34,7 @@
           "to": "wait",
           "draw": 0.6,
           "label": "1 second",
-          "color": "#666666",
-          "start": 5.65
+          "color": "#666666"
         },
         {
           "type": "icon",
@@ -47,8 +44,7 @@
           "size": 16,
           "draw": 0.8,
           "id": "wait",
-          "label": "waiting",
-          "start": 8.17
+          "label": "waiting"
         },
         {
           "type": "text",
@@ -57,8 +53,7 @@
           "y": 88,
           "size": 9,
           "draw": 1.0,
-          "color": "#c0392b",
-          "start": 10.9
+          "color": "#c0392b"
         }
       ]
     },
@@ -75,8 +70,7 @@
           "size": 18,
           "draw": 0.8,
           "id": "you",
-          "label": "you",
-          "start": 0.3
+          "label": "you"
         },
         {
           "type": "icon",
@@ -86,8 +80,7 @@
           "size": 18,
           "draw": 0.8,
           "id": "server",
-          "label": "server",
-          "start": 3.2
+          "label": "server"
         },
         {
           "type": "arrow",
@@ -95,8 +88,7 @@
           "to": "server",
           "draw": 0.6,
           "label": "latency: how LONG it takes",
-          "color": "#c0392b",
-          "start": 6.1
+          "color": "#c0392b"
         },
         {
           "type": "text",
@@ -105,8 +97,7 @@
           "y": 85,
           "size": 5,
           "draw": 1.0,
-          "color": "#1e6fd9",
-          "start": 8.8
+          "color": "#1e6fd9"
         }
       ]
     },
@@ -121,8 +112,7 @@
           "x": 50,
           "y": 12,
           "size": 6,
-          "draw": 1.4,
-          "start": 0.3
+          "draw": 1.4
         },
         {
           "type": "list",
@@ -138,8 +128,7 @@
             "Server in the same data center:  0.5 ms",
             "Hard disk seek:  10 ms",
             "Round trip across the ocean:  150 ms"
-          ],
-          "start": 3.3
+          ]
         }
       ]
     },
@@ -154,8 +143,7 @@
           "x": 50,
           "y": 8,
           "size": 5.5,
-          "draw": 1.2,
-          "start": 0.3
+          "draw": 1.2
         },
         {
           "type": "icon",
@@ -164,8 +152,7 @@
           "y": 22,
           "size": 9,
           "draw": 0.6,
-          "id": "row0",
-          "start": 2.77
+          "id": "row0"
         },
         {
           "type": "text",
@@ -173,8 +160,7 @@
           "x": 36,
           "y": 22,
           "size": 5,
-          "draw": 0.8,
-          "start": 4.63
+          "draw": 0.8
         },
         {
           "type": "text",
@@ -184,8 +170,7 @@
           "size": 6,
           "draw": 0.8,
           "color": "#1e6fd9",
-          "id": "time0",
-          "start": 6.7
+          "id": "time0"
         }
       ]
     },
@@ -201,8 +186,7 @@
           "y": 35,
           "size": 9,
           "draw": 0.6,
-          "id": "row1",
-          "start": 0.3
+          "id": "row1"
         },
         {
           "type": "text",
@@ -210,8 +194,7 @@
           "x": 36,
           "y": 35,
           "size": 5,
-          "draw": 0.8,
-          "start": 2.5
+          "draw": 0.8
         },
         {
           "type": "text",
@@ -221,8 +204,7 @@
           "size": 6,
           "draw": 0.8,
           "color": "#1e6fd9",
-          "id": "time1",
-          "start": 4.9
+          "id": "time1"
         }
       ],
       "keepPrevious": true
@@ -239,8 +221,7 @@
           "y": 48,
           "size": 9,
           "draw": 0.6,
-          "id": "row2",
-          "start": 0.3
+          "id": "row2"
         },
         {
           "type": "text",
@@ -248,8 +229,7 @@
           "x": 36,
           "y": 48,
           "size": 5,
-          "draw": 0.8,
-          "start": 2.5
+          "draw": 0.8
         },
         {
           "type": "text",
@@ -259,8 +239,7 @@
           "size": 6,
           "draw": 0.8,
           "color": "#1e6fd9",
-          "id": "time2",
-          "start": 4.9
+          "id": "time2"
         }
       ],
       "keepPrevious": true
@@ -277,8 +256,7 @@
           "y": 61,
           "size": 9,
           "draw": 0.6,
-          "id": "row3",
-          "start": 0.3
+          "id": "row3"
         },
         {
           "type": "text",
@@ -286,8 +264,7 @@
           "x": 36,
           "y": 61,
           "size": 5,
-          "draw": 0.8,
-          "start": 2.0
+          "draw": 0.8
         },
         {
           "type": "text",
@@ -297,8 +274,7 @@
           "size": 6,
           "draw": 0.8,
           "color": "#1e6fd9",
-          "id": "time3",
-          "start": 3.9
+          "id": "time3"
         }
       ],
       "keepPrevious": true
@@ -315,8 +291,7 @@
           "y": 74,
           "size": 9,
           "draw": 0.6,
-          "id": "row4",
-          "start": 0.3
+          "id": "row4"
         },
         {
           "type": "text",
@@ -324,8 +299,7 @@
           "x": 36,
           "y": 74,
           "size": 5,
-          "draw": 0.8,
-          "start": 2.4
+          "draw": 0.8
         },
         {
           "type": "text",
@@ -335,8 +309,7 @@
           "size": 6,
           "draw": 0.8,
           "color": "#1e6fd9",
-          "id": "time4",
-          "start": 4.7
+          "id": "time4"
         }
       ],
       "keepPrevious": true
@@ -353,8 +326,7 @@
           "y": 87,
           "size": 9,
           "draw": 0.6,
-          "id": "row5",
-          "start": 0.3
+          "id": "row5"
         },
         {
           "type": "text",
@@ -362,8 +334,7 @@
           "x": 36,
           "y": 87,
           "size": 5,
-          "draw": 0.8,
-          "start": 2.5
+          "draw": 0.8
         },
         {
           "type": "text",
@@ -373,14 +344,12 @@
           "size": 6,
           "draw": 0.8,
           "color": "#c0392b",
-          "id": "time5",
-          "start": 4.9
+          "id": "time5"
         },
         {
           "type": "ring",
           "target": "time5",
-          "draw": 0.8,
-          "start": 7.3
+          "draw": 0.8
         }
       ],
       "keepPrevious": true
@@ -398,8 +367,7 @@
           "size": 14,
           "draw": 0.8,
           "id": "ny",
-          "label": "New York",
-          "start": 0.3
+          "label": "New York"
         },
         {
           "type": "icon",
@@ -409,8 +377,7 @@
           "size": 14,
           "draw": 0.8,
           "id": "london",
-          "label": "London",
-          "start": 3.2
+          "label": "London"
         },
         {
           "type": "arrow",
@@ -419,8 +386,7 @@
           "draw": 0.6,
           "head": "both",
           "label": "5,500 km",
-          "color": "#1e6fd9",
-          "start": 6.1
+          "color": "#1e6fd9"
         },
         {
           "type": "text",
@@ -428,8 +394,7 @@
           "x": 50,
           "y": 74,
           "size": 5,
-          "draw": 1.0,
-          "start": 8.8
+          "draw": 1.0
         },
         {
           "type": "text",
@@ -438,8 +403,7 @@
           "y": 88,
           "size": 6,
           "draw": 1.0,
-          "color": "#c0392b",
-          "start": 11.4
+          "color": "#c0392b"
         }
       ]
     },
@@ -454,8 +418,7 @@
           "x": 38,
           "y": 26,
           "size": 7,
-          "draw": 1.0,
-          "start": 0.3
+          "draw": 1.0
         },
         {
           "type": "icon",
@@ -464,8 +427,7 @@
           "y": 26,
           "size": 9,
           "draw": 0.8,
-          "color": "#2a9d4b",
-          "start": 2.23
+          "color": "#2a9d4b"
         },
         {
           "type": "text",
@@ -473,8 +435,7 @@
           "x": 38,
           "y": 46,
           "size": 7,
-          "draw": 1.0,
-          "start": 3.97
+          "draw": 1.0
         },
         {
           "type": "icon",
@@ -483,8 +444,7 @@
           "y": 46,
           "size": 9,
           "draw": 0.8,
-          "color": "#2a9d4b",
-          "start": 5.9
+          "color": "#2a9d4b"
         },
         {
           "type": "text",
@@ -492,8 +452,7 @@
           "x": 38,
           "y": 66,
           "size": 7,
-          "draw": 1.0,
-          "start": 7.63
+          "draw": 1.0
         },
         {
           "type": "icon",
@@ -502,8 +461,7 @@
           "y": 66,
           "size": 9,
           "draw": 0.8,
-          "color": "#c0392b",
-          "start": 9.57
+          "color": "#c0392b"
         },
         {
           "type": "text",
@@ -512,8 +470,7 @@
           "y": 88,
           "size": 7,
           "draw": 1.0,
-          "color": "#1e6fd9",
-          "start": 11.3
+          "color": "#1e6fd9"
         }
       ]
     },
@@ -528,8 +485,7 @@
           "x": 50,
           "y": 10,
           "size": 6,
-          "draw": 1.2,
-          "start": 0.3
+          "draw": 1.2
         },
         {
           "type": "icon",
@@ -539,8 +495,7 @@
           "size": 14,
           "draw": 0.8,
           "id": "browser",
-          "label": "browser",
-          "start": 3.1
+          "label": "browser"
         },
         {
           "type": "icon",
@@ -550,8 +505,7 @@
           "size": 14,
           "draw": 0.8,
           "id": "site",
-          "label": "server",
-          "start": 6.0
+          "label": "server"
         }
       ]
     },
@@ -572,8 +526,7 @@
             "2. Open the connection (TCP)",
             "3. Encryption handshake (TLS)",
             "4. The request itself (HTTP)"
-          ],
-          "start": 0.3
+          ]
         }
       ],
       "keepPrevious": true
@@ -591,14 +544,12 @@
           "size": 6.5,
           "draw": 1.0,
           "color": "#c0392b",
-          "id": "total",
-          "start": 0.3
+          "id": "total"
         },
         {
           "type": "ring",
           "target": "total",
-          "draw": 0.8,
-          "start": 2.9
+          "draw": 0.8
         }
       ],
       "keepPrevious": true
@@ -616,8 +567,7 @@
           "y": 40,
           "w": 46,
           "h": 18,
-          "draw": 0.8,
-          "start": 0.3
+          "draw": 0.8
         },
         {
           "type": "text",
@@ -626,8 +576,7 @@
           "y": 66,
           "size": 6,
           "draw": 1.0,
-          "color": "#666666",
-          "start": 3.0
+          "color": "#666666"
         },
         {
           "type": "box",
@@ -638,8 +587,7 @@
           "w": 52,
           "h": 18,
           "fill": "#d3f9d8",
-          "draw": 0.8,
-          "start": 5.4
+          "draw": 0.8
         },
         {
           "type": "text",
@@ -648,8 +596,7 @@
           "y": 66,
           "size": 6,
           "draw": 1.0,
-          "color": "#2a9d4b",
-          "start": 8.1
+          "color": "#2a9d4b"
         }
       ]
     },
@@ -666,8 +613,7 @@
           "size": 18,
           "draw": 0.8,
           "id": "app",
-          "label": "your code",
-          "start": 0.3
+          "label": "your code"
         },
         {
           "type": "arrow",
@@ -675,8 +621,7 @@
           "to": "db",
           "draw": 0.6,
           "label": "query x 100",
-          "color": "#c0392b",
-          "start": 3.2
+          "color": "#c0392b"
         },
         {
           "type": "icon",
@@ -686,8 +631,7 @@
           "size": 18,
           "draw": 0.8,
           "id": "db",
-          "label": "database",
-          "start": 5.9
+          "label": "database"
         },
         {
           "type": "text",
@@ -696,8 +640,7 @@
           "y": 86,
           "size": 6.5,
           "draw": 1.0,
-          "color": "#c0392b",
-          "start": 8.8
+          "color": "#c0392b"
         }
       ]
     },
@@ -713,8 +656,7 @@
           "y": 32,
           "size": 7,
           "draw": 1.0,
-          "color": "#c0392b",
-          "start": 0.3
+          "color": "#c0392b"
         },
         {
           "type": "text",
@@ -724,15 +666,13 @@
           "size": 7,
           "draw": 1.0,
           "color": "#2a9d4b",
-          "id": "batched",
-          "start": 2.9
+          "id": "batched"
         },
         {
           "type": "ring",
           "target": "batched",
           "draw": 0.8,
-          "color": "#2a9d4b",
-          "start": 5.5
+          "color": "#2a9d4b"
         }
       ]
     },
@@ -747,8 +687,7 @@
           "x": 50,
           "y": 30,
           "size": 18,
-          "draw": 0.8,
-          "start": 0.3
+          "draw": 0.8
         },
         {
           "type": "text",
@@ -757,8 +696,7 @@
           "y": 62,
           "size": 6.5,
           "draw": 1.0,
-          "color": "#666666",
-          "start": 2.7
+          "color": "#666666"
         },
         {
           "type": "text",
@@ -767,8 +705,7 @@
           "y": 80,
           "size": 7,
           "draw": 1.0,
-          "color": "#c0392b",
-          "start": 5.3
+          "color": "#c0392b"
         }
       ]
     },
@@ -785,8 +722,7 @@
           "y": 16,
           "w": 30,
           "h": 13,
-          "draw": 0.6,
-          "start": 0.3
+          "draw": 0.6
         },
         {
           "type": "icon",
@@ -795,8 +731,7 @@
           "y": 54,
           "size": 13,
           "draw": 0.5,
-          "id": "s1",
-          "start": 2.26
+          "id": "s1"
         },
         {
           "type": "icon",
@@ -805,8 +740,7 @@
           "y": 54,
           "size": 13,
           "draw": 0.5,
-          "id": "s2",
-          "start": 3.61
+          "id": "s2"
         },
         {
           "type": "icon",
@@ -816,30 +750,26 @@
           "size": 13,
           "draw": 0.5,
           "id": "s3",
-          "color": "#c0392b",
-          "start": 4.97
+          "color": "#c0392b"
         },
         {
           "type": "arrow",
           "from": "page",
           "to": "s1",
-          "draw": 0.4,
-          "start": 6.33
+          "draw": 0.4
         },
         {
           "type": "arrow",
           "from": "page",
           "to": "s2",
-          "draw": 0.4,
-          "start": 7.59
+          "draw": 0.4
         },
         {
           "type": "arrow",
           "from": "page",
           "to": "s3",
           "draw": 0.4,
-          "color": "#c0392b",
-          "start": 8.84
+          "color": "#c0392b"
         },
         {
           "type": "text",
@@ -848,8 +778,7 @@
           "y": 86,
           "size": 5.5,
           "draw": 1.0,
-          "color": "#c0392b",
-          "start": 10.1
+          "color": "#c0392b"
         }
       ]
     },
@@ -865,8 +794,7 @@
           "y": 38,
           "size": 22,
           "draw": 0.8,
-          "color": "#1e6fd9",
-          "start": 0.3
+          "color": "#1e6fd9"
         },
         {
           "type": "text",
@@ -874,8 +802,7 @@
           "x": 50,
           "y": 72,
           "size": 9,
-          "draw": 1.0,
-          "start": 2.7
+          "draw": 1.0
         }
       ]
     },
@@ -897,8 +824,7 @@
             "Batch: fewer round trips",
             "Parallel: don't wait in line",
             "Measure p99, not the average"
-          ],
-          "start": 0.3
+          ]
         }
       ]
     },
@@ -913,8 +839,7 @@
           "x": 50,
           "y": 36,
           "size": 10,
-          "draw": 1.4,
-          "start": 0.3
+          "draw": 1.4
         },
         {
           "type": "text",
@@ -923,8 +848,7 @@
           "y": 60,
           "size": 6,
           "draw": 1.4,
-          "color": "#1e6fd9",
-          "start": 3.3
+          "color": "#1e6fd9"
         },
         {
           "type": "icon",
@@ -932,8 +856,7 @@
           "x": 50,
           "y": 84,
           "size": 12,
-          "draw": 0.8,
-          "start": 6.3
+          "draw": 0.8
         }
       ]
     }

@@ -15,7 +15,12 @@ const seconds = z.number().min(0);
 const common = {
   // Needed when an arrow points to the element; also gives a stable seed.
   id: z.string().min(1).optional(),
-  start: seconds, // when drawing begins
+  // When drawing begins, in seconds into the scene. Or "at": a word of the
+  // narration ("resolver", "resolver#2" for its second time) to start on.
+  // With neither, a narrated element starts when its label or text is
+  // said, or right after the previous element.
+  start: seconds.optional(),
+  at: z.string().min(1).optional(),
   draw: positive, // how long drawing takes
   color: z.string().min(1).optional(), // any CSS colour; default ink
   // Fixes the sketchy wobble. Derived from the id when missing.

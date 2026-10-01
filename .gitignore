@@ -12,3 +12,4 @@ out
 # Generated narration (npm run voice), rebuilt from the scene files.
 public/videos/*/*.wav
 public/videos/*/voice.json
+public/videos/*/captions.json

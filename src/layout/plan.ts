@@ -308,7 +308,7 @@ export const planVideo = (video: Video, frame: FrameSize): PlannedBoard[] =>
 
       scene.elements.forEach((element, index) => {
         const common = {
-          start: sceneStart + element.start,
+          start: sceneStart + (element.start ?? 0),
           draw: element.draw,
           color: element.color,
           seed: element.seed ?? seedFrom(element.id ?? `${scene.id}#${index}`),

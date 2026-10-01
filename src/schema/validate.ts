@@ -1,16 +1,25 @@
 import type { z } from "zod";
-import { LABEL_WRITE_SECONDS } from "../animation/labels";
 import { FPS } from "../layout/formats";
 import { videoSchema, type SceneElement, type Video } from "./scene";
+import {
+  busyFor,
+  resolveTiming,
+  type HeardWords,
+  type TimedScene,
+} from "./timing";
 
 // Checks a scene file and describes every problem in plain words, with
 // where it is: scene "lookup", element 3 (arrow): points to unknown id
 // "resolvr". Pure, so the validate command, the renderer and the tests all
 // use the same rules.
 
+// A checked video: every element has its start time, and narrated scenes
+// carry the time of each word.
+export type TimedVideo = Omit<Video, "scenes"> & { scenes: TimedScene[] };
+
 export type ValidationResult =
-  | { ok: true; video: Video; errors: [] }
-  | { ok: false; video?: Video; errors: string[] };
+  | { ok: true; video: TimedVideo; errors: [] }
+  | { ok: false; video?: TimedVideo; errors: string[] };
 
 // Elements an arrow can point to: shapes with edges to attach to.
 const ARROW_TARGETS = new Set([
@@ -69,10 +78,8 @@ const describeIssue = (issue: z.core.$ZodIssue, raw: Raw) => {
 };
 
 // When an element keeps the hand busy until: its shape, then its label.
-export const busyUntil = (element: SceneElement) => {
-  const hasLabel = "label" in element && element.label;
-  return element.start + element.draw + (hasLabel ? LABEL_WRITE_SECONDS : 0);
-};
+export const busyUntil = (element: SceneElement) =>
+  (element.start ?? 0) + busyFor(element);
 
 // Rules the schema alone cannot express.
 const crossCheck = (video: Video): string[] => {
@@ -105,7 +112,8 @@ const crossCheck = (video: Video): string[] => {
         board.set(element.id, element);
       }
 
-      if (scene.duration !== undefined) {
+      // A narrated scene stretches to fit instead (see timing.ts).
+      if (scene.duration !== undefined && !video.voiceover) {
         const end = busyUntil(element);
         if (end > scene.duration + 1e-9) {
           errors.push(
@@ -144,25 +152,6 @@ const crossCheck = (video: Video): string[] => {
         }
       }
     });
-
-    // The hand draws one thing at a time.
-    const windows = scene.elements
-      .map((element, index) => ({
-        index,
-        type: element.type,
-        start: element.start,
-        end: busyUntil(element),
-      }))
-      .sort((a, b) => a.start - b.start);
-    for (let i = 1; i < windows.length; i++) {
-      const previous = windows[i - 1];
-      const current = windows[i];
-      if (current.start < previous.end - 1e-9) {
-        errors.push(
-          `${sceneName}, ${describeElement(current.index, current.type)}: starts at ${current.start} s, while ${describeElement(previous.index, previous.type)} is still being drawn (until ${previous.end} s)`,
-        );
-      }
-    }
   });
 
   return errors;
@@ -192,11 +181,13 @@ const withAudio = (video: Video, audio: AudioLengths) => {
   return { video: { ...video, scenes }, errors };
 };
 
-// Checks a scene file. For a voiceover video, pass the measured narration
-// lengths: the returned video then has every scene's duration resolved.
+// Checks a scene file and works out its timing. For a voiceover video,
+// pass the measured narration lengths and whisper's words: scene lengths
+// then follow the audio and drawings follow the words.
 export const validateVideo = (
   input: unknown,
   audio?: AudioLengths,
+  heard?: HeardWords,
 ): ValidationResult => {
   const parsed = videoSchema.safeParse(input);
   if (!parsed.success) {
@@ -206,12 +197,17 @@ export const validateVideo = (
       errors: parsed.error.issues.map((issue) => describeIssue(issue, raw)),
     };
   }
-  const resolved =
+  const voiced =
     parsed.data.voiceover && audio
       ? withAudio(parsed.data, audio)
       : { video: parsed.data, errors: [] };
-  const errors = [...resolved.errors, ...crossCheck(resolved.video)];
+  const timed = resolveTiming(voiced.video, heard, audio);
+  const errors = [
+    ...voiced.errors,
+    ...timed.errors,
+    ...crossCheck(timed.video),
+  ];
   return errors.length === 0
-    ? { ok: true, video: resolved.video, errors: [] }
-    : { ok: false, video: resolved.video, errors };
+    ? { ok: true, video: timed.video, errors: [] }
+    : { ok: false, video: timed.video, errors };
 };

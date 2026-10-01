@@ -8,6 +8,7 @@
   "dependencies": {
     "@remotion/cli": "4.0.532",
     "@remotion/google-fonts": "4.0.532",
+    "@remotion/install-whisper-cpp": "4.0.532",
     "@remotion/media-utils": "4.0.532",
     "@remotion/paths": "4.0.532",
     "@remotion/tailwind-v4": "4.0.532",
@@ -37,7 +38,9 @@
     "test": "vitest run",
     "render": "node scripts/render.mjs",
     "voice": "node scripts/voice.mjs",
-    "voice:setup": "node scripts/voice-setup.mjs"
+    "voice:setup": "node scripts/voice-setup.mjs",
+    "captions": "node scripts/captions.mjs",
+    "captions:setup": "node scripts/captions-setup.mjs"
   },
   "sideEffects": [
     "*.css"

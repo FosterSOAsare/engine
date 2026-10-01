@@ -16,6 +16,7 @@ import { Text } from "./elements/Text";
 import { BOARD } from "./elements/shared";
 import { secondsToFrames } from "./layout/formats";
 import { handTracks, planVideo, type PlannedBoard } from "./layout/plan";
+import type { HeardWords } from "./schema/timing";
 import { validateVideo, type AudioLengths } from "./schema/validate";
 
 // Draws a whole video from its scene file. The file arrives as plain JSON
@@ -26,11 +27,16 @@ export type SceneVideoProps = {
   id: string; // the video's id: its narration is in public/videos/<id>/
   video: unknown; // the scene file
   audio?: AudioLengths; // measured narration lengths (see Root.tsx)
+  heard?: HeardWords; // whisper's timed words (npm run captions)
 };
 
 // Where a scene's narration is (written by npm run voice).
 export const narrationFile = (id: string, sceneId: string) =>
   staticFile(`videos/${id}/${sceneId}.wav`);
+
+// Where a video's word timings are (written by npm run captions).
+export const captionsFile = (id: string) =>
+  staticFile(`videos/${id}/captions.json`);
 
 const Errors: React.FC<{ errors: string[] }> = ({ errors }) => (
   <AbsoluteFill style={{ background: BOARD }}>
@@ -103,11 +109,19 @@ const BoardView: React.FC<{ board: PlannedBoard }> = ({ board }) => {
   );
 };
 
-export const SceneVideo: React.FC<SceneVideoProps> = ({ id, video, audio }) => {
+export const SceneVideo: React.FC<SceneVideoProps> = ({
+  id,
+  video,
+  audio,
+  heard,
+}) => {
   const frame = useCurrentFrame();
   const { width, height } = useVideoConfig();
 
-  const result = useMemo(() => validateVideo(video, audio), [video, audio]);
+  const result = useMemo(
+    () => validateVideo(video, audio, heard),
+    [video, audio, heard],
+  );
   const plan = useMemo(
     () => (result.ok ? planVideo(result.video, { width, height }) : []),
     [result, width, height],

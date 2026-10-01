@@ -115,10 +115,10 @@ describe("validateVideo", () => {
     expect(errorsOf(video([labelled]))).toHaveLength(1);
   });
 
-  it("rejects elements drawn at the same time", () => {
-    expect(errorsOf(video([box("a", 0), box("b", 0.5)]))).toEqual([
-      'scene "main", element 2 (box): starts at 0.5 s, while element 1 (box) is still being drawn (until 1 s)',
-    ]);
+  it("queues an element asked to start while another is drawn", () => {
+    const result = validateVideo(video([box("a", 0), box("b", 0.5)]));
+    expect(result.errors).toEqual([]);
+    expect(result.video?.scenes[0].elements[1].start).toBe(1);
   });
 
   it("keeps ids from earlier scenes with keepPrevious", () => {
