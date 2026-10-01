@@ -14,13 +14,18 @@ export type Stroke = { d: string; length: number };
 export const measureStrokes = (ds: string[]): Stroke[] =>
   ds.map((d) => ({ d, length: getLength(d) }));
 
-const ease = Easing.inOut(Easing.quad);
+// People slow down when starting and finishing a line.
+export const HAND_EASING = Easing.inOut(Easing.quad);
 
 // How much of each stroke is drawn (0 to 1) at a given moment.
 // `t` is the element's progress from 0 to 1. Strokes are drawn one after
 // another; each gets a share of the time proportional to its length, so the
 // pen moves at a constant speed. Each stroke eases in and out like a hand.
-export const strokeProgress = (strokes: Stroke[], t: number): number[] => {
+export const strokeProgress = (
+  strokes: Stroke[],
+  t: number,
+  ease: (x: number) => number = HAND_EASING,
+): number[] => {
   const total = strokes.reduce((sum, s) => sum + s.length, 0);
   if (total === 0) return strokes.map(() => (t > 0 ? 1 : 0));
 
