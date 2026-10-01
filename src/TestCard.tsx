@@ -55,7 +55,8 @@ export const TestCard: React.FC = () => {
       className="items-center justify-center bg-[#faf8f3]"
       style={{ opacity: fadeOut }}
     >
-      <div className="flex flex-col items-center">
+      {/* Scale the content, not the background, so the frame edges stay filled. */}
+      <div className="flex flex-col items-center" style={{ scale: 0.944 }}>
         <h1 className="flex font-sans text-[96px] font-bold text-neutral-800">
           {TITLE.split("").map((char, i) => {
             const pop = spring({
