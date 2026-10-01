@@ -52,4 +52,28 @@ describe("planVideo", () => {
     expect(ring.w).toBeCloseTo(40 * Math.SQRT2);
     expect(ring.h).toBeCloseTo(20 * Math.SQRT2);
   });
+
+  it("puts a curved arrow's label on the side away from the bulge", () => {
+    const labelY = (bend?: number) => {
+      const drawings = plan([
+        { type: "box", id: "a", x: 20, y: 50, w: 10, h: 10, start: 0, draw: 1 },
+        { type: "box", id: "b", x: 80, y: 50, w: 10, h: 10, start: 2, draw: 1 },
+        {
+          type: "arrow",
+          from: "a",
+          to: "b",
+          label: "hi",
+          bend,
+          start: 4,
+          draw: 1,
+        },
+      ]);
+      const arrow = drawings[2] as { label: TextProps | null };
+      return arrow.label!.y;
+    };
+    // Straight, left to right: above the line. Bent up (positive): below.
+    expect(labelY()).toBeLessThan(50);
+    expect(labelY(6)).toBeGreaterThan(50);
+    expect(labelY(-6)).toBeLessThan(50);
+  });
 });

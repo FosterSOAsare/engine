@@ -118,19 +118,22 @@ const ringAround = (outline: Outline, padding: number) => {
 };
 
 // An arrow's label sits beside the middle of the arrow: to the right of a
-// vertical arrow, above a horizontal one, never on top of the line.
+// vertical arrow, above a horizontal one, never on top of the line. A
+// curved arrow bulges towards that same side (a positive bend), so its
+// label moves to the other side, inside the curve.
 const arrowLabel = (
   from: { x: number; y: number },
   to: { x: number; y: number },
   text: string,
-  arrow: { start: number; draw: number; color?: string },
+  arrow: { start: number; draw: number; color?: string; bend?: number },
   frame: FrameSize,
 ): TextProps => {
   const unit = unitOf(frame);
   const fontSize = ARROW_LABEL_SIZE * unit;
   const length = Math.hypot(to.x - from.x, to.y - from.y) || 1;
-  const nx = (to.y - from.y) / length;
-  const ny = -(to.x - from.x) / length;
+  const side = (arrow.bend ?? 0) > 0 ? -1 : 1;
+  const nx = (side * (to.y - from.y)) / length;
+  const ny = (side * -(to.x - from.x)) / length;
   const distance =
     Math.abs(nx) * (textWidth(text, fontSize) / 2) +
     Math.abs(ny) * (fontSize / 2) +
@@ -256,7 +259,15 @@ const drawingsOf = (
             bend: element.bend,
             head: element.type === "arrow" ? element.head : "none",
           },
-          label: label ? arrowLabel(from, to, label, common, frame) : null,
+          label: label
+            ? arrowLabel(
+                from,
+                to,
+                label,
+                { ...common, bend: element.bend },
+                frame,
+              )
+            : null,
         },
       ];
     }
