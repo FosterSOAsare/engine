@@ -10,5 +10,10 @@ export const FORMATS = {
 
 export type FormatName = keyof typeof FORMATS;
 
+export const FORMAT_NAMES = Object.keys(FORMATS) as [
+  FormatName,
+  ...FormatName[],
+];
+
 // Scene files use seconds; Remotion works in frames.
 export const secondsToFrames = (seconds: number) => Math.round(seconds * FPS);

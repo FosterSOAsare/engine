@@ -8,15 +8,19 @@ import { FORMATS, FPS, secondsToFrames } from "./layout/formats";
 import { validateVideo } from "./schema/validate";
 import { VIDEOS } from "./videos";
 
-// A scene video lasts as long as its scene file says. A file too broken to
-// read gets a few seconds, enough to show its problems.
-const sceneVideoLength = ({ props }: { props: SceneVideoProps }) => {
+// A scene video takes its length and frame shape from its scene file. A
+// file too broken to read gets a few seconds in portrait, enough to show
+// its problems.
+const sceneVideoMetadata = ({ props }: { props: SceneVideoProps }) => {
   const { video } = validateVideo(props.video);
+  const { width, height } = FORMATS[video?.format ?? "portrait"];
   return {
     durationInFrames: Math.max(
       1,
       secondsToFrames(video ? videoLength(video) : 5),
     ),
+    width,
+    height,
   };
 };
 
@@ -32,7 +36,7 @@ export const RemotionRoot: React.FC = () => {
           id={id}
           component={SceneVideo}
           defaultProps={{ video: scene }}
-          calculateMetadata={sceneVideoLength}
+          calculateMetadata={sceneVideoMetadata}
           durationInFrames={1}
           fps={FPS}
           width={FORMATS.portrait.width}

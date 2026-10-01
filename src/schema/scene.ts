@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { ICON_NAMES } from "../elements/icons";
+import { FORMAT_NAMES } from "../layout/formats";
 
 // The scene file: one JSON file describes a whole video. Positions are in
 // percent of the frame (0 to 100), sizes in percent of the frame's shorter
@@ -90,6 +91,8 @@ export const sceneSchema = z.strictObject({
 export const videoSchema = z.strictObject({
   version: z.literal(1),
   title: z.string().min(1),
+  // Frame shape: "portrait" (9:16) or "landscape" (16:9).
+  format: z.enum(FORMAT_NAMES).default("portrait"),
   fps: z.number().int().positive().default(30),
   scenes: z.array(sceneSchema).min(1),
 });
