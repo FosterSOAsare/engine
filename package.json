@@ -8,6 +8,7 @@
   "dependencies": {
     "@remotion/cli": "4.0.532",
     "@remotion/google-fonts": "4.0.532",
+    "@remotion/media-utils": "4.0.532",
     "@remotion/paths": "4.0.532",
     "@remotion/tailwind-v4": "4.0.532",
     "@remotion/zod-types": "4.0.532",
@@ -34,7 +35,9 @@
     "lint": "eslint src && tsc",
     "render:test": "remotion render TestCard out/test.mp4",
     "test": "vitest run",
-    "render": "node scripts/render.mjs"
+    "render": "node scripts/render.mjs",
+    "voice": "node scripts/voice.mjs",
+    "voice:setup": "node scripts/voice-setup.mjs"
   },
   "sideEffects": [
     "*.css"

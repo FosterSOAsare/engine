@@ -170,4 +170,35 @@ describe("validateVideo", () => {
       'scene "main", element 3 (ring): can\'t ring a line; rings go around shapes, icons and text',
     ]);
   });
+
+  describe("voiceover", () => {
+    const narrated = (duration?: number) => ({
+      version: 1 as const,
+      title: "Test",
+      voiceover: true,
+      scenes: [
+        { id: "a", duration, narration: "Hi.", elements: [box("x", 0)] },
+      ],
+    });
+
+    it("needs no duration", () => {
+      expect(errorsOf(narrated())).toEqual([]);
+    });
+
+    it("lasts as long as the narration plus the pause", () => {
+      const result = validateVideo(narrated(), [3.2]);
+      expect(result.video?.scenes[0].duration).toBeCloseTo(3.7);
+    });
+
+    it("keeps a longer duration", () => {
+      const result = validateVideo(narrated(6), [3.2]);
+      expect(result.video?.scenes[0].duration).toBe(6);
+    });
+
+    it("reports missing narration audio", () => {
+      expect(validateVideo(narrated(), [null]).errors).toEqual([
+        'scene "a": no narration audio yet; run npm run voice',
+      ]);
+    });
+  });
 });

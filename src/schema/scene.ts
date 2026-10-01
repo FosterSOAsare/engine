@@ -157,9 +157,11 @@ export const elementSchema = z.discriminatedUnion("type", [
 
 export const sceneSchema = z.strictObject({
   id: z.string().min(1),
-  // Optional because M3 sets the length from the audio; until then the
-  // validator requires it.
+  // Seconds. Optional in a video with a voiceover: the scene then lasts as
+  // long as its narration plus "pause" (or "duration", if that is longer).
   duration: positive.optional(),
+  // Silence after the narration before the next scene, in seconds.
+  pause: z.number().min(0).default(0.5),
   narration: z.string(), // the one sentence this scene illustrates
   // Keep the previous scene's drawing instead of wiping the board.
   keepPrevious: z.boolean().default(false),
@@ -171,6 +173,10 @@ export const videoSchema = z.strictObject({
   title: z.string().min(1),
   // Frame shape: "portrait" (9:16) or "landscape" (16:9).
   format: z.enum(FORMAT_NAMES).default("portrait"),
+  // Narrate every scene's line with text-to-speech (npm run voice -- <id>).
+  // Each scene then lasts as long as its audio plus its pause.
+  voiceover: z.boolean().default(false),
+  voice: z.string().min(1).optional(), // a Piper voice; default bryce
   fps: z.number().int().positive().default(30),
   scenes: z.array(sceneSchema).min(1),
 });

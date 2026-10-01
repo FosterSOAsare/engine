@@ -1,17 +1,39 @@
 import "./index.css";
 import { Composition } from "remotion";
-import { SceneVideo, type SceneVideoProps } from "./SceneVideo";
+import { getAudioDurationInSeconds } from "@remotion/media-utils";
+import { narrationFile, SceneVideo, type SceneVideoProps } from "./SceneVideo";
 import { TestCard } from "./TestCard";
 import { videoLength } from "./animation/timeline";
 import { FORMATS, FPS, secondsToFrames } from "./layout/formats";
-import { validateVideo } from "./schema/validate";
+import { videoSchema } from "./schema/scene";
+import { validateVideo, type AudioLengths } from "./schema/validate";
 import { VIDEOS } from "./videos";
 
-// A scene video takes its length and frame shape from its scene file. A
-// file too broken to read gets a few seconds in portrait, enough to show
-// its problems.
-const sceneVideoMetadata = ({ props }: { props: SceneVideoProps }) => {
-  const { video } = validateVideo(props.video);
+// The length of each scene's narration file, or null where there is none.
+const measureNarration = async (
+  id: string,
+  sceneIds: string[],
+): Promise<AudioLengths> =>
+  Promise.all(
+    sceneIds.map((sceneId) =>
+      getAudioDurationInSeconds(narrationFile(id, sceneId)).catch(() => null),
+    ),
+  );
+
+// A scene video takes its length and frame shape from its scene file, and
+// for a voiceover video from its narration: the audio is measured here and
+// handed to the video. A file too broken to read gets a few seconds in
+// portrait, enough to show its problems.
+const sceneVideoMetadata = async ({ props }: { props: SceneVideoProps }) => {
+  const parsed = videoSchema.safeParse(props.video);
+  const audio =
+    parsed.success && parsed.data.voiceover
+      ? await measureNarration(
+          props.id,
+          parsed.data.scenes.map((scene) => scene.id),
+        )
+      : undefined;
+  const { video } = validateVideo(props.video, audio);
   const { width, height } = FORMATS[video?.format ?? "portrait"];
   return {
     durationInFrames: Math.max(
@@ -20,6 +42,7 @@ const sceneVideoMetadata = ({ props }: { props: SceneVideoProps }) => {
     ),
     width,
     height,
+    props: { ...props, audio },
   };
 };
 
@@ -35,7 +58,7 @@ export const RemotionRoot: React.FC = () => {
           key={id}
           id={id}
           component={SceneVideo}
-          defaultProps={{ video: scene }}
+          defaultProps={{ id, video: scene }}
           calculateMetadata={sceneVideoMetadata}
           durationInFrames={1}
           fps={FPS}

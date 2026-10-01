@@ -1,11 +1,14 @@
 import { useMemo } from "react";
 import {
   AbsoluteFill,
+  Audio,
   interpolate,
+  Sequence,
+  staticFile,
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-import { WIPE_SECONDS } from "./animation/timeline";
+import { sceneTimes, WIPE_SECONDS } from "./animation/timeline";
 import { Arrow } from "./elements/Arrow";
 import { Hand } from "./elements/Hand";
 import { Shape } from "./elements/Shape";
@@ -13,13 +16,21 @@ import { Text } from "./elements/Text";
 import { BOARD } from "./elements/shared";
 import { secondsToFrames } from "./layout/formats";
 import { handTracks, planVideo, type PlannedBoard } from "./layout/plan";
-import { validateVideo } from "./schema/validate";
+import { validateVideo, type AudioLengths } from "./schema/validate";
 
 // Draws a whole video from its scene file. The file arrives as plain JSON
 // (a composition prop), is checked, and either drawn or, if it has
 // problems, listed on screen instead of rendering a broken video.
 
-export type SceneVideoProps = { video: unknown };
+export type SceneVideoProps = {
+  id: string; // the video's id: its narration is in public/videos/<id>/
+  video: unknown; // the scene file
+  audio?: AudioLengths; // measured narration lengths (see Root.tsx)
+};
+
+// Where a scene's narration is (written by npm run voice).
+export const narrationFile = (id: string, sceneId: string) =>
+  staticFile(`videos/${id}/${sceneId}.wav`);
 
 const Errors: React.FC<{ errors: string[] }> = ({ errors }) => (
   <AbsoluteFill style={{ background: BOARD }}>
@@ -92,11 +103,11 @@ const BoardView: React.FC<{ board: PlannedBoard }> = ({ board }) => {
   );
 };
 
-export const SceneVideo: React.FC<SceneVideoProps> = ({ video }) => {
+export const SceneVideo: React.FC<SceneVideoProps> = ({ id, video, audio }) => {
   const frame = useCurrentFrame();
   const { width, height } = useVideoConfig();
 
-  const result = useMemo(() => validateVideo(video), [video]);
+  const result = useMemo(() => validateVideo(video, audio), [video, audio]);
   const plan = useMemo(
     () => (result.ok ? planVideo(result.video, { width, height }) : []),
     [result, width, height],
@@ -117,6 +128,18 @@ export const SceneVideo: React.FC<SceneVideoProps> = ({ video }) => {
     <AbsoluteFill style={{ background: BOARD }}>
       {board ? <BoardView board={board} /> : null}
       <Hand tracks={tracks} />
+      {result.video.voiceover
+        ? sceneTimes(result.video).map(({ scene, start, end }) => (
+            <Sequence
+              key={scene.id}
+              from={secondsToFrames(start)}
+              durationInFrames={secondsToFrames(end) - secondsToFrames(start)}
+              layout="none"
+            >
+              <Audio src={narrationFile(id, scene.id)} />
+            </Sequence>
+          ))
+        : null}
     </AbsoluteFill>
   );
 };

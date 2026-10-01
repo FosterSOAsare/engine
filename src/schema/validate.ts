@@ -89,7 +89,9 @@ const crossCheck = (video: Video): string[] => {
     const sceneName = describeScene(sceneIndex, scene.id);
     if (!scene.keepPrevious) board = new Map();
 
-    if (scene.duration === undefined) {
+    // With a voiceover the audio sets the length (see withAudio); its
+    // absence is reported there.
+    if (scene.duration === undefined && !video.voiceover) {
       errors.push(`${sceneName}: needs a "duration" (in seconds)`);
     }
 
@@ -166,7 +168,36 @@ const crossCheck = (video: Video): string[] => {
   return errors;
 };
 
-export const validateVideo = (input: unknown): ValidationResult => {
+// Each scene's narration length in seconds, in scene order; null where the
+// audio file is missing. Measured by the composition before rendering.
+export type AudioLengths = (number | null)[];
+
+// A voiceover video's scenes last as long as their narration plus the
+// pause, or their "duration" if that is longer.
+const withAudio = (video: Video, audio: AudioLengths) => {
+  const errors: string[] = [];
+  const scenes = video.scenes.map((scene, index) => {
+    const seconds = audio[index];
+    if (seconds === null || seconds === undefined) {
+      errors.push(
+        `${describeScene(index, scene.id)}: no narration audio yet; run npm run voice`,
+      );
+      return scene;
+    }
+    return {
+      ...scene,
+      duration: Math.max(scene.duration ?? 0, seconds + scene.pause),
+    };
+  });
+  return { video: { ...video, scenes }, errors };
+};
+
+// Checks a scene file. For a voiceover video, pass the measured narration
+// lengths: the returned video then has every scene's duration resolved.
+export const validateVideo = (
+  input: unknown,
+  audio?: AudioLengths,
+): ValidationResult => {
   const parsed = videoSchema.safeParse(input);
   if (!parsed.success) {
     const raw = (typeof input === "object" && input ? input : {}) as Raw;
@@ -175,8 +206,12 @@ export const validateVideo = (input: unknown): ValidationResult => {
       errors: parsed.error.issues.map((issue) => describeIssue(issue, raw)),
     };
   }
-  const errors = crossCheck(parsed.data);
+  const resolved =
+    parsed.data.voiceover && audio
+      ? withAudio(parsed.data, audio)
+      : { video: parsed.data, errors: [] };
+  const errors = [...resolved.errors, ...crossCheck(resolved.video)];
   return errors.length === 0
-    ? { ok: true, video: parsed.data, errors: [] }
-    : { ok: false, video: parsed.data, errors };
+    ? { ok: true, video: resolved.video, errors: [] }
+    : { ok: false, video: resolved.video, errors };
 };
