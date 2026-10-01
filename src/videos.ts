@@ -1,5 +1,6 @@
 import check from "../videos/check/scene.json";
 import dns from "../videos/dns/scene.json";
+import https from "../videos/https/scene.json";
 import icons from "../videos/icons/scene.json";
 import lucide from "../videos/lucide/scene.json";
 import latency from "../videos/latency/scene.json";
@@ -12,6 +13,7 @@ import showcase from "../videos/showcase/scene.json";
 // same id, rendered with: npx remotion render <id> out/<id>.mp4
 // Add a video by adding its folder under videos/ and a line here.
 export const VIDEOS: { id: string; scene: unknown }[] = [
+  { id: "https", scene: https },
   { id: "passwords", scene: passwords },
   { id: "latency", scene: latency },
   { id: "dns", scene: dns },

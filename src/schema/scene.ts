@@ -90,6 +90,8 @@ const text = z.strictObject({
   y: percent,
   size: positive.default(8), // font size
   text: z.string().min(1),
+  // "left": x is where the text starts instead of its centre.
+  align: z.enum(["center", "left"]).default("center"),
 });
 
 // Bullet points, written one line after another. x and y are where the

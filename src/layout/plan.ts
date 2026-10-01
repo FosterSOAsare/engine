@@ -200,9 +200,12 @@ const drawingsOf = (
       ];
     }
     case "text": {
-      const { x, y, size, text } = element;
+      const { x, y, size, text, align } = element;
       return [
-        { type: "text", props: { start, draw, color, x, y, size, text } },
+        {
+          type: "text",
+          props: { start, draw, color, x, y, size, text, align },
+        },
       ];
     }
     case "list": {
