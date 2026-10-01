@@ -34,7 +34,7 @@
     "lint": "eslint src && tsc",
     "render:test": "remotion render TestCard out/test.mp4",
     "test": "vitest run",
-    "render:m1": "remotion render M1Demo out/m1-demo.mp4"
+    "render": "node scripts/render.mjs"
   },
   "sideEffects": [
     "*.css"
