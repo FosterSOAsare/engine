@@ -174,7 +174,7 @@ export const StrokePaths: React.FC<{
         {strokes.map((stroke, i) =>
           // Skip strokes that have not started: a round line cap would
           // otherwise leave a dot where the stroke will begin.
-          progress[i] === 0 ? null : (
+          !(progress[i] > 0) ? null : (
             <path
               key={i}
               d={stroke.d}

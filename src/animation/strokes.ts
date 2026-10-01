@@ -19,7 +19,11 @@ const pointAt = (d: string, length: number): Point =>
 
 export const measureStrokes = (ds: string[]): Stroke[] =>
   ds.map((d) => {
-    const length = getLength(d);
+    // A tiny stroke (an icon's dot) can be sketched into a degenerate
+    // curve that measures as NaN. One NaN would spoil the timing of the
+    // whole shape and make it appear at once, so it counts as a point.
+    const measured = getLength(d);
+    const length = Number.isFinite(measured) ? measured : 0;
     return {
       d,
       length,
@@ -43,12 +47,18 @@ const distance = (a: Point, b: Point) => Math.hypot(b.x - a.x, b.y - a.y);
 // each stroke gets a share of the element's time proportional to its
 // length, and each pen lift a share proportional to the distance it travels.
 // Returns these windows as fractions (0 to 1) of the element's time.
+// Anything unmeasurable counts as zero, so it can never spoil the timing.
+const finite = (value: number) => (Number.isFinite(value) ? value : 0);
+
 const strokeWindows = (strokes: Stroke[]) => {
+  const lengths = strokes.map((stroke) => finite(stroke.length));
   const lifts = strokes.map((stroke, i) =>
-    i === 0 ? 0 : distance(strokes[i - 1].end, stroke.start) / PEN_UP_SPEEDUP,
+    i === 0
+      ? 0
+      : finite(distance(strokes[i - 1].end, stroke.start) / PEN_UP_SPEEDUP),
   );
   const total =
-    strokes.reduce((sum, s) => sum + s.length, 0) +
+    lengths.reduce((sum, l) => sum + l, 0) +
     lifts.reduce((sum, l) => sum + l, 0);
   let at = 0;
   return strokes.map((stroke, i) => {
@@ -56,7 +66,7 @@ const strokeWindows = (strokes: Stroke[]) => {
     const lift = total === 0 ? 0 : lifts[i] / total;
     at += lift;
     const start = at;
-    const share = total === 0 ? 0 : stroke.length / total;
+    const share = total === 0 ? 0 : lengths[i] / total;
     at += share;
     return { liftStart, lift, start, share };
   });

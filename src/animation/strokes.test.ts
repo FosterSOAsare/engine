@@ -115,3 +115,27 @@ describe("pen lifts", () => {
     expect(point.y).toBeCloseTo(15);
   });
 });
+
+describe("unmeasurable strokes", () => {
+  it("counts a stroke whose length is NaN as a point", () => {
+    // A degenerate curve: every point the same.
+    const [dot] = measureStrokes(["M5 5 C5 5 5 5 5 5"]);
+    expect(Number.isFinite(dot.length)).toBe(true);
+  });
+
+  it("never shows a shape before it starts", () => {
+    const strokes = [
+      ...measureStrokes(["M0 0 L100 0"]),
+      {
+        // Where the line ends, so no pen travel is involved.
+        d: "",
+        length: Number.NaN,
+        start: { x: 100, y: 0 },
+        end: { x: 100, y: 0 },
+      },
+    ];
+    expect(strokeProgress(strokes, 0)).toEqual([0, 0]);
+    // The measurable stroke still draws normally.
+    expect(strokeProgress(strokes, 0.5, Easing.linear)[0]).toBeCloseTo(0.5);
+  });
+});
