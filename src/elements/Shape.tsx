@@ -24,6 +24,8 @@ import {
 // fill (if any) fades in, then the label is written. Only the outline
 // differs, so they share this one element.
 
+const ICON_ROUGHNESS = 0.5;
+
 export type ShapeKind =
   | "box"
   | "circle"
@@ -108,7 +110,11 @@ const outline = (
 
 export const shapeSketch = (props: ShapeProps, frame: FrameSize) => {
   const g = rough.generator();
-  return toSketch(g, outline(props, g, shapeStyle(props.seed, props), frame));
+  const style = shapeStyle(props.seed, props);
+  // Icons are small and detailed: the wobble that makes a big box look
+  // hand-drawn distorts them, so they get a gentler one.
+  if (props.kind === "icon") style.roughness = ICON_ROUGHNESS;
+  return toSketch(g, outline(props, g, style, frame));
 };
 
 // Where the label goes: in the middle, except under an icon and low in a

@@ -1,6 +1,7 @@
 import check from "../videos/check/scene.json";
 import dns from "../videos/dns/scene.json";
 import icons from "../videos/icons/scene.json";
+import lucide from "../videos/lucide/scene.json";
 import m1Demo from "../videos/m1-demo/scene.json";
 import os from "../videos/os/scene.json";
 import showcase from "../videos/showcase/scene.json";
@@ -14,7 +15,9 @@ export const VIDEOS: { id: string; scene: unknown }[] = [
   // Every element type and every icon, by category.
   { id: "showcase", scene: showcase },
   { id: "m1-demo", scene: m1Demo },
-  // Every icon with its name.
+  // A sample of 50 Lucide icons with their names.
+  { id: "lucide", scene: lucide },
+  // Every hand-made icon with its name.
   { id: "icons", scene: icons },
   // Exercises every renderer feature: a moved box with its arrow,
   // arrow and circle labels, colours, the wipe and keepPrevious.

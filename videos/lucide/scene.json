@@ -1,0 +1,896 @@
+{
+  "version": 1,
+  "title": "Lucide icons",
+  "format": "landscape",
+  "scenes": [
+    {
+      "id": "sample",
+      "duration": 34.1,
+      "narration": "A sample of the Lucide icons, drawn by hand.",
+      "elements": [
+        {
+          "type": "icon",
+          "name": "accessibility",
+          "x": 5,
+          "y": 12,
+          "size": 9,
+          "start": 0.3,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "accessibility",
+          "x": 5,
+          "y": 19,
+          "size": 2.6,
+          "start": 0.75,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "user",
+          "x": 15,
+          "y": 12,
+          "size": 9,
+          "start": 0.95,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "user",
+          "x": 15,
+          "y": 19,
+          "size": 2.6,
+          "start": 1.4,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "users",
+          "x": 25,
+          "y": 12,
+          "size": 9,
+          "start": 1.6,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "users",
+          "x": 25,
+          "y": 19,
+          "size": 2.6,
+          "start": 2.05,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "server",
+          "x": 35,
+          "y": 12,
+          "size": 9,
+          "start": 2.25,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "server",
+          "x": 35,
+          "y": 19,
+          "size": 2.6,
+          "start": 2.7,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "database",
+          "x": 45,
+          "y": 12,
+          "size": 9,
+          "start": 2.9,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "database",
+          "x": 45,
+          "y": 19,
+          "size": 2.6,
+          "start": 3.35,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "cloud",
+          "x": 55,
+          "y": 12,
+          "size": 9,
+          "start": 3.55,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "cloud",
+          "x": 55,
+          "y": 19,
+          "size": 2.6,
+          "start": 4.0,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "wifi",
+          "x": 65,
+          "y": 12,
+          "size": 9,
+          "start": 4.2,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "wifi",
+          "x": 65,
+          "y": 19,
+          "size": 2.6,
+          "start": 4.65,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "globe",
+          "x": 75,
+          "y": 12,
+          "size": 9,
+          "start": 4.85,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "globe",
+          "x": 75,
+          "y": 19,
+          "size": 2.6,
+          "start": 5.3,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "lock",
+          "x": 85,
+          "y": 12,
+          "size": 9,
+          "start": 5.5,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "lock",
+          "x": 85,
+          "y": 19,
+          "size": 2.6,
+          "start": 5.95,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "shield",
+          "x": 95,
+          "y": 12,
+          "size": 9,
+          "start": 6.15,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "shield",
+          "x": 95,
+          "y": 19,
+          "size": 2.6,
+          "start": 6.6,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "key",
+          "x": 5,
+          "y": 29,
+          "size": 9,
+          "start": 6.8,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "key",
+          "x": 5,
+          "y": 36,
+          "size": 2.6,
+          "start": 7.25,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "mail",
+          "x": 15,
+          "y": 29,
+          "size": 9,
+          "start": 7.45,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "mail",
+          "x": 15,
+          "y": 36,
+          "size": 2.6,
+          "start": 7.9,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "bell",
+          "x": 25,
+          "y": 29,
+          "size": 9,
+          "start": 8.1,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "bell",
+          "x": 25,
+          "y": 36,
+          "size": 2.6,
+          "start": 8.55,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "heart",
+          "x": 35,
+          "y": 29,
+          "size": 9,
+          "start": 8.75,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "heart",
+          "x": 35,
+          "y": 36,
+          "size": 2.6,
+          "start": 9.2,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "star",
+          "x": 45,
+          "y": 29,
+          "size": 9,
+          "start": 9.4,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "star",
+          "x": 45,
+          "y": 36,
+          "size": 2.6,
+          "start": 9.85,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "house",
+          "x": 55,
+          "y": 29,
+          "size": 9,
+          "start": 10.05,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "house",
+          "x": 55,
+          "y": 36,
+          "size": 2.6,
+          "start": 10.5,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "search",
+          "x": 65,
+          "y": 29,
+          "size": 9,
+          "start": 10.7,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "search",
+          "x": 65,
+          "y": 36,
+          "size": 2.6,
+          "start": 11.15,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "settings",
+          "x": 75,
+          "y": 29,
+          "size": 9,
+          "start": 11.35,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "settings",
+          "x": 75,
+          "y": 36,
+          "size": 2.6,
+          "start": 11.8,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "code",
+          "x": 85,
+          "y": 29,
+          "size": 9,
+          "start": 12.0,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "code",
+          "x": 85,
+          "y": 36,
+          "size": 2.6,
+          "start": 12.45,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "terminal",
+          "x": 95,
+          "y": 29,
+          "size": 9,
+          "start": 12.65,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "terminal",
+          "x": 95,
+          "y": 36,
+          "size": 2.6,
+          "start": 13.1,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "bug",
+          "x": 5,
+          "y": 46,
+          "size": 9,
+          "start": 13.3,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "bug",
+          "x": 5,
+          "y": 53,
+          "size": 2.6,
+          "start": 13.75,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "camera",
+          "x": 15,
+          "y": 46,
+          "size": 9,
+          "start": 13.95,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "camera",
+          "x": 15,
+          "y": 53,
+          "size": 2.6,
+          "start": 14.4,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "laptop",
+          "x": 25,
+          "y": 46,
+          "size": 9,
+          "start": 14.6,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "laptop",
+          "x": 25,
+          "y": 53,
+          "size": 2.6,
+          "start": 15.05,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "smartphone",
+          "x": 35,
+          "y": 46,
+          "size": 9,
+          "start": 15.25,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "smartphone",
+          "x": 35,
+          "y": 53,
+          "size": 2.6,
+          "start": 15.7,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "folder",
+          "x": 45,
+          "y": 46,
+          "size": 9,
+          "start": 15.9,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "folder",
+          "x": 45,
+          "y": 53,
+          "size": 2.6,
+          "start": 16.35,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "file-text",
+          "x": 55,
+          "y": 46,
+          "size": 9,
+          "start": 16.55,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "file-text",
+          "x": 55,
+          "y": 53,
+          "size": 2.6,
+          "start": 17.0,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "chart-bar",
+          "x": 65,
+          "y": 46,
+          "size": 9,
+          "start": 17.2,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "chart-bar",
+          "x": 65,
+          "y": 53,
+          "size": 2.6,
+          "start": 17.65,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "rocket",
+          "x": 75,
+          "y": 46,
+          "size": 9,
+          "start": 17.85,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "rocket",
+          "x": 75,
+          "y": 53,
+          "size": 2.6,
+          "start": 18.3,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "cpu",
+          "x": 85,
+          "y": 46,
+          "size": 9,
+          "start": 18.5,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "cpu",
+          "x": 85,
+          "y": 53,
+          "size": 2.6,
+          "start": 18.95,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "hard-drive",
+          "x": 95,
+          "y": 46,
+          "size": 9,
+          "start": 19.15,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "hard-drive",
+          "x": 95,
+          "y": 53,
+          "size": 2.6,
+          "start": 19.6,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "map-pin",
+          "x": 5,
+          "y": 63,
+          "size": 9,
+          "start": 19.8,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "map-pin",
+          "x": 5,
+          "y": 70,
+          "size": 2.6,
+          "start": 20.25,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "x",
+          "x": 15,
+          "y": 63,
+          "size": 9,
+          "start": 20.45,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "x",
+          "x": 15,
+          "y": 70,
+          "size": 2.6,
+          "start": 20.9,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "check",
+          "x": 25,
+          "y": 63,
+          "size": 9,
+          "start": 21.1,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "check",
+          "x": 25,
+          "y": 70,
+          "size": 2.6,
+          "start": 21.55,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "calendar",
+          "x": 35,
+          "y": 63,
+          "size": 9,
+          "start": 21.75,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "calendar",
+          "x": 35,
+          "y": 70,
+          "size": 2.6,
+          "start": 22.2,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "clock",
+          "x": 45,
+          "y": 63,
+          "size": 9,
+          "start": 22.4,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "clock",
+          "x": 45,
+          "y": 70,
+          "size": 2.6,
+          "start": 22.85,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "shopping-cart",
+          "x": 55,
+          "y": 63,
+          "size": 9,
+          "start": 23.05,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "shopping-cart",
+          "x": 55,
+          "y": 70,
+          "size": 2.6,
+          "start": 23.5,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "dollar-sign",
+          "x": 65,
+          "y": 63,
+          "size": 9,
+          "start": 23.7,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "dollar-sign",
+          "x": 65,
+          "y": 70,
+          "size": 2.6,
+          "start": 24.15,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "lightbulb",
+          "x": 75,
+          "y": 63,
+          "size": 9,
+          "start": 24.35,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "lightbulb",
+          "x": 75,
+          "y": 70,
+          "size": 2.6,
+          "start": 24.8,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "zap",
+          "x": 85,
+          "y": 63,
+          "size": 9,
+          "start": 25.0,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "zap",
+          "x": 85,
+          "y": 70,
+          "size": 2.6,
+          "start": 25.45,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "download",
+          "x": 95,
+          "y": 63,
+          "size": 9,
+          "start": 25.65,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "download",
+          "x": 95,
+          "y": 70,
+          "size": 2.6,
+          "start": 26.1,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "upload",
+          "x": 5,
+          "y": 80,
+          "size": 9,
+          "start": 26.3,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "upload",
+          "x": 5,
+          "y": 87,
+          "size": 2.6,
+          "start": 26.75,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "link",
+          "x": 15,
+          "y": 80,
+          "size": 9,
+          "start": 26.95,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "link",
+          "x": 15,
+          "y": 87,
+          "size": 2.6,
+          "start": 27.4,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "router",
+          "x": 25,
+          "y": 80,
+          "size": 9,
+          "start": 27.6,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "router",
+          "x": 25,
+          "y": 87,
+          "size": 2.6,
+          "start": 28.05,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "bot",
+          "x": 35,
+          "y": 80,
+          "size": 9,
+          "start": 28.25,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "bot",
+          "x": 35,
+          "y": 87,
+          "size": 2.6,
+          "start": 28.7,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "brain",
+          "x": 45,
+          "y": 80,
+          "size": 9,
+          "start": 28.9,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "brain",
+          "x": 45,
+          "y": 87,
+          "size": 2.6,
+          "start": 29.35,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "plane",
+          "x": 55,
+          "y": 80,
+          "size": 9,
+          "start": 29.55,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "plane",
+          "x": 55,
+          "y": 87,
+          "size": 2.6,
+          "start": 30.0,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "car",
+          "x": 65,
+          "y": 80,
+          "size": 9,
+          "start": 30.2,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "car",
+          "x": 65,
+          "y": 87,
+          "size": 2.6,
+          "start": 30.65,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "coffee",
+          "x": 75,
+          "y": 80,
+          "size": 9,
+          "start": 30.85,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "coffee",
+          "x": 75,
+          "y": 87,
+          "size": 2.6,
+          "start": 31.3,
+          "draw": 0.15
+        },
+        {
+          "type": "icon",
+          "name": "sun",
+          "x": 85,
+          "y": 80,
+          "size": 9,
+          "start": 31.5,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "text": "sun",
+          "x": 85,
+          "y": 87,
+          "size": 2.6,
+          "start": 31.95,
+          "draw": 0.15
+        }
+      ]
+    }
+  ]
+}
