@@ -7,9 +7,36 @@
       "duration": 6,
       "narration": "You type google.com, but computers find each other by number, not by name.",
       "elements": [
-        { "type": "text", "text": "How DNS works", "x": 50, "y": 14, "size": 10, "start": 0.3, "draw": 1.2 },
-        { "type": "box", "id": "name", "label": "google.com", "x": 50, "y": 45, "w": 60, "h": 18, "start": 1.8, "draw": 1.2 },
-        { "type": "text", "text": "a name, not an address", "x": 50, "y": 70, "size": 7, "color": "#c0392b", "start": 3.8, "draw": 1.2 }
+        {
+          "type": "text",
+          "text": "How DNS works",
+          "x": 50,
+          "y": 14,
+          "size": 10,
+          "start": 0.3,
+          "draw": 1.2
+        },
+        {
+          "type": "box",
+          "id": "name",
+          "label": "google.com",
+          "x": 50,
+          "y": 45,
+          "w": 60,
+          "h": 18,
+          "start": 1.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "a name, not an address",
+          "x": 50,
+          "y": 70,
+          "size": 7,
+          "color": "#c0392b",
+          "start": 3.8,
+          "draw": 1.2
+        }
       ]
     },
     {
@@ -17,9 +44,33 @@
       "duration": 6,
       "narration": "So your browser asks a DNS resolver for the address.",
       "elements": [
-        { "type": "box", "id": "browser", "label": "Browser", "x": 50, "y": 15, "start": 0.3, "draw": 1 },
-        { "type": "arrow", "from": "browser", "to": "resolver", "label": "IP of google.com?", "start": 2, "draw": 0.8, "color": "#1e6fd9" },
-        { "type": "box", "id": "resolver", "label": "Resolver", "x": 50, "y": 42, "start": 3.5, "draw": 1 }
+        {
+          "type": "box",
+          "id": "browser",
+          "label": "Browser",
+          "x": 50,
+          "y": 15,
+          "start": 0.3,
+          "draw": 1
+        },
+        {
+          "type": "arrow",
+          "from": "browser",
+          "to": "resolver",
+          "label": "IP of google.com?",
+          "start": 2,
+          "draw": 0.8,
+          "color": "#1e6fd9"
+        },
+        {
+          "type": "box",
+          "id": "resolver",
+          "label": "Resolver",
+          "x": 50,
+          "y": 42,
+          "start": 3.5,
+          "draw": 1
+        }
       ]
     },
     {
@@ -28,9 +79,34 @@
       "keepPrevious": true,
       "narration": "The resolver starts at a root server, which points it to the .com servers.",
       "elements": [
-        { "type": "circle", "id": "root", "label": "Root", "x": 25, "y": 75, "size": 28, "start": 0.3, "draw": 1 },
-        { "type": "arrow", "from": "resolver", "to": "root", "start": 2, "draw": 0.7 },
-        { "type": "text", "text": "ask .com", "x": 25, "y": 90, "size": 6, "color": "#1e6fd9", "start": 3, "draw": 0.8 }
+        {
+          "type": "icon",
+          "id": "root",
+          "name": "server",
+          "label": "Root",
+          "x": 25,
+          "y": 70,
+          "size": 22,
+          "start": 0.3,
+          "draw": 1
+        },
+        {
+          "type": "arrow",
+          "from": "resolver",
+          "to": "root",
+          "start": 2,
+          "draw": 0.7
+        },
+        {
+          "type": "text",
+          "text": "ask .com",
+          "x": 25,
+          "y": 92,
+          "size": 6,
+          "color": "#1e6fd9",
+          "start": 3,
+          "draw": 0.8
+        }
       ]
     },
     {
@@ -39,9 +115,36 @@
       "keepPrevious": true,
       "narration": "The .com server knows which server holds google.com's address.",
       "elements": [
-        { "type": "circle", "id": "tld", "label": ".com", "x": 75, "y": 75, "size": 28, "color": "#2a9d4b", "start": 0.3, "draw": 1 },
-        { "type": "arrow", "from": "resolver", "to": "tld", "start": 2, "draw": 0.7, "color": "#2a9d4b" },
-        { "type": "text", "text": "ask Google's server", "x": 75, "y": 90, "size": 6, "color": "#2a9d4b", "start": 3, "draw": 1 }
+        {
+          "type": "icon",
+          "id": "tld",
+          "name": "server",
+          "label": ".com",
+          "x": 75,
+          "y": 70,
+          "size": 22,
+          "start": 0.3,
+          "draw": 1,
+          "color": "#2a9d4b"
+        },
+        {
+          "type": "arrow",
+          "from": "resolver",
+          "to": "tld",
+          "start": 2,
+          "draw": 0.7,
+          "color": "#2a9d4b"
+        },
+        {
+          "type": "text",
+          "text": "ask Google's server",
+          "x": 75,
+          "y": 92,
+          "size": 6,
+          "color": "#2a9d4b",
+          "start": 3,
+          "draw": 1
+        }
       ]
     },
     {
@@ -49,9 +152,36 @@
       "duration": 6,
       "narration": "The answer comes back as an IP address, and the browser connects to it.",
       "elements": [
-        { "type": "text", "text": "142.250.80.46", "x": 50, "y": 25, "size": 10, "color": "#1e6fd9", "start": 0.3, "draw": 1.5 },
-        { "type": "box", "id": "page", "label": "Browser", "x": 50, "y": 55, "start": 2, "draw": 1 },
-        { "type": "text", "text": "connects to the IP", "x": 50, "y": 78, "size": 7, "start": 3.8, "draw": 1.2 }
+        {
+          "type": "text",
+          "text": "142.250.80.46",
+          "x": 50,
+          "y": 25,
+          "size": 10,
+          "color": "#1e6fd9",
+          "start": 0.3,
+          "draw": 1.5
+        },
+        {
+          "type": "icon",
+          "id": "page",
+          "name": "phone",
+          "label": "Browser",
+          "x": 50,
+          "y": 52,
+          "size": 24,
+          "start": 2,
+          "draw": 1
+        },
+        {
+          "type": "text",
+          "text": "connects to the IP",
+          "x": 50,
+          "y": 82,
+          "size": 7,
+          "start": 3.8,
+          "draw": 1.2
+        }
       ]
     }
   ]
