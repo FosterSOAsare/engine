@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import m1Demo from "../../videos/m1-demo/scene.json";
+import { VIDEOS } from "../videos";
 import type { VideoInput } from "./scene";
 import { validateVideo } from "./validate";
 
@@ -36,6 +37,10 @@ const errorsOf = (input: unknown) => validateVideo(input).errors;
 describe("validateVideo", () => {
   it("accepts the M1 demo", () => {
     expect(validateVideo(m1Demo).ok).toBe(true);
+  });
+
+  it.each(VIDEOS)("accepts the $id video", ({ scene }) => {
+    expect(validateVideo(scene).errors).toEqual([]);
   });
 
   it("names the scene, element and field of a schema error", () => {
