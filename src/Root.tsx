@@ -26,6 +26,16 @@ export const RemotionRoot: React.FC = () => {
         width={FORMATS.portrait.width}
         height={FORMATS.portrait.height}
       />
+      {/* M1 test clip: the Sketch scene, cut to end a second after the hand
+          leaves. Render with npm run render:m1 */}
+      <Composition
+        id="M1Demo"
+        component={Sketch}
+        durationInFrames={secondsToFrames(6)}
+        fps={FPS}
+        width={FORMATS.portrait.width}
+        height={FORMATS.portrait.height}
+      />
       <Composition
         id="Sketch-Landscape"
         component={Sketch}
