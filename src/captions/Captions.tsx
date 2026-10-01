@@ -34,7 +34,7 @@ export const Captions: React.FC<{ pages: CaptionPage[] }> = ({ pages }) => {
   const portrait = height > width;
   const unit = Math.min(width, height) / 100;
   const fontSize = (portrait ? 6.4 : 4.4) * unit;
-  const fromBottom = portrait ? 14 : 3; // percent of the height
+  const fromBottom = portrait ? 10 : 1.5; // percent of the height
 
   const pageFrame = frame - Math.round(page.start * fps);
   const scale = interpolate(pageFrame, [0, POP_FRAMES], [0.9, 1], {
