@@ -1,37 +1,11 @@
-import { useMemo } from "react";
-import {
-  AbsoluteFill,
-  interpolate,
-  useCurrentFrame,
-  useVideoConfig,
-} from "remotion";
-import rough from "roughjs";
-import type { Drawable, Options } from "roughjs/bin/core";
-import {
-  measureStrokes,
-  splitStrokes,
-  strokeProgress,
-  type Stroke,
-} from "./animation/strokes";
-import { secondsToFrames } from "./layout/formats";
+import { AbsoluteFill, useVideoConfig } from "remotion";
+import { Arrow } from "./elements/Arrow";
+import { Box, type BoxProps } from "./elements/Box";
+import type { Point } from "./elements/shared";
 
-// M1 playground: Rough.js shapes and the stroke-reveal animation are built
-// here step by step before they become reusable elements.
+// M1 playground: Browser -> Server, built from the reusable elements.
 
-const INK = "#222222";
-const STROKE_WIDTH = 5;
-const ROUGH_STYLE: Options = {
-  stroke: INK,
-  strokeWidth: STROKE_WIDTH,
-  roughness: 1.2,
-};
-const LABEL_WRITE_SECONDS = 0.5;
-
-type Point = { x: number; y: number };
-
-// A box, described the way the scene file will: centre in percent of the
-// frame, size in percent of the frame's shorter side (so it never stretches).
-type BoxSpec = { x: number; y: number; w: number; h: number; seed: number };
+type BoxSpec = Pick<BoxProps, "x" | "y" | "w" | "h" | "seed">;
 
 // Times in seconds, like the scene file in M2.
 const TIMING = {
@@ -40,6 +14,7 @@ const TIMING = {
   server: { start: 2.9, draw: 1.2 },
 };
 const ARROW_SEED = 3;
+const ARROW_GAP = 3; // percent of the shorter side, between arrow and box
 
 // Portrait stacks the boxes; landscape puts them side by side. A first taste
 // of the named layouts planned for M4.
@@ -56,167 +31,41 @@ const layoutFor = (width: number, height: number) => {
       };
 };
 
-type SketchElement = {
-  id: string;
-  strokes: Stroke[];
-  start: number; // seconds
-  draw: number; // seconds
-  label?: { text: string; spec: BoxSpec };
+// Arrow between the facing edges of two boxes (bottom/top when stacked,
+// right/left when side by side), with a small gap so it never touches.
+// Box sizes are in percent of the shorter side, positions in percent of each
+// axis, so convert before adding them up.
+const arrowBetween = (
+  a: BoxSpec,
+  b: BoxSpec,
+  width: number,
+  height: number,
+): { from: Point; to: Point } => {
+  const shorter = Math.min(width, height);
+  const alongX = (units: number) => (units * shorter) / width;
+  const alongY = (units: number) => (units * shorter) / height;
+  const sideBySide = Math.abs(b.x - a.x) > Math.abs(b.y - a.y);
+  return sideBySide
+    ? {
+        from: { x: a.x + alongX(a.w / 2 + ARROW_GAP), y: a.y },
+        to: { x: b.x - alongX(b.w / 2 + ARROW_GAP), y: b.y },
+      }
+    : {
+        from: { x: a.x, y: a.y + alongY(a.h / 2 + ARROW_GAP) },
+        to: { x: b.x, y: b.y - alongY(b.h / 2 + ARROW_GAP) },
+      };
 };
 
 export const Sketch: React.FC = () => {
-  const frame = useCurrentFrame();
   const { width, height } = useVideoConfig();
-
-  // Shapes depend only on the frame size, so build and measure them once.
-  const elements = useMemo((): SketchElement[] => {
-    const { browser, server } = layoutFor(width, height);
-    const generator = rough.generator();
-    const unit = Math.min(width, height) / 100;
-
-    const toPixels = (box: BoxSpec) => {
-      const w = box.w * unit;
-      const h = box.h * unit;
-      return {
-        left: (box.x / 100) * width - w / 2,
-        top: (box.y / 100) * height - h / 2,
-        w,
-        h,
-      };
-    };
-
-    const toStrokes = (drawables: Drawable[]) =>
-      measureStrokes(
-        drawables
-          .flatMap((drawable) => generator.toPaths(drawable))
-          .flatMap((path) => splitStrokes(path.d)),
-      );
-
-    const box = (spec: BoxSpec) => {
-      const { left, top, w, h } = toPixels(spec);
-      return [
-        generator.rectangle(left, top, w, h, { ...ROUGH_STYLE, seed: spec.seed }),
-      ];
-    };
-
-    // Arrow between the facing edges of two boxes (bottom/top when stacked,
-    // right/left when side by side), with a small gap so it never touches.
-    // The shaft is drawn first, then the two sides of the head.
-    const arrow = (from: BoxSpec, to: BoxSpec, seed: number) => {
-      const a = toPixels(from);
-      const b = toPixels(to);
-      const gap = 3 * unit;
-      const sideBySide = Math.abs(to.x - from.x) > Math.abs(to.y - from.y);
-      const start: Point = sideBySide
-        ? { x: a.left + a.w + gap, y: a.top + a.h / 2 }
-        : { x: a.left + a.w / 2, y: a.top + a.h + gap };
-      const end: Point = sideBySide
-        ? { x: b.left - gap, y: b.top + b.h / 2 }
-        : { x: b.left + b.w / 2, y: b.top - gap };
-
-      const angle = Math.atan2(end.y - start.y, end.x - start.x);
-      const headLength = 6 * unit;
-      const headPoint = (side: number): Point => ({
-        x: end.x - headLength * Math.cos(angle + side * (Math.PI / 6)),
-        y: end.y - headLength * Math.sin(angle + side * (Math.PI / 6)),
-      });
-      const left = headPoint(1);
-      const right = headPoint(-1);
-      const options = { ...ROUGH_STYLE, seed };
-
-      return [
-        generator.line(start.x, start.y, end.x, end.y, options),
-        generator.line(left.x, left.y, end.x, end.y, options),
-        generator.line(right.x, right.y, end.x, end.y, options),
-      ];
-    };
-
-    return [
-      {
-        id: "browser",
-        strokes: toStrokes(box(browser)),
-        ...TIMING.browser,
-        label: { text: "Browser", spec: browser },
-      },
-      {
-        id: "arrow",
-        strokes: toStrokes(arrow(browser, server, ARROW_SEED)),
-        ...TIMING.arrow,
-      },
-      {
-        id: "server",
-        strokes: toStrokes(box(server)),
-        ...TIMING.server,
-        label: { text: "Server", spec: server },
-      },
-    ];
-  }, [width, height]);
-
-  const fontSize = Math.min(width, height) * 0.06;
+  const { browser, server } = layoutFor(width, height);
+  const arrow = arrowBetween(browser, server, width, height);
 
   return (
     <AbsoluteFill className="bg-[#faf8f3]">
-      <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
-        {elements.map((element) => {
-          const t = interpolate(
-            frame,
-            [
-              secondsToFrames(element.start),
-              secondsToFrames(element.start + element.draw),
-            ],
-            [0, 1],
-            { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
-          );
-          const progress = strokeProgress(element.strokes, t);
-
-          return element.strokes.map((stroke, i) =>
-            // Skip strokes that have not started: a round line cap would
-            // otherwise leave a dot where the stroke will begin.
-            progress[i] === 0 ? null : (
-              <path
-                key={`${element.id}-${i}`}
-                d={stroke.d}
-                pathLength={1}
-                strokeDasharray={1}
-                strokeDashoffset={1 - progress[i]}
-                fill="none"
-                stroke={INK}
-                strokeWidth={STROKE_WIDTH}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            ),
-          );
-        })}
-      </svg>
-
-      {/* Labels are written left to right once their outline is finished.
-          Plain font for now; step 12 switches to a handwriting font. */}
-      {elements.map((element) => {
-        if (!element.label) return null;
-        const writeStart = secondsToFrames(element.start + element.draw);
-        const written = interpolate(
-          frame,
-          [writeStart, writeStart + secondsToFrames(LABEL_WRITE_SECONDS)],
-          [0, 100],
-          { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
-        );
-        const { spec, text } = element.label;
-        return (
-          <div
-            key={element.id}
-            className="absolute -translate-x-1/2 -translate-y-1/2 font-sans font-bold text-neutral-800"
-            style={{
-              left: `${spec.x}%`,
-              top: `${spec.y}%`,
-              fontSize,
-              clipPath: `inset(0 ${100 - written}% 0 0)`,
-            }}
-          >
-            {text}
-          </div>
-        );
-      })}
+      <Box {...browser} {...TIMING.browser} label="Browser" />
+      <Arrow {...arrow} {...TIMING.arrow} seed={ARROW_SEED} />
+      <Box {...server} {...TIMING.server} label="Server" />
     </AbsoluteFill>
   );
 };
