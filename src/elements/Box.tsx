@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import rough from "roughjs";
 import { strokeTrack, type HandTrack } from "../animation/hand";
+import { LABEL_SIZE, LABEL_WRITE_SECONDS } from "../animation/labels";
 import { Text, textTrack, type TextProps } from "./Text";
 import {
   roughStyle,
@@ -14,8 +15,6 @@ import {
   type Timing,
 } from "./shared";
 
-const LABEL_SIZE = 9; // percent of the frame's shorter side
-const LABEL_WRITE_SECONDS = 0.5;
 
 export type BoxProps = Timing &
   Colored & {

@@ -1,0 +1,136 @@
+import { describe, expect, it } from "vitest";
+import m1Demo from "../../videos/m1-demo/scene.json";
+import type { VideoInput } from "./scene";
+import { validateVideo } from "./validate";
+
+type Element = VideoInput["scenes"][number]["elements"][number];
+
+// A one-scene video with the given elements; null leaves out the duration.
+const video = (elements: Element[], duration: number | null = 10) => ({
+  version: 1 as const,
+  title: "Test",
+  scenes: [
+    { id: "main", duration: duration ?? undefined, narration: "", elements },
+  ],
+});
+
+const box = (id: string, start: number): Element => ({
+  type: "box",
+  id,
+  x: 50,
+  y: 50,
+  start,
+  draw: 1,
+});
+
+const arrow = (from: string, to: string, start: number): Element => ({
+  type: "arrow",
+  from,
+  to,
+  start,
+  draw: 1,
+});
+
+const errorsOf = (input: unknown) => validateVideo(input).errors;
+
+describe("validateVideo", () => {
+  it("accepts the M1 demo", () => {
+    expect(validateVideo(m1Demo).ok).toBe(true);
+  });
+
+  it("names the scene, element and field of a schema error", () => {
+    const input = video([box("a", 0)]);
+    (input.scenes[0].elements[0] as Record<string, unknown>).lable = "x";
+    expect(errorsOf(input)).toEqual([
+      'scene "main", element 1 (box): unknown field "lable"',
+    ]);
+  });
+
+  it("requires a scene duration", () => {
+    expect(errorsOf(video([box("a", 0)], null))).toEqual([
+      'scene "main": needs a "duration" (in seconds)',
+    ]);
+  });
+
+  it("rejects duplicate ids", () => {
+    expect(errorsOf(video([box("a", 0), box("a", 2)]))).toEqual([
+      'scene "main", element 2 (box): id "a" is already used',
+    ]);
+  });
+
+  it("rejects arrows to unknown ids", () => {
+    expect(errorsOf(video([box("a", 0), arrow("a", "b", 2)]))).toEqual([
+      'scene "main", element 2 (arrow): "to" points to unknown id "b"',
+    ]);
+  });
+
+  it("lets an arrow point to a box drawn after it", () => {
+    expect(
+      errorsOf(video([box("a", 0), arrow("a", "b", 2), box("b", 3)])),
+    ).toEqual([]);
+  });
+
+  it("only connects arrows to shapes", () => {
+    const label: Element = {
+      type: "text",
+      id: "t",
+      x: 50,
+      y: 50,
+      text: "Hi",
+      start: 2,
+      draw: 1,
+    };
+    expect(errorsOf(video([box("a", 0), label, arrow("a", "t", 4)]))).toEqual([
+      'scene "main", element 3 (arrow): "to" points to a text; arrows connect boxes, circles and icons',
+    ]);
+  });
+
+  it("rejects elements that end after the scene", () => {
+    expect(errorsOf(video([box("a", 9.5)]))).toEqual([
+      'scene "main", element 1 (box): ends at 10.5 s, after the scene\'s 10 s',
+    ]);
+  });
+
+  it("counts the label's writing time", () => {
+    const labelled: Element = {
+      type: "box",
+      x: 50,
+      y: 50,
+      start: 8.8,
+      draw: 1,
+      label: "A",
+    };
+    // 8.8 + 1 s outline + 0.5 s label = 10.3 s
+    expect(errorsOf(video([labelled]))).toHaveLength(1);
+  });
+
+  it("rejects elements drawn at the same time", () => {
+    expect(errorsOf(video([box("a", 0), box("b", 0.5)]))).toEqual([
+      'scene "main", element 2 (box): starts at 0.5 s, while element 1 (box) is still being drawn (until 1 s)',
+    ]);
+  });
+
+  it("keeps ids from earlier scenes with keepPrevious", () => {
+    const input = {
+      version: 1 as const,
+      title: "Test",
+      scenes: [
+        { id: "one", duration: 5, narration: "", elements: [box("a", 0)] },
+        {
+          id: "two",
+          duration: 5,
+          narration: "",
+          keepPrevious: true,
+          elements: [box("b", 0), arrow("a", "b", 2)],
+        },
+      ],
+    };
+    expect(errorsOf(input)).toEqual([]);
+
+    // Without keepPrevious, the board is wiped and "a" is gone.
+    input.scenes[1].keepPrevious = false;
+    expect(errorsOf(input)).toEqual([
+      'scene "two", element 2 (arrow): "from" points to unknown id "a"',
+    ]);
+  });
+});
