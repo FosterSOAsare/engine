@@ -25,15 +25,20 @@ export type ArrowProps = Timing &
     // positive bends to the left of the direction of travel). A slight bend
     // looks more hand-drawn than a ruler-straight line.
     bend?: number;
+    // Which ends get a head: "end" (default), "both", or "none" for a
+    // plain line.
+    head?: ArrowHead;
     seed: number;
   };
 
-type ArrowShape = Pick<ArrowProps, "from" | "to" | "bend" | "seed">;
+export type ArrowHead = "end" | "both" | "none";
 
-// The shaft is drawn first, then the two sides of the head. Strokes are
-// timed by length, so the short head takes a small part of the draw time.
+type ArrowShape = Pick<ArrowProps, "from" | "to" | "bend" | "head" | "seed">;
+
+// The shaft is drawn first, then the two sides of each head. Strokes are
+// timed by length, so the short heads take a small part of the draw time.
 export const arrowStrokes = (
-  { from, to, bend = 0, seed }: ArrowShape,
+  { from, to, bend = 0, head = "end", seed }: ArrowShape,
   frame: FrameSize,
 ) => {
   const generator = rough.generator();
@@ -65,20 +70,25 @@ export const arrowStrokes = (
           options,
         );
 
-  // The head follows the direction the shaft arrives in. For a curve that
+  // A head follows the direction the shaft arrives in. For a curve that
   // is roughly the direction from the bent midpoint to the tip.
-  const angle = Math.atan2(end.y - mid.y, end.x - mid.x);
-  const headPoint = (side: number) => ({
-    x: end.x - HEAD_LENGTH * unit * Math.cos(angle + side * HEAD_ANGLE),
-    y: end.y - HEAD_LENGTH * unit * Math.sin(angle + side * HEAD_ANGLE),
-  });
-  const left = headPoint(1);
-  const right = headPoint(-1);
+  const headAt = (tip: { x: number; y: number }) => {
+    const angle = Math.atan2(tip.y - mid.y, tip.x - mid.x);
+    return [1, -1].map((side) =>
+      generator.line(
+        tip.x - HEAD_LENGTH * unit * Math.cos(angle + side * HEAD_ANGLE),
+        tip.y - HEAD_LENGTH * unit * Math.sin(angle + side * HEAD_ANGLE),
+        tip.x,
+        tip.y,
+        options,
+      ),
+    );
+  };
 
   return toStrokes(generator, [
     shaft,
-    generator.line(left.x, left.y, end.x, end.y, options),
-    generator.line(right.x, right.y, end.x, end.y, options),
+    ...(head !== "none" ? headAt(end) : []),
+    ...(head === "both" ? headAt(start) : []),
   ]);
 };
 
@@ -93,6 +103,7 @@ export const Arrow: React.FC<ArrowProps> = ({
   from,
   to,
   bend,
+  head,
   seed,
   color,
   ...timing
@@ -106,10 +117,16 @@ export const Arrow: React.FC<ArrowProps> = ({
   const strokes = useMemo(
     () =>
       arrowStrokes(
-        { from: { x: fromX, y: fromY }, to: { x: toX, y: toY }, bend, seed },
+        {
+          from: { x: fromX, y: fromY },
+          to: { x: toX, y: toY },
+          bend,
+          head,
+          seed,
+        },
         { width, height },
       ),
-    [fromX, fromY, toX, toY, bend, seed, width, height],
+    [fromX, fromY, toX, toY, bend, head, seed, width, height],
   );
 
   return <StrokePaths strokes={strokes} t={t} color={color} />;

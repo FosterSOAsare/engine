@@ -22,19 +22,56 @@ const common = {
   seed: z.number().int().optional(),
 };
 
-const box = z.strictObject({
-  type: z.literal("box"),
+// Closed shapes can be filled: any CSS colour, solid by default or with a
+// sketchy pattern. The fill fades in after the outline is drawn.
+export const FILL_STYLES = [
+  "solid",
+  "hachure",
+  "cross-hatch",
+  "zigzag",
+  "dots",
+] as const;
+export type FillStyle = (typeof FILL_STYLES)[number];
+
+const filled = {
+  fill: z.string().min(1).optional(),
+  fillStyle: z.enum(FILL_STYLES).optional(),
+};
+
+// Shapes with a width and height (percent of the shorter side), a centre,
+// an optional label in the middle, and an optional fill.
+const sized = (w: number, h: number) => ({
   ...common,
+  ...filled,
   x: percent, // centre
   y: percent,
-  w: positive.default(50),
-  h: positive.default(22),
+  w: positive.default(w),
+  h: positive.default(h),
   label: z.string().optional(),
+});
+
+const box = z.strictObject({ type: z.literal("box"), ...sized(50, 22) });
+
+const ellipse = z.strictObject({
+  type: z.literal("ellipse"),
+  ...sized(40, 25),
+});
+
+// A rhombus, like a decision in a flowchart.
+const diamond = z.strictObject({
+  type: z.literal("diamond"),
+  ...sized(36, 24),
+});
+
+const triangle = z.strictObject({
+  type: z.literal("triangle"),
+  ...sized(30, 26),
 });
 
 const circle = z.strictObject({
   type: z.literal("circle"),
   ...common,
+  ...filled,
   x: percent,
   y: percent,
   size: positive.default(25), // diameter
@@ -50,30 +87,71 @@ const text = z.strictObject({
   text: z.string().min(1),
 });
 
+// Bullet points, written one line after another. x and y are where the
+// first line starts (its left edge and middle).
+const list = z.strictObject({
+  type: z.literal("list"),
+  ...common,
+  x: percent,
+  y: percent,
+  size: positive.default(7), // font size
+  items: z.array(z.string().min(1)).min(1),
+  bullet: z.string().default("•"), // put "" for no bullet
+  spacing: positive.default(1.6), // distance between lines, in font sizes
+});
+
 const arrow = z.strictObject({
   type: z.literal("arrow"),
   ...common,
   from: z.string().min(1), // id of the element the arrow starts at
   to: z.string().min(1), // id of the element it points to
   bend: z.number().optional(), // sideways bend of the middle
+  head: z.enum(["end", "both", "none"]).default("end"),
   label: z.string().optional(),
+});
+
+// A free line between two points (percent of the frame): dividers,
+// underlines. Use an arrow with "head": "none" to connect two elements.
+const line = z.strictObject({
+  type: z.literal("line"),
+  ...common,
+  x1: percent,
+  y1: percent,
+  x2: percent,
+  y2: percent,
+  bend: z.number().optional(),
+});
+
+// A hand-drawn ring around another element, to point at it.
+const ring = z.strictObject({
+  type: z.literal("ring"),
+  ...common,
+  target: z.string().min(1), // id of the element to circle
+  padding: z.number().min(0).default(4), // percent of the shorter side
 });
 
 const icon = z.strictObject({
   type: z.literal("icon"),
   ...common,
+  ...filled,
   name: z.enum(ICON_NAMES),
   x: percent,
   y: percent,
-  size: positive.default(15),
-  label: z.string().optional(),
+  size: positive.default(15), // side of the icon's square
+  label: z.string().optional(), // written underneath
 });
 
 export const elementSchema = z.discriminatedUnion("type", [
   box,
   circle,
+  ellipse,
+  diamond,
+  triangle,
   text,
+  list,
   arrow,
+  line,
+  ring,
   icon,
 ]);
 

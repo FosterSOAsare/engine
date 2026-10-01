@@ -92,7 +92,7 @@ describe("validateVideo", () => {
       draw: 1,
     };
     expect(errorsOf(video([box("a", 0), label, arrow("a", "t", 4)]))).toEqual([
-      'scene "main", element 3 (arrow): "to" points to a text; arrows connect boxes, circles and icons',
+      'scene "main", element 3 (arrow): "to" points to a text; arrows connect shapes and icons',
     ]);
   });
 
@@ -142,6 +142,32 @@ describe("validateVideo", () => {
     input.scenes[1].keepPrevious = false;
     expect(errorsOf(input)).toEqual([
       'scene "two", element 2 (arrow): "from" points to unknown id "a"',
+    ]);
+  });
+
+  it("checks what a ring goes around", () => {
+    const ring = (target: string): Element => ({
+      type: "ring",
+      target,
+      start: 4,
+      draw: 1,
+    });
+    expect(errorsOf(video([box("a", 0), ring("a")]))).toEqual([]);
+    expect(errorsOf(video([box("a", 0), ring("b")]))).toEqual([
+      'scene "main", element 2 (ring): "target" points to unknown id "b"',
+    ]);
+    const line: Element = {
+      type: "line",
+      id: "l",
+      x1: 0,
+      y1: 0,
+      x2: 10,
+      y2: 10,
+      start: 2,
+      draw: 1,
+    };
+    expect(errorsOf(video([box("a", 0), line, ring("l")]))).toEqual([
+      'scene "main", element 3 (ring): can\'t ring a line; rings go around shapes, icons and text',
     ]);
   });
 });

@@ -13,7 +13,17 @@ export type ValidationResult =
   | { ok: false; video?: Video; errors: string[] };
 
 // Elements an arrow can point to: shapes with edges to attach to.
-const ARROW_TARGETS = new Set(["box", "circle", "icon"]);
+const ARROW_TARGETS = new Set([
+  "box",
+  "circle",
+  "ellipse",
+  "diamond",
+  "triangle",
+  "icon",
+]);
+
+// Elements a ring can go around: anything with a visible extent.
+const RING_TARGETS = new Set([...ARROW_TARGETS, "text"]);
 
 type RawScene = { id?: unknown; elements?: { type?: unknown }[] };
 type Raw = { scenes?: RawScene[] };
@@ -103,18 +113,31 @@ const crossCheck = (video: Video): string[] => {
       }
     });
 
-    // Arrows, once every id in the scene is known.
+    // Arrows and rings, once every id in the scene is known.
     scene.elements.forEach((element, index) => {
-      if (element.type !== "arrow") return;
       const where = `${sceneName}, ${describeElement(index, element.type)}`;
-      for (const end of ["from", "to"] as const) {
-        const id = element[end];
-        const target = board.get(id);
+      if (element.type === "arrow") {
+        for (const end of ["from", "to"] as const) {
+          const id = element[end];
+          const target = board.get(id);
+          if (!target) {
+            errors.push(`${where}: "${end}" points to unknown id "${id}"`);
+          } else if (!ARROW_TARGETS.has(target.type)) {
+            errors.push(
+              `${where}: "${end}" points to a ${target.type}; arrows connect shapes and icons`,
+            );
+          }
+        }
+      }
+      if (element.type === "ring") {
+        const target = board.get(element.target);
         if (!target) {
-          errors.push(`${where}: "${end}" points to unknown id "${id}"`);
-        } else if (!ARROW_TARGETS.has(target.type)) {
           errors.push(
-            `${where}: "${end}" points to a ${target.type}; arrows connect boxes, circles and icons`,
+            `${where}: "target" points to unknown id "${element.target}"`,
+          );
+        } else if (!RING_TARGETS.has(target.type)) {
+          errors.push(
+            `${where}: can't ring a ${target.type}; rings go around shapes, icons and text`,
           );
         }
       }

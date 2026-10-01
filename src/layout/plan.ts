@@ -1,27 +1,25 @@
 import type { HandTrack } from "../animation/hand";
-import { boards as timelineBoards } from "../animation/timeline";
 import { LABEL_WRITE_SECONDS } from "../animation/labels";
+import { boards as timelineBoards } from "../animation/timeline";
 import { arrowTracks, type ArrowProps } from "../elements/Arrow";
-import { boxTracks, type BoxProps } from "../elements/Box";
-import { circleTracks, type CircleProps } from "../elements/Circle";
-import { iconTracks, type IconProps } from "../elements/Icon";
+import { shapeTracks, type ShapeProps } from "../elements/Shape";
 import { textTrack, textWidth, type TextProps } from "../elements/Text";
 import type { FrameSize } from "../elements/shared";
 import type { SceneElement, Video } from "../schema/scene";
 import { connect, type Outline } from "./edges";
 
 // Turns a parsed scene file into what is drawn: element props with
-// absolute times (seconds from the start of the video), seeds filled in
-// and arrows attached to the shapes they connect.
+// absolute times (seconds from the start of the video), seeds filled in,
+// arrows attached to the shapes they connect, lists split into lines and
+// rings sized around their targets.
 
 const ARROW_GAP = 3; // percent of the shorter side, between arrow and shape
 const ARROW_LABEL_SIZE = 6; // percent of the shorter side
+const RING_COLOR = "#c0392b"; // rings point things out, so red by default
 
 export type Drawing =
-  | { type: "box"; props: BoxProps }
-  | { type: "circle"; props: CircleProps }
+  | { type: "shape"; props: ShapeProps }
   | { type: "text"; props: TextProps }
-  | { type: "icon"; props: IconProps }
   | { type: "arrow"; props: ArrowProps; label: TextProps | null };
 
 export type PlannedBoard = {
@@ -42,33 +40,82 @@ export const seedFrom = (text: string) => {
   return (hash >>> 0) % 1_000_000;
 };
 
-// The outline an arrow attaches to, in pixels.
-const outlineOf = (element: SceneElement, frame: FrameSize): Outline | null => {
-  if (element.type === "arrow" || element.type === "text") return null;
-  const unit = Math.min(frame.width, frame.height) / 100;
-  const cx = (element.x / 100) * frame.width;
-  const cy = (element.y / 100) * frame.height;
-  if (element.type === "box") {
-    return {
-      kind: "rect",
-      cx,
-      cy,
-      halfW: (element.w * unit) / 2,
-      halfH: (element.h * unit) / 2,
-    };
-  }
-  if (element.type === "circle") {
-    return { kind: "circle", cx, cy, r: (element.size * unit) / 2 };
-  }
-  // Icons: their square.
-  const half = (element.size * unit) / 2;
-  return { kind: "rect", cx, cy, halfW: half, halfH: half };
-};
+const unitOf = (frame: FrameSize) => Math.min(frame.width, frame.height) / 100;
 
 const toPercent = (point: { x: number; y: number }, frame: FrameSize) => ({
   x: (point.x / frame.width) * 100,
   y: (point.y / frame.height) * 100,
 });
+
+// The outline of an element, in pixels: what arrows attach to and rings go
+// around. null for elements without one (arrows, lines, lists, rings).
+const outlineOf = (element: SceneElement, frame: FrameSize): Outline | null => {
+  const unit = unitOf(frame);
+  if (!("x" in element) || element.type === "list") return null;
+  const cx = (element.x / 100) * frame.width;
+  const cy = (element.y / 100) * frame.height;
+
+  switch (element.type) {
+    case "text": {
+      const fontSize = element.size * unit;
+      return {
+        kind: "rect",
+        cx,
+        cy,
+        halfW: textWidth(element.text, fontSize) / 2,
+        halfH: fontSize * 0.6,
+      };
+    }
+    case "circle":
+    case "icon": {
+      const half = (element.size * unit) / 2;
+      return element.type === "circle"
+        ? { kind: "ellipse", cx, cy, halfW: half, halfH: half }
+        : { kind: "rect", cx, cy, halfW: half, halfH: half };
+    }
+    default: {
+      const halfW = (element.w * unit) / 2;
+      const halfH = (element.h * unit) / 2;
+      switch (element.type) {
+        case "box":
+          return { kind: "rect", cx, cy, halfW, halfH };
+        case "ellipse":
+          return { kind: "ellipse", cx, cy, halfW, halfH };
+        case "diamond":
+          return { kind: "diamond", cx, cy, halfW, halfH };
+        case "triangle":
+          return {
+            kind: "polygon",
+            cx,
+            cy,
+            corners: [
+              { x: 0, y: -halfH },
+              { x: halfW, y: halfH },
+              { x: -halfW, y: halfH },
+            ],
+          };
+      }
+    }
+  }
+};
+
+// Half the width and height of an ellipse that goes around an outline.
+const ringAround = (outline: Outline, padding: number) => {
+  if (outline.kind === "polygon") {
+    const xs = outline.corners.map((c) => Math.abs(c.x));
+    const ys = outline.corners.map((c) => Math.abs(c.y));
+    return {
+      halfW: Math.max(...xs) * 1.2 + padding,
+      halfH: Math.max(...ys) * 1.2 + padding,
+    };
+  }
+  // An ellipse through a rectangle's corners is √2 times its half-sizes.
+  const grow = outline.kind === "rect" ? Math.SQRT2 : 1;
+  return {
+    halfW: outline.halfW * grow + padding,
+    halfH: outline.halfH * grow + padding,
+  };
+};
 
 // An arrow's label sits beside the middle of the arrow: to the right of a
 // vertical arrow, above a horizontal one, never on top of the line.
@@ -79,7 +126,7 @@ const arrowLabel = (
   arrow: { start: number; draw: number; color?: string },
   frame: FrameSize,
 ): TextProps => {
-  const unit = Math.min(frame.width, frame.height) / 100;
+  const unit = unitOf(frame);
   const fontSize = ARROW_LABEL_SIZE * unit;
   const length = Math.hypot(to.x - from.x, to.y - from.y) || 1;
   const nx = (to.y - from.y) / length;
@@ -104,17 +151,148 @@ const arrowLabel = (
   };
 };
 
-export const planVideo = (video: Video, frame: FrameSize): PlannedBoard[] => {
-  const unit = Math.min(frame.width, frame.height) / 100;
+// One element of the scene file as drawings (a list gives one per line).
+const drawingsOf = (
+  element: SceneElement,
+  common: { start: number; draw: number; color?: string; seed: number },
+  outlines: Map<string, Outline>,
+  frame: FrameSize,
+): Drawing[] => {
+  const unit = unitOf(frame);
+  const { start, draw, color } = common;
 
-  return timelineBoards(video).map((board) => {
+  switch (element.type) {
+    case "box":
+    case "ellipse":
+    case "diamond":
+    case "triangle": {
+      const { type, x, y, w, h, label, fill, fillStyle } = element;
+      return [
+        {
+          type: "shape",
+          props: { ...common, kind: type, x, y, w, h, label, fill, fillStyle },
+        },
+      ];
+    }
+    case "circle":
+    case "icon": {
+      const { x, y, size, label, fill, fillStyle } = element;
+      return [
+        {
+          type: "shape",
+          props: {
+            ...common,
+            kind: element.type,
+            icon: element.type === "icon" ? element.name : undefined,
+            x,
+            y,
+            w: size,
+            h: size,
+            label,
+            fill,
+            fillStyle,
+          },
+        },
+      ];
+    }
+    case "text": {
+      const { x, y, size, text } = element;
+      return [
+        { type: "text", props: { start, draw, color, x, y, size, text } },
+      ];
+    }
+    case "list": {
+      // Each line gets a share of the draw time by its length, so the
+      // writing speed stays the same; lines follow each other.
+      const { x, y, size, items, bullet, spacing } = element;
+      const lines = items.map((item) => (bullet ? `${bullet} ${item}` : item));
+      const total = lines.reduce((sum, line) => sum + line.length, 0);
+      const lineHeight = ((size * spacing * unit) / frame.height) * 100;
+      let at = start;
+      return lines.map((text, i) => {
+        const share = (draw * text.length) / total;
+        const props: TextProps = {
+          start: at,
+          draw: share,
+          color,
+          x,
+          y: y + i * lineHeight,
+          size,
+          text,
+          align: "left",
+        };
+        at += share;
+        return { type: "text", props };
+      });
+    }
+    case "arrow":
+    case "line": {
+      let from: { x: number; y: number };
+      let to: { x: number; y: number };
+      if (element.type === "line") {
+        from = {
+          x: (element.x1 / 100) * frame.width,
+          y: (element.y1 / 100) * frame.height,
+        };
+        to = {
+          x: (element.x2 / 100) * frame.width,
+          y: (element.y2 / 100) * frame.height,
+        };
+      } else {
+        const a = outlines.get(element.from);
+        const b = outlines.get(element.to);
+        // The validator rejects these; skip rather than crash.
+        if (!a || !b) return [];
+        ({ from, to } = connect(a, b, ARROW_GAP * unit));
+      }
+      const label = element.type === "arrow" ? element.label : undefined;
+      return [
+        {
+          type: "arrow",
+          props: {
+            ...common,
+            from: toPercent(from, frame),
+            to: toPercent(to, frame),
+            bend: element.bend,
+            head: element.type === "arrow" ? element.head : "none",
+          },
+          label: label ? arrowLabel(from, to, label, common, frame) : null,
+        },
+      ];
+    }
+    case "ring": {
+      const target = outlines.get(element.target);
+      if (!target) return [];
+      const { halfW, halfH } = ringAround(target, element.padding * unit);
+      return [
+        {
+          type: "shape",
+          props: {
+            ...common,
+            color: color ?? RING_COLOR,
+            kind: "ellipse",
+            ...toPercent({ x: target.cx, y: target.cy }, frame),
+            w: (2 * halfW) / unit,
+            h: (2 * halfH) / unit,
+          },
+        },
+      ];
+    }
+  }
+};
+
+export const planVideo = (video: Video, frame: FrameSize): PlannedBoard[] =>
+  timelineBoards(video).map((board) => {
     const drawings: Drawing[] = [];
-    // Every shape on this board so far, for arrows to find by id.
-    const shapes = new Map<string, SceneElement>();
+    // Outlines of everything on this board so far, by id, for arrows and
+    // rings. Filled in per scene before drawing, since an arrow may point
+    // to a shape drawn after it.
+    const outlines = new Map<string, Outline>();
 
     for (const { scene, start: sceneStart } of board.scenes) {
       for (const element of scene.elements) {
-        if (element.id) shapes.set(element.id, element);
+        const outline = element.id ? outlineOf(element, frame) : null;
+        if (element.id && outline) outlines.set(element.id, outline);
       }
 
       scene.elements.forEach((element, index) => {
@@ -124,64 +302,7 @@ export const planVideo = (video: Video, frame: FrameSize): PlannedBoard[] => {
           color: element.color,
           seed: element.seed ?? seedFrom(element.id ?? `${scene.id}#${index}`),
         };
-
-        switch (element.type) {
-          case "box": {
-            const { x, y, w, h, label } = element;
-            drawings.push({
-              type: "box",
-              props: { ...common, x, y, w, h, label },
-            });
-            break;
-          }
-          case "circle": {
-            const { x, y, size, label } = element;
-            drawings.push({
-              type: "circle",
-              props: { ...common, x, y, size, label },
-            });
-            break;
-          }
-          case "text": {
-            const { x, y, size, text } = element;
-            const { start, draw, color } = common;
-            drawings.push({
-              type: "text",
-              props: { start, draw, color, x, y, size, text },
-            });
-            break;
-          }
-          case "arrow": {
-            const fromShape = shapes.get(element.from);
-            const toShape = shapes.get(element.to);
-            const a = fromShape && outlineOf(fromShape, frame);
-            const b = toShape && outlineOf(toShape, frame);
-            // The validator rejects these; skip rather than crash.
-            if (!a || !b) break;
-            const ends = connect(a, b, ARROW_GAP * unit);
-            drawings.push({
-              type: "arrow",
-              props: {
-                ...common,
-                from: toPercent(ends.from, frame),
-                to: toPercent(ends.to, frame),
-                bend: element.bend,
-              },
-              label: element.label
-                ? arrowLabel(ends.from, ends.to, element.label, common, frame)
-                : null,
-            });
-            break;
-          }
-          case "icon": {
-            const { name, x, y, size, label } = element;
-            drawings.push({
-              type: "icon",
-              props: { ...common, name, x, y, size, label },
-            });
-            break;
-          }
-        }
+        drawings.push(...drawingsOf(element, common, outlines, frame));
       });
     }
 
@@ -192,7 +313,6 @@ export const planVideo = (video: Video, frame: FrameSize): PlannedBoard[] => {
       drawings,
     };
   });
-};
 
 // Everything the hand draws, in order, across the whole video.
 export const handTracks = (
@@ -202,14 +322,10 @@ export const handTracks = (
   boards.flatMap((board) =>
     board.drawings.flatMap((drawing) => {
       switch (drawing.type) {
-        case "box":
-          return boxTracks(drawing.props, frame);
-        case "circle":
-          return circleTracks(drawing.props, frame);
+        case "shape":
+          return shapeTracks(drawing.props, frame);
         case "text":
           return [textTrack(drawing.props, frame)];
-        case "icon":
-          return iconTracks(drawing.props, frame);
         case "arrow":
           return [
             ...arrowTracks(drawing.props, frame),

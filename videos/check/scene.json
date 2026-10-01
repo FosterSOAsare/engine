@@ -162,6 +162,125 @@
           "color": "#1e6fd9"
         }
       ]
+    },
+    {
+      "id": "shapes",
+      "duration": 15.2,
+      "narration": "Every fill style, the new shapes, a two-headed arrow, a line, a list and a ring.",
+      "elements": [
+        {
+          "type": "box",
+          "id": "solid",
+          "label": "solid",
+          "x": 30,
+          "y": 12,
+          "w": 38,
+          "h": 13,
+          "fill": "#ffd8a8",
+          "start": 0.2,
+          "draw": 0.8
+        },
+        {
+          "type": "ellipse",
+          "id": "hachure",
+          "label": "hachure",
+          "x": 72,
+          "y": 12,
+          "w": 40,
+          "h": 16,
+          "fill": "#74c0fc",
+          "fillStyle": "hachure",
+          "start": 1.7,
+          "draw": 0.8
+        },
+        {
+          "type": "diamond",
+          "id": "decide",
+          "label": "yes?",
+          "x": 24,
+          "y": 34,
+          "w": 34,
+          "h": 20,
+          "fill": "#8ce99a",
+          "fillStyle": "cross-hatch",
+          "start": 3.2,
+          "draw": 0.8
+        },
+        {
+          "type": "triangle",
+          "id": "warn",
+          "label": "!",
+          "x": 80,
+          "y": 34,
+          "w": 28,
+          "h": 22,
+          "fill": "#ffa8a8",
+          "fillStyle": "zigzag",
+          "start": 4.7,
+          "draw": 0.8
+        },
+        {
+          "type": "circle",
+          "id": "dots",
+          "label": "dots",
+          "x": 30,
+          "y": 56,
+          "size": 24,
+          "fill": "#b197fc",
+          "fillStyle": "dots",
+          "start": 6.2,
+          "draw": 0.8
+        },
+        {
+          "type": "icon",
+          "id": "srv",
+          "name": "server",
+          "label": "server",
+          "x": 72,
+          "y": 55,
+          "size": 20,
+          "fill": "#dee2e6",
+          "start": 7.7,
+          "draw": 0.8
+        },
+        {
+          "type": "arrow",
+          "from": "decide",
+          "to": "warn",
+          "head": "both",
+          "color": "#1e6fd9",
+          "draw": 0.6,
+          "start": 9.2
+        },
+        {
+          "type": "line",
+          "x1": 10,
+          "y1": 71,
+          "x2": 90,
+          "y2": 71,
+          "draw": 0.6,
+          "start": 10.0
+        },
+        {
+          "type": "list",
+          "x": 12,
+          "y": 78,
+          "size": 6,
+          "items": [
+            "fill: any colour",
+            "five fill styles",
+            "line, list, ring"
+          ],
+          "draw": 2.4,
+          "start": 10.8
+        },
+        {
+          "type": "ring",
+          "target": "decide",
+          "draw": 0.8,
+          "start": 13.4
+        }
+      ]
     }
   ]
 }

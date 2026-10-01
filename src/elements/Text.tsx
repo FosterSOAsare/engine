@@ -26,10 +26,11 @@ const LETTER_WIDTH = 0.38;
 
 export type TextProps = Timing &
   Colored & {
-    x: number; // centre, percent of the frame
-    y: number;
+    x: number; // centre (or left edge, see align), percent of the frame
+    y: number; // vertical centre
     size: number; // font size, percent of the frame's shorter side
     text: string;
+    align?: "center" | "left"; // default centre; lists use left
   };
 
 // Roughly how wide a line of text is, in pixels.
@@ -60,14 +61,15 @@ export const labelFor = ({
     : null;
 
 export const textTrack = (
-  { x, y, size, text, start, draw }: TextProps,
+  { x, y, size, text, align = "center", start, draw }: TextProps,
   frame: FrameSize,
 ): HandTrack => {
   const fontSize = size * unitOf(frame);
   const width = textWidth(text, fontSize);
+  const left = (x / 100) * frame.width;
   return writingTrack(
     {
-      x: (x / 100) * frame.width - width / 2,
+      x: align === "left" ? left : left - width / 2,
       y: (y / 100) * frame.height + 0.15 * fontSize,
     },
     width,
@@ -84,6 +86,7 @@ export const Text: React.FC<TextProps> = ({
   size,
   text,
   color = INK,
+  align = "center",
   ...timing
 }) => {
   const { unit } = useFrameUnits();
@@ -92,9 +95,13 @@ export const Text: React.FC<TextProps> = ({
 
   return (
     <div
-      className="absolute -translate-x-1/2 -translate-y-1/2 whitespace-nowrap"
+      className={`absolute -translate-y-1/2 whitespace-nowrap ${
+        align === "center" ? "-translate-x-1/2" : ""
+      }`}
       style={{
         left: `${x}%`,
+        // Left-aligned text starts exactly at x despite the padding below.
+        marginLeft: align === "left" ? "-0.25em" : undefined,
         top: `${y}%`,
         fontFamily,
         fontWeight: 700,

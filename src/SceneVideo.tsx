@@ -7,10 +7,8 @@ import {
 } from "remotion";
 import { WIPE_SECONDS } from "./animation/timeline";
 import { Arrow } from "./elements/Arrow";
-import { Box } from "./elements/Box";
-import { Circle } from "./elements/Circle";
 import { Hand } from "./elements/Hand";
-import { Icon } from "./elements/Icon";
+import { Shape } from "./elements/Shape";
 import { Text } from "./elements/Text";
 import { BOARD } from "./elements/shared";
 import { secondsToFrames } from "./layout/formats";
@@ -65,14 +63,10 @@ const BoardView: React.FC<{ board: PlannedBoard }> = ({ board }) => {
     <AbsoluteFill>
       {board.drawings.map((drawing, i) => {
         switch (drawing.type) {
-          case "box":
-            return <Box key={i} {...drawing.props} />;
-          case "circle":
-            return <Circle key={i} {...drawing.props} />;
+          case "shape":
+            return <Shape key={i} {...drawing.props} />;
           case "text":
             return <Text key={i} {...drawing.props} />;
-          case "icon":
-            return <Icon key={i} {...drawing.props} />;
           case "arrow":
             return (
               <AbsoluteFill key={i}>

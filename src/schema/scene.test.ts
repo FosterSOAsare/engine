@@ -84,7 +84,7 @@ describe("videoSchema", () => {
     const bad = structuredClone(draft) as unknown as {
       scenes: { elements: Record<string, unknown>[] }[];
     };
-    bad.scenes[0].elements[0].type = "triangle";
+    bad.scenes[0].elements[0].type = "hexagon";
     expect(videoSchema.safeParse(bad).success).toBe(false);
   });
 

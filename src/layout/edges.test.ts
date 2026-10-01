@@ -38,12 +38,39 @@ describe("connect", () => {
 
   it("leaves a circle at its radius", () => {
     const { from, to } = connect(
-      { kind: "circle", cx: 0, cy: 0, r: 100 },
-      { kind: "circle", cx: 300, cy: 400, r: 50 },
+      { kind: "ellipse", cx: 0, cy: 0, halfW: 100, halfH: 100 },
+      { kind: "ellipse", cx: 300, cy: 400, halfW: 50, halfH: 50 },
       10,
     );
     // The centres are 500 apart along (0.6, 0.8).
     close(from, 0.6 * 110, 0.8 * 110);
     close(to, 300 - 0.6 * 60, 400 - 0.8 * 60);
+  });
+
+  it("leaves a diamond through its slanted edge", () => {
+    // Along the diagonal of a 100 x 100 diamond the edge is at (50, 50).
+    const { from } = connect(
+      { kind: "diamond", cx: 0, cy: 0, halfW: 100, halfH: 100 },
+      rect(1000, 1000, 10, 10),
+      0,
+    );
+    close(from, 50, 50);
+  });
+
+  it("leaves a polygon through the side it crosses", () => {
+    // A triangle pointing up; straight down from the centre hits the base.
+    const triangle = {
+      kind: "polygon" as const,
+      cx: 0,
+      cy: 0,
+      corners: [
+        { x: 0, y: -100 },
+        { x: 100, y: 50 },
+        { x: -100, y: 50 },
+      ],
+    };
+    close(connect(triangle, rect(0, 1000, 10, 10), 0).from, 0, 50);
+    // Straight right, it hits the right side halfway down at y = 0.
+    close(connect(triangle, rect(1000, 0, 10, 10), 0).from, 100 * (2 / 3), 0);
   });
 });

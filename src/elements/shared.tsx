@@ -6,6 +6,7 @@ import {
 } from "remotion";
 import type { RoughGenerator } from "roughjs/bin/generator";
 import type { Drawable, Options } from "roughjs/bin/core";
+import type { FillStyle } from "../schema/scene";
 import {
   measureStrokes,
   splitStrokes,
@@ -30,6 +31,28 @@ export const roughStyle = (seed: number): Options => ({
   // every line twice by default).
   disableMultiStroke: true,
   seed,
+});
+
+// A closed shape's inside: any CSS colour, painted solid or with one of
+// Rough.js's sketchy patterns. It fades in once the outline is finished
+// (a hachure fill is dozens of short lines, too slow to draw one by one).
+export type Filled = {
+  fill?: string;
+  fillStyle?: FillStyle; // defaults to "solid"
+};
+
+export const FILL_FADE_SECONDS = 0.4;
+
+export const shapeStyle = (seed: number, filled: Filled = {}): Options => ({
+  ...roughStyle(seed),
+  ...(filled.fill
+    ? {
+        fill: filled.fill,
+        fillStyle: filled.fillStyle ?? "solid",
+        fillWeight: STROKE_WIDTH * 0.5,
+        hachureGap: STROKE_WIDTH * 2.5,
+      }
+    : {}),
 });
 
 export type { Point } from "../animation/strokes";
@@ -68,15 +91,73 @@ export const useDrawProgress = ({ start, draw }: Timing) => {
   );
 };
 
+// A drawing split into what the hand draws (the outline, stroke by
+// stroke) and what fades in afterwards (the fill).
+export type FillPath = { d: string; solid: boolean };
+export type Sketch = { strokes: Stroke[]; fills: FillPath[] };
+
+export const toSketch = (
+  generator: RoughGenerator,
+  drawables: Drawable[],
+): Sketch => {
+  const sets = drawables.flatMap((drawable) => drawable.sets);
+  return {
+    strokes: measureStrokes(
+      sets
+        .filter((set) => set.type === "path")
+        .flatMap((set) => splitStrokes(generator.opsToPath(set))),
+    ),
+    fills: sets
+      .filter((set) => set.type !== "path")
+      .map((set) => ({
+        d: generator.opsToPath(set),
+        solid: set.type === "fillPath",
+      })),
+  };
+};
+
 export const toStrokes = (
   generator: RoughGenerator,
   drawables: Drawable[],
-): Stroke[] =>
-  measureStrokes(
-    drawables
-      .flatMap((drawable) => generator.toPaths(drawable))
-      .flatMap((path) => splitStrokes(path.d)),
+): Stroke[] => toSketch(generator, drawables).strokes;
+
+// The fill, fading in over FILL_FADE_SECONDS from `from` (seconds).
+export const FillPaths: React.FC<{
+  fills: FillPath[];
+  fill: string;
+  from: number;
+}> = ({ fills, fill, from }) => {
+  const frame = useCurrentFrame();
+  const { width, height } = useVideoConfig();
+  const opacity = interpolate(
+    frame,
+    [secondsToFrames(from), secondsToFrames(from + FILL_FADE_SECONDS)],
+    [0, 1],
+    { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
   );
+  if (opacity === 0 || fills.length === 0) return null;
+
+  return (
+    <AbsoluteFill style={{ opacity }}>
+      <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
+        {fills.map((path, i) =>
+          path.solid ? (
+            <path key={i} d={path.d} fill={fill} stroke="none" />
+          ) : (
+            <path
+              key={i}
+              d={path.d}
+              fill="none"
+              stroke={fill}
+              strokeWidth={STROKE_WIDTH * 0.5}
+              strokeLinecap="round"
+            />
+          ),
+        )}
+      </svg>
+    </AbsoluteFill>
+  );
+};
 
 // Draws the strokes one after another as `t` goes from 0 to 1.
 export const StrokePaths: React.FC<{
