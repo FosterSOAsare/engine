@@ -9,6 +9,8 @@ import {
   useVideoConfig,
 } from "remotion";
 import { sceneTimes, WIPE_SECONDS } from "./animation/timeline";
+import { Captions } from "./captions/Captions";
+import { captionPages } from "./captions/pages";
 import { Arrow } from "./elements/Arrow";
 import { Hand } from "./elements/Hand";
 import { Shape } from "./elements/Shape";
@@ -141,6 +143,14 @@ export const SceneVideo: React.FC<SceneVideoProps> = ({
     () => handTracks(plan, { width, height }),
     [plan, width, height],
   );
+  // Captions for narrated videos, from each scene's timed words.
+  const pages = useMemo(() => {
+    if (!result.video?.voiceover || !result.video.captions) return [];
+    const times = sceneTimes(result.video);
+    return result.video.scenes.flatMap((scene, i) =>
+      scene.words ? captionPages(scene.words, times[i].start) : [],
+    );
+  }, [result]);
 
   if (!result.ok) return <Errors errors={result.errors} />;
 
@@ -153,6 +163,7 @@ export const SceneVideo: React.FC<SceneVideoProps> = ({
     <AbsoluteFill style={{ background: BOARD }}>
       {board ? <BoardView board={board} /> : null}
       <Hand tracks={tracks} />
+      <Captions pages={pages} />
       {result.video.voiceover
         ? sceneTimes(result.video).map(({ scene, start, end }) => (
             <Sequence

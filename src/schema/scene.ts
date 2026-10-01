@@ -182,6 +182,8 @@ export const videoSchema = z.strictObject({
   // Each scene then lasts as long as its audio plus its pause.
   voiceover: z.boolean().default(false),
   voice: z.string().min(1).optional(), // a Piper voice; default bryce
+  // Word-by-word captions of the narration (npm run captions).
+  captions: z.boolean().default(true),
   fps: z.number().int().positive().default(30),
   scenes: z.array(sceneSchema).min(1),
 });
