@@ -5,6 +5,7 @@ export const FPS = 30;
 
 export const FORMATS = {
   portrait: { width: 1080, height: 1920 }, // 9:16: TikTok, Reels, Shorts
+  landscape: { width: 1920, height: 1080 }, // 16:9: YouTube, LinkedIn
 } as const;
 
 export type FormatName = keyof typeof FORMATS;

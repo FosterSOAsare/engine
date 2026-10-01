@@ -1,5 +1,6 @@
 import "./index.css";
 import { Composition } from "remotion";
+import { Sketch } from "./Sketch";
 import { TestCard } from "./TestCard";
 import { FORMATS, FPS, secondsToFrames } from "./layout/formats";
 
@@ -16,6 +17,22 @@ export const RemotionRoot: React.FC = () => {
         fps={FPS}
         width={FORMATS.portrait.width}
         height={FORMATS.portrait.height}
+      />
+      <Composition
+        id="Sketch"
+        component={Sketch}
+        durationInFrames={secondsToFrames(10)}
+        fps={FPS}
+        width={FORMATS.portrait.width}
+        height={FORMATS.portrait.height}
+      />
+      <Composition
+        id="Sketch-Landscape"
+        component={Sketch}
+        durationInFrames={secondsToFrames(10)}
+        fps={FPS}
+        width={FORMATS.landscape.width}
+        height={FORMATS.landscape.height}
       />
     </>
   );
