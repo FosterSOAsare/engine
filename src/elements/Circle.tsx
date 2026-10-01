@@ -8,21 +8,23 @@ import {
   unitOf,
   useDrawProgress,
   useFrameUnits,
+  type Colored,
   type FrameSize,
   type Timing,
 } from "./shared";
 
-export type CircleProps = Timing & {
-  x: number; // centre, percent of the frame
-  y: number;
-  size: number; // diameter, percent of the frame's shorter side
-  seed: number;
-};
+export type CircleProps = Timing &
+  Colored & {
+    x: number; // centre, percent of the frame
+    y: number;
+    size: number; // diameter, percent of the frame's shorter side
+    seed: number;
+  };
 
 type CircleShape = Pick<CircleProps, "x" | "y" | "size" | "seed">;
 
 // Rough.js draws a circle as one long stroke that overlaps its start a
-// little, then a second pass, so it reads as drawn in one motion.
+// little, so it reads as drawn in one motion.
 export const circleStrokes = (
   { x, y, size, seed }: CircleShape,
   frame: FrameSize,
@@ -50,6 +52,7 @@ export const Circle: React.FC<CircleProps> = ({
   y,
   size,
   seed,
+  color,
   ...timing
 }) => {
   const { width, height } = useFrameUnits();
@@ -60,5 +63,5 @@ export const Circle: React.FC<CircleProps> = ({
     [x, y, size, seed, width, height],
   );
 
-  return <StrokePaths strokes={strokes} t={t} />;
+  return <StrokePaths strokes={strokes} t={t} color={color} />;
 };

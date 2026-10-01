@@ -5,6 +5,7 @@ import {
   unitOf,
   useDrawProgress,
   useFrameUnits,
+  type Colored,
   type FrameSize,
   type Timing,
 } from "./shared";
@@ -22,12 +23,13 @@ const { fontFamily } = loadFont("normal", {
 // guide the hand, so an estimate is enough.
 const LETTER_WIDTH = 0.38;
 
-export type TextProps = Timing & {
-  x: number; // centre, percent of the frame
-  y: number;
-  size: number; // font size, percent of the frame's shorter side
-  text: string;
-};
+export type TextProps = Timing &
+  Colored & {
+    x: number; // centre, percent of the frame
+    y: number;
+    size: number; // font size, percent of the frame's shorter side
+    text: string;
+  };
 
 export const textTrack = (
   { x, y, size, text, start, draw }: TextProps,
@@ -48,7 +50,14 @@ export const textTrack = (
   );
 };
 
-export const Text: React.FC<TextProps> = ({ x, y, size, text, ...timing }) => {
+export const Text: React.FC<TextProps> = ({
+  x,
+  y,
+  size,
+  text,
+  color = INK,
+  ...timing
+}) => {
   const { unit } = useFrameUnits();
   const written = useDrawProgress(timing) * 100;
   if (written === 0) return null;
@@ -62,7 +71,7 @@ export const Text: React.FC<TextProps> = ({ x, y, size, text, ...timing }) => {
         fontFamily,
         fontWeight: 700,
         fontSize: size * unit,
-        color: INK,
+        color,
         clipPath: `inset(0 ${100 - written}% 0 0)`,
       }}
     >

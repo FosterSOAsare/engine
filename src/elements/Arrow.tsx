@@ -8,6 +8,7 @@ import {
   unitOf,
   useDrawProgress,
   useFrameUnits,
+  type Colored,
   type FrameSize,
   type Point,
   type Timing,
@@ -16,15 +17,16 @@ import {
 const HEAD_LENGTH = 6; // percent of the frame's shorter side
 const HEAD_ANGLE = Math.PI / 6; // 30 degrees either side of the shaft
 
-export type ArrowProps = Timing & {
-  from: Point; // percent of the frame
-  to: Point; // the tip
-  // Pushes the middle of the shaft sideways (percent of the shorter side,
-  // positive bends to the left of the direction of travel). A slight bend
-  // looks more hand-drawn than a ruler-straight line.
-  bend?: number;
-  seed: number;
-};
+export type ArrowProps = Timing &
+  Colored & {
+    from: Point; // percent of the frame
+    to: Point; // the tip
+    // Pushes the middle of the shaft sideways (percent of the shorter side,
+    // positive bends to the left of the direction of travel). A slight bend
+    // looks more hand-drawn than a ruler-straight line.
+    bend?: number;
+    seed: number;
+  };
 
 type ArrowShape = Pick<ArrowProps, "from" | "to" | "bend" | "seed">;
 
@@ -92,6 +94,7 @@ export const Arrow: React.FC<ArrowProps> = ({
   to,
   bend,
   seed,
+  color,
   ...timing
 }) => {
   const { width, height } = useFrameUnits();
@@ -109,5 +112,5 @@ export const Arrow: React.FC<ArrowProps> = ({
     [fromX, fromY, toX, toY, bend, seed, width, height],
   );
 
-  return <StrokePaths strokes={strokes} t={t} />;
+  return <StrokePaths strokes={strokes} t={t} color={color} />;
 };

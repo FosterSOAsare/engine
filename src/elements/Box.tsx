@@ -9,6 +9,7 @@ import {
   unitOf,
   useDrawProgress,
   useFrameUnits,
+  type Colored,
   type FrameSize,
   type Timing,
 } from "./shared";
@@ -16,14 +17,15 @@ import {
 const LABEL_SIZE = 9; // percent of the frame's shorter side
 const LABEL_WRITE_SECONDS = 0.5;
 
-export type BoxProps = Timing & {
-  x: number; // centre, percent of the frame
-  y: number;
-  w: number; // percent of the frame's shorter side
-  h: number;
-  seed: number;
-  label?: string; // written in once the outline is finished
-};
+export type BoxProps = Timing &
+  Colored & {
+    x: number; // centre, percent of the frame
+    y: number;
+    w: number; // percent of the frame's shorter side
+    h: number;
+    seed: number;
+    label?: string; // written in once the outline is finished
+  };
 
 type BoxShape = Pick<BoxProps, "x" | "y" | "w" | "h" | "seed">;
 
@@ -46,13 +48,22 @@ export const boxStrokes = (
   ]);
 };
 
-const labelOf = ({ x, y, label, start, draw }: BoxProps): TextProps | null =>
+// The label is written in the same colour as the outline.
+const labelOf = ({
+  x,
+  y,
+  label,
+  color,
+  start,
+  draw,
+}: BoxProps): TextProps | null =>
   label
     ? {
         x,
         y,
         size: LABEL_SIZE,
         text: label,
+        color,
         start: start + draw,
         draw: LABEL_WRITE_SECONDS,
       }
@@ -80,7 +91,7 @@ export const Box: React.FC<BoxProps> = (props) => {
 
   return (
     <>
-      <StrokePaths strokes={strokes} t={t} />
+      <StrokePaths strokes={strokes} t={t} color={props.color} />
       {label ? <Text {...label} /> : null}
     </>
   );

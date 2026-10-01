@@ -33,6 +33,11 @@ export const roughStyle = (seed: number): Options => ({
 
 export type { Point } from "../animation/strokes";
 
+// Every element takes an optional colour for its strokes (any CSS colour).
+export type Colored = {
+  color?: string; // defaults to INK
+};
+
 export type Timing = {
   start: number; // seconds, when drawing begins
   draw: number; // seconds, how long drawing takes
@@ -73,10 +78,11 @@ export const toStrokes = (
   );
 
 // Draws the strokes one after another as `t` goes from 0 to 1.
-export const StrokePaths: React.FC<{ strokes: Stroke[]; t: number }> = ({
-  strokes,
-  t,
-}) => {
+export const StrokePaths: React.FC<{
+  strokes: Stroke[];
+  t: number;
+  color?: string;
+}> = ({ strokes, t, color = INK }) => {
   const { width, height } = useVideoConfig();
   const progress = strokeProgress(strokes, t);
 
@@ -94,7 +100,7 @@ export const StrokePaths: React.FC<{ strokes: Stroke[]; t: number }> = ({
               strokeDasharray={1}
               strokeDashoffset={1 - progress[i]}
               fill="none"
-              stroke={INK}
+              stroke={color}
               strokeWidth={STROKE_WIDTH}
               strokeLinecap="round"
               strokeLinejoin="round"
