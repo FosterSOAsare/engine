@@ -4,6 +4,7 @@ import { LABEL_WRITE_SECONDS } from "../animation/labels";
 import { arrowTracks, type ArrowProps } from "../elements/Arrow";
 import { boxTracks, type BoxProps } from "../elements/Box";
 import { circleTracks, type CircleProps } from "../elements/Circle";
+import { iconTracks, type IconProps } from "../elements/Icon";
 import { textTrack, textWidth, type TextProps } from "../elements/Text";
 import type { FrameSize } from "../elements/shared";
 import type { SceneElement, Video } from "../schema/scene";
@@ -20,6 +21,7 @@ export type Drawing =
   | { type: "box"; props: BoxProps }
   | { type: "circle"; props: CircleProps }
   | { type: "text"; props: TextProps }
+  | { type: "icon"; props: IconProps }
   | { type: "arrow"; props: ArrowProps; label: TextProps | null };
 
 export type PlannedBoard = {
@@ -171,9 +173,14 @@ export const planVideo = (video: Video, frame: FrameSize): PlannedBoard[] => {
             });
             break;
           }
-          case "icon":
-            // Drawn from step 11; arrows can already attach to it.
+          case "icon": {
+            const { name, x, y, size, label } = element;
+            drawings.push({
+              type: "icon",
+              props: { ...common, name, x, y, size, label },
+            });
             break;
+          }
         }
       });
     }
@@ -201,6 +208,8 @@ export const handTracks = (
           return circleTracks(drawing.props, frame);
         case "text":
           return [textTrack(drawing.props, frame)];
+        case "icon":
+          return iconTracks(drawing.props, frame);
         case "arrow":
           return [
             ...arrowTracks(drawing.props, frame),

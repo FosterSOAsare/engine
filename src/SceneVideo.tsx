@@ -10,6 +10,7 @@ import { Arrow } from "./elements/Arrow";
 import { Box } from "./elements/Box";
 import { Circle } from "./elements/Circle";
 import { Hand } from "./elements/Hand";
+import { Icon } from "./elements/Icon";
 import { Text } from "./elements/Text";
 import { BOARD } from "./elements/shared";
 import { secondsToFrames } from "./layout/formats";
@@ -70,6 +71,8 @@ const BoardView: React.FC<{ board: PlannedBoard }> = ({ board }) => {
             return <Circle key={i} {...drawing.props} />;
           case "text":
             return <Text key={i} {...drawing.props} />;
+          case "icon":
+            return <Icon key={i} {...drawing.props} />;
           case "arrow":
             return (
               <AbsoluteFill key={i}>
