@@ -4,6 +4,7 @@
   "format": "landscape",
   "voiceover": true,
   "voice": "en_US-bryce-medium",
+  "captions": true,
   "scenes": [
     {
       "id": "hook",

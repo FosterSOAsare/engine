@@ -28,12 +28,13 @@ export const Captions: React.FC<{ pages: CaptionPage[] }> = ({ pages }) => {
   const page = pages.find((p) => now >= p.start && now < p.end);
   if (!page) return null;
 
-  // Portrait captions sit higher, clear of the platform's buttons along the
-  // bottom of TikTok, Reels and Shorts; landscape ones near the bottom.
+  // Portrait captions sit higher, clear of the buttons and description
+  // TikTok, Reels and Shorts lay over the bottom of the video; landscape
+  // ones close to the bottom edge.
   const portrait = height > width;
   const unit = Math.min(width, height) / 100;
   const fontSize = (portrait ? 6.4 : 4.4) * unit;
-  const fromBottom = portrait ? 18 : 6; // percent of the height
+  const fromBottom = portrait ? 14 : 3; // percent of the height
 
   const pageFrame = frame - Math.round(page.start * fps);
   const scale = interpolate(pageFrame, [0, POP_FRAMES], [0.9, 1], {

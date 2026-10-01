@@ -3,6 +3,7 @@
   "title": "How DNS works",
   "format": "portrait",
   "voiceover": true,
+  "captions": true,
   "scenes": [
     {
       "id": "name",

@@ -31,6 +31,9 @@ export type SceneVideoProps = {
   audio?: AudioLengths; // measured narration lengths (see Root.tsx)
   heard?: HeardWords; // whisper's timed words (npm run captions)
   versions?: NarrationVersions; // fingerprints of the narration files
+  // Overrides the scene file's "captions" for one render:
+  // npm run render -- <id> --no-captions
+  captions?: boolean;
 };
 
 // npm run voice records a fingerprint of each scene's narration in
@@ -127,6 +130,7 @@ export const SceneVideo: React.FC<SceneVideoProps> = ({
   audio,
   heard,
   versions,
+  captions,
 }) => {
   const frame = useCurrentFrame();
   const { width, height } = useVideoConfig();
@@ -145,12 +149,13 @@ export const SceneVideo: React.FC<SceneVideoProps> = ({
   );
   // Captions for narrated videos, from each scene's timed words.
   const pages = useMemo(() => {
-    if (!result.video?.voiceover || !result.video.captions) return [];
+    const show = captions ?? result.video?.captions;
+    if (!result.video?.voiceover || !show) return [];
     const times = sceneTimes(result.video);
     return result.video.scenes.flatMap((scene, i) =>
       scene.words ? captionPages(scene.words, times[i].start) : [],
     );
-  }, [result]);
+  }, [result, captions]);
 
   if (!result.ok) return <Errors errors={result.errors} />;
 

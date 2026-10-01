@@ -2,11 +2,13 @@
 //   npm run render -- dns          one video
 //   npm run render -- dns os       several
 //   npm run render -- all          every video in src/videos.ts
-//   npm run render -- dns --scale=0.5   options go on to Remotion
+//   npm run render -- dns --no-captions  without captions, whatever the
+//                                        scene file says
+//   npm run render -- dns --scale=0.5   other options go on to Remotion
 // The ids are the ones in src/videos.ts (also the Studio sidebar names).
 
 import { spawnSync } from "node:child_process";
-import { readFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 
 const known = [
   ...readFileSync(
@@ -16,7 +18,17 @@ const known = [
 ].map((match) => match[1]);
 
 const args = process.argv.slice(2);
-const options = args.filter((arg) => arg.startsWith("-"));
+const noCaptions = args.includes("--no-captions");
+const options = args.filter(
+  (arg) => arg.startsWith("-") && arg !== "--no-captions",
+);
+if (noCaptions) {
+  // Props go to Remotion as a file: no quoting trouble on any shell.
+  mkdirSync(new URL("../out/", import.meta.url), { recursive: true });
+  const file = new URL("../out/.render-props.json", import.meta.url);
+  writeFileSync(file, JSON.stringify({ captions: false }));
+  options.push("--props=out/.render-props.json");
+}
 const asked = args.filter((arg) => !arg.startsWith("-"));
 if (asked.length === 0) {
   console.error(
