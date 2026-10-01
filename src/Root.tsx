@@ -1,6 +1,5 @@
 import "./index.css";
 import { Composition } from "remotion";
-import { getAudioDurationInSeconds } from "@remotion/media-utils";
 import {
   captionsFile,
   narrationFile,
@@ -10,6 +9,7 @@ import {
   type SceneVideoProps,
 } from "./SceneVideo";
 import { TestCard } from "./TestCard";
+import { fetchWavDuration } from "./audio/wav";
 import { videoLength } from "./animation/timeline";
 import { FORMATS, FPS, secondsToFrames } from "./layout/formats";
 import { videoSchema } from "./schema/scene";
@@ -25,9 +25,7 @@ const measureNarration = async (
 ): Promise<AudioLengths> =>
   Promise.all(
     sceneIds.map((sceneId) =>
-      getAudioDurationInSeconds(
-        narrationFile(id, sceneId, versions?.[sceneId]),
-      ).catch(() => null),
+      fetchWavDuration(narrationFile(id, sceneId, versions?.[sceneId])),
     ),
   );
 
