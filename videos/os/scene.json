@@ -1,0 +1,98 @@
+{
+  "version": 1,
+  "title": "What an operating system does",
+  "format": "landscape",
+  "scenes": [
+    {
+      "id": "intro",
+      "duration": 7,
+      "narration": "Windows, macOS, Linux: every computer runs an operating system. But what does it actually do?",
+      "elements": [
+        { "type": "text", "text": "What is an operating system?", "x": 50, "y": 18, "size": 9, "start": 0.3, "draw": 1.4 },
+        { "type": "box", "id": "windows", "label": "Windows", "x": 22, "y": 58, "w": 30, "h": 16, "start": 2, "draw": 0.8 },
+        { "type": "box", "id": "macos", "label": "macOS", "x": 50, "y": 58, "w": 30, "h": 16, "start": 3.4, "draw": 0.8 },
+        { "type": "box", "id": "linux", "label": "Linux", "x": 78, "y": 58, "w": 30, "h": 16, "start": 4.8, "draw": 0.8 }
+      ]
+    },
+    {
+      "id": "layers",
+      "duration": 8,
+      "narration": "It sits between your apps and the hardware, so apps never have to talk to the chips directly.",
+      "elements": [
+        { "type": "box", "id": "apps", "label": "Apps", "x": 50, "y": 18, "w": 60, "h": 14, "start": 0.3, "draw": 1 },
+        { "type": "arrow", "from": "apps", "to": "os", "start": 2, "draw": 0.6 },
+        { "type": "box", "id": "os", "label": "Operating system", "x": 50, "y": 50, "w": 60, "h": 14, "color": "#1e6fd9", "start": 2.8, "draw": 1 },
+        { "type": "arrow", "from": "os", "to": "hardware", "start": 4.5, "draw": 0.6 },
+        { "type": "box", "id": "hardware", "label": "Hardware", "x": 50, "y": 82, "w": 60, "h": 14, "start": 5.3, "draw": 1 }
+      ]
+    },
+    {
+      "id": "processes",
+      "duration": 9,
+      "narration": "It lets many programs share one CPU, switching between them thousands of times a second.",
+      "elements": [
+        { "type": "box", "id": "browser", "label": "Browser", "x": 20, "y": 22, "w": 26, "h": 13, "start": 0.3, "draw": 0.7 },
+        { "type": "box", "id": "music", "label": "Music", "x": 50, "y": 22, "w": 26, "h": 13, "start": 1.6, "draw": 0.7 },
+        { "type": "box", "id": "editor", "label": "Editor", "x": 80, "y": 22, "w": 26, "h": 13, "start": 2.9, "draw": 0.7 },
+        { "type": "box", "id": "cpu", "label": "CPU", "x": 50, "y": 72, "w": 22, "h": 16, "color": "#c0392b", "start": 4.2, "draw": 0.8 },
+        { "type": "arrow", "from": "browser", "to": "cpu", "start": 5.6, "draw": 0.5 },
+        { "type": "arrow", "from": "music", "to": "cpu", "start": 6.2, "draw": 0.5 },
+        { "type": "arrow", "from": "editor", "to": "cpu", "start": 6.8, "draw": 0.5 }
+      ]
+    },
+    {
+      "id": "memory",
+      "duration": 8,
+      "narration": "It gives each app its own slice of memory, so one app can't read or break another's.",
+      "elements": [
+        { "type": "box", "id": "browser", "label": "Browser", "x": 25, "y": 32, "w": 24, "h": 13, "color": "#1e6fd9", "start": 0.3, "draw": 0.7 },
+        { "type": "box", "id": "music", "label": "Music", "x": 50, "y": 32, "w": 24, "h": 13, "color": "#2a9d4b", "start": 1.6, "draw": 0.7 },
+        { "type": "box", "id": "editor", "label": "Editor", "x": 75, "y": 32, "w": 24, "h": 13, "color": "#c0392b", "start": 2.9, "draw": 0.7 },
+        { "type": "box", "id": "ram", "label": "Memory (RAM)", "x": 50, "y": 70, "w": 80, "h": 18, "start": 4.3, "draw": 1 },
+        { "type": "text", "text": "separate and protected", "x": 50, "y": 92, "size": 6, "start": 6, "draw": 1 }
+      ]
+    },
+    {
+      "id": "files",
+      "duration": 7,
+      "narration": "It turns raw storage into files and folders you can find, name and open.",
+      "elements": [
+        { "type": "icon", "id": "disk", "name": "database", "label": "Disk", "x": 28, "y": 45, "size": 28, "start": 0.3, "draw": 1 },
+        { "type": "arrow", "from": "disk", "to": "files", "label": "organised", "start": 2, "draw": 0.7 },
+        { "type": "box", "id": "files", "label": "Files & folders", "x": 72, "y": 45, "w": 40, "h": 18, "color": "#2a9d4b", "start": 3.4, "draw": 1 }
+      ]
+    },
+    {
+      "id": "devices",
+      "duration": 8,
+      "narration": "It handles every device for you: your keyboard and screen, and the network out to the internet.",
+      "elements": [
+        { "type": "icon", "id": "you", "name": "user", "label": "You", "x": 15, "y": 45, "size": 24, "start": 0.3, "draw": 0.8 },
+        { "type": "arrow", "from": "you", "to": "os", "label": "input", "start": 1.8, "draw": 0.6 },
+        { "type": "box", "id": "os", "label": "OS", "x": 50, "y": 45, "w": 26, "h": 16, "color": "#1e6fd9", "start": 3.1, "draw": 0.8 },
+        { "type": "arrow", "from": "os", "to": "internet", "label": "network", "start": 4.6, "draw": 0.6 },
+        { "type": "icon", "id": "internet", "name": "cloud", "label": "Internet", "x": 85, "y": 45, "size": 26, "start": 5.9, "draw": 0.8 }
+      ]
+    },
+    {
+      "id": "security",
+      "duration": 7,
+      "narration": "And it decides who may do what: who can log in, and what each app is allowed to touch.",
+      "elements": [
+        { "type": "icon", "id": "user", "name": "user", "label": "You", "x": 25, "y": 45, "size": 26, "start": 0.3, "draw": 1 },
+        { "type": "arrow", "from": "user", "to": "permissions", "label": "log in", "start": 2, "draw": 0.7 },
+        { "type": "box", "id": "permissions", "label": "Permissions", "x": 70, "y": 45, "w": 36, "h": 16, "color": "#c0392b", "start": 3.4, "draw": 1 }
+      ]
+    },
+    {
+      "id": "recap",
+      "duration": 7,
+      "narration": "So the operating system is the manager: it shares the hardware fairly and safely between everything you run.",
+      "elements": [
+        { "type": "text", "text": "Operating system", "x": 50, "y": 28, "size": 11, "start": 0.3, "draw": 1.2 },
+        { "type": "text", "text": "CPU · memory · files · devices · security", "x": 50, "y": 52, "size": 6, "start": 1.8, "draw": 1.8 },
+        { "type": "text", "text": "the manager of your computer", "x": 50, "y": 72, "size": 7, "color": "#1e6fd9", "start": 4, "draw": 1.5 }
+      ]
+    }
+  ]
+}
