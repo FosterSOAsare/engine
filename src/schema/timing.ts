@@ -31,13 +31,17 @@ const namesOf = (element: SceneElement): string[] => {
   if ("label" in element && element.label) names.push(element.label);
   if (element.type === "text") names.push(element.text);
   if (element.type === "icon") names.push(element.name.replace(/-/g, " "));
+  if (element.type === "list") names.push(element.items[0]);
   return names;
 };
 
 // The narration word that names the element: the whole label first, then
 // its words one by one (longest first, short words skipped).
-const autoWord = (element: SceneElement, words: TimedWord[]) => {
-  for (const name of namesOf(element)) {
+const autoWord = (element: SceneElement, words: TimedWord[]) =>
+  wordFor(namesOf(element), words);
+
+const wordFor = (names: string[], words: TimedWord[]) => {
+  for (const name of names) {
     const phrase = findWord(words, name);
     if (phrase) return phrase;
     const parts = name
@@ -52,7 +56,42 @@ const autoWord = (element: SceneElement, words: TimedWord[]) => {
   return null;
 };
 
-export type TimedScene = Scene & { words: TimedWord[] | null };
+// A list's items are written one after another with a pause between them
+// ("itemGap"). The writing itself shares the list's "draw" time by length.
+// In a narrated video each item also waits until it is said.
+const MIN_ITEM_DRAW = 0.3;
+
+export type ItemTime = { start: number; draw: number };
+
+export const listItemTimes = (
+  items: string[],
+  start: number,
+  draw: number,
+  gap: number,
+  words: TimedWord[] | null,
+): ItemTime[] => {
+  const lengths = items.map((item) => Math.max(item.length, 1));
+  const total = lengths.reduce((sum, l) => sum + l, 0);
+  const writing = Math.max(
+    draw - gap * (items.length - 1),
+    MIN_ITEM_DRAW * items.length,
+  );
+  let previousEnd = start;
+  return items.map((item, i) => {
+    const itemDraw = Math.max((writing * lengths[i]) / total, MIN_ITEM_DRAW);
+    let itemStart = i === 0 ? start : previousEnd + gap;
+    const said = words ? wordFor([item], words)?.start : undefined;
+    if (said !== undefined && said > itemStart) itemStart = said;
+    previousEnd = itemStart + itemDraw;
+    return { start: itemStart, draw: itemDraw };
+  });
+};
+
+export type TimedElement = SceneElement & { itemTimes?: ItemTime[] };
+export type TimedScene = Omit<Scene, "elements"> & {
+  elements: TimedElement[];
+  words: TimedWord[] | null;
+};
 
 export const resolveTiming = (
   video: Video,
@@ -100,6 +139,26 @@ export const resolveTiming = (
             ? FIRST_START
             : previousEnd + QUEUE_GAP;
       let draw = element.draw;
+      if (element.type === "list") {
+        // Items set their own pace (and pauses); the list lasts until its
+        // last item is written.
+        const itemTimes = listItemTimes(
+          element.items,
+          start,
+          element.draw,
+          element.itemGap,
+          words,
+        );
+        const last = itemTimes[itemTimes.length - 1];
+        const placed = {
+          ...element,
+          start,
+          draw: last.start + last.draw - start,
+          itemTimes,
+        };
+        previousEnd = start + placed.draw;
+        return placed;
+      }
       if (stretch) {
         let next = i + 1;
         while (next < wanted.length && wanted[next] === undefined) next++;

@@ -103,6 +103,7 @@ const list = z.strictObject({
   items: z.array(z.string().min(1)).min(1),
   bullet: z.string().default("•"), // put "" for no bullet
   spacing: positive.default(1.6), // distance between lines, in font sizes
+  itemGap: z.number().min(0).default(0.5), // seconds of pause between items
 });
 
 const arrow = z.strictObject({

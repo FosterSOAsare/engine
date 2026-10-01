@@ -6,6 +6,7 @@ import { shapeTracks, type ShapeProps } from "../elements/Shape";
 import { textTrack, textWidth, type TextProps } from "../elements/Text";
 import type { FrameSize } from "../elements/shared";
 import type { SceneElement, Video } from "../schema/scene";
+import { listItemTimes, type TimedElement } from "../schema/timing";
 import { connect, type Outline } from "./edges";
 
 // Turns a parsed scene file into what is drawn: element props with
@@ -205,26 +206,26 @@ const drawingsOf = (
       ];
     }
     case "list": {
-      // Each line gets a share of the draw time by its length, so the
-      // writing speed stays the same; lines follow each other.
-      const { x, y, size, items, bullet, spacing } = element;
-      const lines = items.map((item) => (bullet ? `${bullet} ${item}` : item));
-      const total = lines.reduce((sum, line) => sum + line.length, 0);
+      // One line per item, at the times the timing step worked out (with a
+      // pause between items, and in narrated videos when each is said).
+      const { x, y, size, items, bullet, spacing, itemGap } = element;
+      // Item times are relative to the scene; this is where it starts.
+      const sceneOffset = start - (element.start ?? 0);
+      const times =
+        (element as TimedElement).itemTimes ??
+        listItemTimes(items, element.start ?? 0, draw, itemGap, null);
       const lineHeight = ((size * spacing * unit) / frame.height) * 100;
-      let at = start;
-      return lines.map((text, i) => {
-        const share = (draw * text.length) / total;
+      return items.map((item, i) => {
         const props: TextProps = {
-          start: at,
-          draw: share,
+          start: times[i].start + sceneOffset,
+          draw: times[i].draw,
           color,
           x,
           y: y + i * lineHeight,
           size,
-          text,
+          text: bullet ? `${bullet} ${item}` : item,
           align: "left",
         };
-        at += share;
         return { type: "text", props };
       });
     }

@@ -16,16 +16,17 @@ const plan = (elements: VideoInput["scenes"][number]["elements"]) =>
   )[0].drawings;
 
 describe("planVideo", () => {
-  it("writes a list one line after another, left-aligned", () => {
+  it("writes a list one line after another, with a pause between", () => {
     const drawings = plan([
       { type: "list", x: 10, y: 30, items: ["ab", "abcd"], start: 1, draw: 3 },
     ]);
     expect(drawings).toHaveLength(2);
     const [first, second] = drawings.map((d) => d.props as TextProps);
     expect(first).toMatchObject({ text: "• ab", align: "left", start: 1 });
-    // Time is shared by length: "• ab" is 4 characters, "• abcd" 6.
-    expect(first.draw).toBeCloseTo(1.2);
-    expect(second).toMatchObject({ text: "• abcd", start: 2.2 });
+    // 3 s minus one 0.5 s pause = 2.5 s of writing, shared by length (2:4).
+    expect(first.draw).toBeCloseTo(2.5 / 3);
+    expect(second.start).toBeCloseTo(1 + 2.5 / 3 + 0.5);
+    expect(second.draw).toBeCloseTo(5 / 3);
     expect(second.y).toBeGreaterThan(first.y);
   });
 

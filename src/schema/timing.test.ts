@@ -116,4 +116,22 @@ describe("resolveTiming", () => {
       'scene "s", element 1 (box): "at" needs captions; run npm run captions',
     ]);
   });
+
+  it("writes each list item when it is said", () => {
+    const { video } = timed([
+      {
+        type: "list",
+        x: 10,
+        y: 30,
+        items: ["the browser", "the resolver"],
+        draw: 1,
+      },
+    ]);
+    const [list] = video.scenes[0].elements;
+    const items = (list as { itemTimes: { start: number }[] }).itemTimes;
+    // Each phrase starts where it is first said: "The browser" at 0,
+    // "the resolver" at 1.2.
+    expect(items[0].start).toBe(0);
+    expect(items[1].start).toBe(1.2);
+  });
 });
