@@ -11,6 +11,7 @@ import {
 import { sceneTimes, WIPE_SECONDS } from "./animation/timeline";
 import { Captions } from "./captions/Captions";
 import { captionPages } from "./captions/pages";
+import { WATERMARK } from "./brand";
 import { Arrow } from "./elements/Arrow";
 import { Hand } from "./elements/Hand";
 import { Shape } from "./elements/Shape";
@@ -20,6 +21,7 @@ import { secondsToFrames } from "./layout/formats";
 import { handTracks, planVideo, type PlannedBoard } from "./layout/plan";
 import type { HeardWords } from "./schema/timing";
 import { validateVideo, type AudioLengths } from "./schema/validate";
+import { Watermark } from "./Watermark";
 
 // Draws a whole video from its scene file. The file arrives as plain JSON
 // (a composition prop), is checked, and either drawn or, if it has
@@ -169,6 +171,9 @@ export const SceneVideo: React.FC<SceneVideoProps> = ({
       {board ? <BoardView board={board} /> : null}
       <Hand tracks={tracks} />
       <Captions pages={pages} />
+      {result.video.watermark !== false ? (
+        <Watermark text={result.video.watermark ?? WATERMARK} />
+      ) : null}
       {result.video.voiceover
         ? sceneTimes(result.video).map(({ scene, start, end }) => (
             <Sequence

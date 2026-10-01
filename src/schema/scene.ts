@@ -187,6 +187,9 @@ export const videoSchema = z.strictObject({
   voice: z.string().min(1).optional(), // a Piper voice; default bryce
   // Word-by-word captions of the narration (npm run captions).
   captions: z.boolean().default(true),
+  // The handle in the bottom-right corner: the default from src/brand.ts,
+  // other text, or false for none.
+  watermark: z.union([z.string().min(1), z.literal(false)]).optional(),
   fps: z.number().int().positive().default(30),
   scenes: z.array(sceneSchema).min(1),
 });
