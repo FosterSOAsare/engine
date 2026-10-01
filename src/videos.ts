@@ -5,12 +5,14 @@ import lucide from "../videos/lucide/scene.json";
 import latency from "../videos/latency/scene.json";
 import m1Demo from "../videos/m1-demo/scene.json";
 import os from "../videos/os/scene.json";
+import passwords from "../videos/passwords/scene.json";
 import showcase from "../videos/showcase/scene.json";
 
 // Every scene file the Studio shows. Each becomes a composition with the
 // same id, rendered with: npx remotion render <id> out/<id>.mp4
 // Add a video by adding its folder under videos/ and a line here.
 export const VIDEOS: { id: string; scene: unknown }[] = [
+  { id: "passwords", scene: passwords },
   { id: "latency", scene: latency },
   { id: "dns", scene: dns },
   { id: "os", scene: os },

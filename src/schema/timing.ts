@@ -110,16 +110,19 @@ export const resolveTiming = (
     const wanted = scene.elements.map((element, i) => {
       if (element.start !== undefined) return element.start;
       if (element.at !== undefined) {
-        const where = `${name}, element ${i + 1} (${element.type})`;
-        if (!words) {
-          errors.push(`${where}: "at" needs captions; run npm run captions`);
-          return undefined;
+        // Whether the line says the word is known from the text alone;
+        // when it is said needs the word timings (npm run captions).
+        // Without them the element just follows the previous one.
+        const said = findWord(
+          words ?? alignWords(scene.narration, []),
+          element.at,
+        );
+        if (!said) {
+          errors.push(
+            `${name}, element ${i + 1} (${element.type}): the narration never says "${element.at}"`,
+          );
         }
-        const word = findWord(words, element.at);
-        if (!word) {
-          errors.push(`${where}: the narration never says "${element.at}"`);
-        }
-        return word?.start;
+        return words ? said?.start : undefined;
       }
       return words ? autoWord(element, words)?.start : undefined;
     });
