@@ -5,6 +5,8 @@ import {
   captionsFile,
   narrationFile,
   SceneVideo,
+  versionsFile,
+  type NarrationVersions,
   type SceneVideoProps,
 } from "./SceneVideo";
 import { TestCard } from "./TestCard";
@@ -19,18 +21,22 @@ import { VIDEOS } from "./videos";
 const measureNarration = async (
   id: string,
   sceneIds: string[],
+  versions: NarrationVersions | undefined,
 ): Promise<AudioLengths> =>
   Promise.all(
     sceneIds.map((sceneId) =>
-      getAudioDurationInSeconds(narrationFile(id, sceneId)).catch(() => null),
+      getAudioDurationInSeconds(
+        narrationFile(id, sceneId, versions?.[sceneId]),
+      ).catch(() => null),
     ),
   );
 
-// Whisper's word timings for a video, or undefined before npm run captions.
-const loadHeardWords = async (id: string): Promise<HeardWords | undefined> => {
+// A generated JSON file, always fresh (never the browser's cached copy), or
+// undefined if it doesn't exist yet.
+const loadJson = async <T,>(url: string): Promise<T | undefined> => {
   try {
-    const response = await fetch(captionsFile(id));
-    return response.ok ? ((await response.json()) as HeardWords) : undefined;
+    const response = await fetch(url, { cache: "no-store" });
+    return response.ok ? ((await response.json()) as T) : undefined;
   } catch {
     return undefined;
   }
@@ -42,17 +48,20 @@ const loadHeardWords = async (id: string): Promise<HeardWords | undefined> => {
 // portrait, enough to show its problems.
 const sceneVideoMetadata = async ({ props }: { props: SceneVideoProps }) => {
   const parsed = videoSchema.safeParse(props.video);
-  const audio =
-    parsed.success && parsed.data.voiceover
-      ? await measureNarration(
-          props.id,
-          parsed.data.scenes.map((scene) => scene.id),
-        )
-      : undefined;
-  const heard =
-    parsed.success && parsed.data.voiceover
-      ? await loadHeardWords(props.id)
-      : undefined;
+  const narrated = parsed.success && parsed.data.voiceover;
+  const [versions, heard] = narrated
+    ? await Promise.all([
+        loadJson<NarrationVersions>(versionsFile(props.id)),
+        loadJson<HeardWords>(captionsFile(props.id)),
+      ])
+    : [undefined, undefined];
+  const audio = narrated
+    ? await measureNarration(
+        props.id,
+        parsed.data.scenes.map((scene) => scene.id),
+        versions,
+      )
+    : undefined;
   const { video } = validateVideo(props.video, audio, heard);
   const { width, height } = FORMATS[video?.format ?? "portrait"];
   return {
@@ -62,7 +71,7 @@ const sceneVideoMetadata = async ({ props }: { props: SceneVideoProps }) => {
     ),
     width,
     height,
-    props: { ...props, audio, heard },
+    props: { ...props, audio, heard, versions },
   };
 };
 

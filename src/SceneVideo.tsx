@@ -28,15 +28,25 @@ export type SceneVideoProps = {
   video: unknown; // the scene file
   audio?: AudioLengths; // measured narration lengths (see Root.tsx)
   heard?: HeardWords; // whisper's timed words (npm run captions)
+  versions?: NarrationVersions; // fingerprints of the narration files
 };
 
-// Where a scene's narration is (written by npm run voice).
-export const narrationFile = (id: string, sceneId: string) =>
-  staticFile(`videos/${id}/${sceneId}.wav`);
+// npm run voice records a fingerprint of each scene's narration in
+// voice.json. Adding it to the audio's address means a regenerated file
+// is never mistaken for the old one by the browser's cache.
+export type NarrationVersions = Record<string, string>;
 
-// Where a video's word timings are (written by npm run captions).
+// Where a scene's narration is (written by npm run voice).
+export const narrationFile = (id: string, sceneId: string, version?: string) =>
+  staticFile(`videos/${id}/${sceneId}.wav`) +
+  (version ? `?v=${version.slice(0, 12)}` : "");
+
+// Where a video's word timings and narration fingerprints are (written by
+// npm run captions and npm run voice).
 export const captionsFile = (id: string) =>
   staticFile(`videos/${id}/captions.json`);
+export const versionsFile = (id: string) =>
+  staticFile(`videos/${id}/voice.json`);
 
 const Errors: React.FC<{ errors: string[] }> = ({ errors }) => (
   <AbsoluteFill style={{ background: BOARD }}>
@@ -114,6 +124,7 @@ export const SceneVideo: React.FC<SceneVideoProps> = ({
   video,
   audio,
   heard,
+  versions,
 }) => {
   const frame = useCurrentFrame();
   const { width, height } = useVideoConfig();
@@ -150,7 +161,7 @@ export const SceneVideo: React.FC<SceneVideoProps> = ({
               durationInFrames={secondsToFrames(end) - secondsToFrames(start)}
               layout="none"
             >
-              <Audio src={narrationFile(id, scene.id)} />
+              <Audio src={narrationFile(id, scene.id, versions?.[scene.id])} />
             </Sequence>
           ))
         : null}
