@@ -8,7 +8,7 @@ Built with [Remotion](https://www.remotion.dev), [Rough.js](https://roughjs.com)
 
 ## Status
 
-**M0 (setup) is in progress.** The project renders a 9:16 test video. The drawing engine starts in M1; see the [roadmap](#roadmap).
+**M1: drawing animation complete.** Boxes, arrows, circles and handwritten labels are drawn stroke by stroke, with a hand following the pen. The scene is still written in code; the scene file comes in M2. See the [roadmap](#roadmap).
 
 ## Requirements
 
@@ -31,23 +31,25 @@ npm install
 npm run dev
 ```
 
-This starts Remotion Studio and opens it in your browser, usually at http://localhost:3000 (the terminal prints the exact address). Pick `TestCard` in the sidebar and press Space to play. Changes to the code show up in the preview as soon as you save.
+This starts Remotion Studio and opens it in your browser, usually at http://localhost:3000 (the terminal prints the exact address). Pick a composition in the sidebar (`M1Demo` is the drawing demo) and press Space to play. Changes to the code show up in the preview as soon as you save.
 
-## Render the test video
+## Render the demo video
 
 ```console
-npm run render:test
+npm run render:m1
 ```
 
-The video is written to `out/test.mp4`: 5 seconds, 1080×1920, 30 fps.
+The video is written to `out/m1-demo.mp4`: 6 seconds, 1080×1920, 30 fps. A Browser box, an arrow and a Server box are drawn by hand, one after another.
 
 ## Commands
 
 | Command | What it does |
 |---|---|
 | `npm run dev` | Start Remotion Studio for live preview |
-| `npm run render:test` | Render the test composition to `out/test.mp4` |
+| `npm run render:m1` | Render the M1 drawing demo to `out/m1-demo.mp4` |
+| `npm run render:test` | Render the M0 test composition to `out/test.mp4` |
 | `npm run lint` | Run ESLint and the TypeScript check |
+| `npm test` | Run the unit tests (stroke timing and hand movement) |
 | `npx remotion still TestCard out/frame.png --frame=45` | Render a single frame as an image |
 
 ## Project structure
@@ -58,12 +60,14 @@ engine/
 │   ├── index.ts        # entry point
 │   ├── Root.tsx        # registers each composition (video)
 │   ├── TestCard.tsx    # M0 test composition
+│   ├── Sketch.tsx      # M1 demo scene: Browser -> Server
 │   ├── schema/         # scene file structure and validation       (M2)
-│   ├── elements/       # box, circle, arrow, text, icon            (M1)
-│   ├── animation/      # stroke reveal, hand, easing               (M1)
+│   ├── elements/       # Box, Arrow, Circle, Text, Hand
+│   ├── animation/      # stroke timing and hand movement, with tests
 │   ├── captions/       # caption display                           (M3)
 │   └── layout/         # format sizes and safe areas
 │       └── formats.ts
+├── public/             # hand image (hero.png)
 ├── videos/             # one folder per video: scenes, audio, captions
 ├── scripts/            # validate, transcribe, render-all, plan
 └── out/                # rendered files (not committed)
