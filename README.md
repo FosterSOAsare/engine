@@ -113,7 +113,7 @@ npm run cover -- api-square                      # one format
 |---|---|
 | `npm run dev` | Start Remotion Studio for live preview |
 | `npm run render -- <id>` | Render a video to `out/<id>.mp4` (`all` for every video) |
-| `npm run images -- <id>` | Fetch the illustrations listed in `videos/<id>/images.json` from Iconify into `public/assets/<id>/` (scene files use `"name": "<id>/<name>"`), with licences and credits in `public/assets/<id>/CREDITS.md` |
+| `npm run images -- <id>` | Only for downloaded Iconify icons (way 2 in [Pictures](#pictures-three-ways)): fetch the icons listed in `videos/<id>/images.json` from Iconify into `public/assets/<id>/` (scene files use `"name": "<id>/<name>"`), with licences and credits in `public/assets/<id>/CREDITS.md` |
 | `npm run cover -- <id>` | Cover images in every format to `out/<id>.cover.jpg` (`<id>-<format>` for one) |
 | `npm run compress -- <id>` | Shrink `out/<id>.mp4` to `out/<id>.small.mp4` for posting (`all`, `--quality=28`: lower is sharper and bigger) |
 | `npm run render:test` | Render the M0 test composition to `out/test.mp4` |
@@ -128,7 +128,8 @@ npm run cover -- api-square                      # one format
 
 1. Create `videos/<id>/scene.json` (start from one of the existing files).
 2. Add it to `src/videos.ts`: an import and one line, `{ id: "<id>", scene: <name> }`.
-3. Open it in Studio, adjust the file until it looks right, then render it.
+3. Make sure its pictures exist (see [Pictures: three ways](#pictures-three-ways)): nothing to do for built-in icons or exported illustrations; `npm run images -- <id>` for Iconify downloads.
+4. Open it in Studio, adjust the file until it looks right, then render it.
 
 For a narrated video, add `"voiceover": true`, then run `npm run voice -- <id>` and `npm run captions -- <id>` before previewing.
 
@@ -192,6 +193,18 @@ The hand draws one thing at a time, so elements queue in file order: one never s
 **Fills.** `fill` is any CSS colour; `fillStyle` is `"solid"` (default), `"hachure"`, `"cross-hatch"`, `"zigzag"` or `"dots"`. The fill fades in after the outline is drawn.
 
 **Icons.** About 1,870: every [Lucide](https://lucide.dev/icons) icon (1,857, under its Lucide name, e.g. `"name": "map-pin"`), plus 16 hand-made ones Lucide lacks (browser, robot, chip, memory, disk, cube, chart, queue, warning, chat, gear, home, cart, money, lightning, question). Icons are drawn with a gentler wobble than big shapes so their details stay readable. The `lucide` video shows a sample; `showcase` and `icons` show the hand-made ones.
+
+## Pictures: three ways
+
+A video can show pictures in three ways. Only the first is built in; the other two are SVG files that must exist before the video can use them.
+
+| | Scene file | Where the picture comes from | What you run |
+|---|---|---|---|
+| **1. Built-in icons** | `{ "type": "icon", "name": "car" }` | Inside the engine: every Lucide icon plus 16 hand-made ones (`src/elements/icons/`). Single-colour line icons, drawn with the sketchy pen. | Nothing |
+| **2. Downloaded icons (Iconify)** | `{ "type": "image", "name": "latency/phone" }` | Colour icons downloaded from Iconify's website (api.iconify.design), from sets whose licences allow use in videos. List them in `videos/<id>/images.json` (`"phone": "streamline-color:phone-mobile-phone"`, or a search word). Saved to `public/assets/<id>/`, with licences and the credit line for the video description in `CREDITS.md`. | `npm run images -- <id>` |
+| **3. Generated illustrations** | `{ "type": "image", "name": "gen/latency/server" }` | Made by the separate image-gen project (`../../image-gen`) in our house style and exported into `public/assets/gen/<video>/`, with what made them in `GENERATED.md`. Regenerate there, not here. | Nothing here: the images are already in place once exported |
+
+An `image`'s `"name"` is the path of its file under `public/assets/` without `.svg`: `"latency/phone"` is `public/assets/latency/phone.svg`. Designs are compiled before `npm run dev` and every render; `npm run assets` does it by hand. `images.json` is only for way 2, the shopping list for the download; a video using built-in icons or generated illustrations doesn't need one.
 
 ## Narration and captions
 
