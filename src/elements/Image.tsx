@@ -118,7 +118,7 @@ export const imageTracks = (
 export const Image: React.FC<ImageProps> = (props) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const { width, height } = useBoardSize();
+  const board = useBoardSize();
   const id = useId().replace(/:/g, "");
   const t = useDrawProgress(props);
   const { asset } = props;
@@ -126,8 +126,8 @@ export const Image: React.FC<ImageProps> = (props) => {
     return null;
   }
 
-  const box = imageBox(props, { width, height });
-  const label = imageLabel(props, { width, height });
+  const box = imageBox(props, board);
+  const label = imageLabel(props, board);
   const done = props.start + props.draw;
 
   // Colours fade in after the drawing (with "draw") or with everything.

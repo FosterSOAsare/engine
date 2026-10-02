@@ -110,7 +110,7 @@ const outline = (
 
 export const shapeSketch = (props: ShapeProps, frame: FrameSize) => {
   const g = rough.generator();
-  const style = shapeStyle(props.seed, props);
+  const style = shapeStyle(props.seed, frame, props);
   // Icons are small and detailed: the wobble that makes a big box look
   // hand-drawn distorts them, so they get a gentler one.
   if (props.kind === "icon") style.roughness = ICON_ROUGHNESS;
@@ -144,7 +144,7 @@ export const shapeTracks = (
 };
 
 export const Shape: React.FC<ShapeProps> = (props) => {
-  const { width, height } = useFrameUnits();
+  const { width, height, detail } = useFrameUnits();
   const t = useDrawProgress(props);
   const { kind, x, y, w, h, icon, seed, fill, fillStyle } = props;
 
@@ -152,11 +152,11 @@ export const Shape: React.FC<ShapeProps> = (props) => {
     () =>
       shapeSketch(
         { kind, x, y, w, h, icon, seed, fill, fillStyle, start: 0, draw: 0 },
-        { width, height },
+        { width, height, detail },
       ),
-    [kind, x, y, w, h, icon, seed, fill, fillStyle, width, height],
+    [kind, x, y, w, h, icon, seed, fill, fillStyle, width, height, detail],
   );
-  const label = shapeLabel(props, { width, height });
+  const label = shapeLabel(props, { width, height, detail });
 
   return (
     <>

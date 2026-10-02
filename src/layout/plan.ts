@@ -6,7 +6,7 @@ import { arrowTracks, type ArrowProps } from "../elements/Arrow";
 import { imageBox, imageTracks, type ImageProps } from "../elements/Image";
 import { shapeTracks, type ShapeProps } from "../elements/Shape";
 import { textTrack, textWidth, type TextProps } from "../elements/Text";
-import type { FrameSize } from "../elements/shared";
+import { unitOf, type FrameSize } from "../elements/shared";
 import type { SceneElement, Video } from "../schema/scene";
 import { listItemTimes, type TimedElement } from "../schema/timing";
 import { connect, type Outline } from "./edges";
@@ -45,7 +45,6 @@ export const seedFrom = (text: string) => {
   return (hash >>> 0) % 1_000_000;
 };
 
-const unitOf = (frame: FrameSize) => Math.min(frame.width, frame.height) / 100;
 
 const toPercent = (point: { x: number; y: number }, frame: FrameSize) => ({
   x: (point.x / frame.width) * 100,

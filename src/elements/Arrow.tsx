@@ -42,7 +42,7 @@ export const arrowStrokes = (
   frame: FrameSize,
 ) => {
   const generator = rough.generator();
-  const options = roughStyle(seed);
+  const options = roughStyle(seed, frame);
   const unit = unitOf(frame);
   const start = {
     x: (from.x / 100) * frame.width,
@@ -108,7 +108,7 @@ export const Arrow: React.FC<ArrowProps> = ({
   color,
   ...timing
 }) => {
-  const { width, height } = useFrameUnits();
+  const { width, height, detail } = useFrameUnits();
   const t = useDrawProgress(timing);
 
   // Depend on the coordinates, not the objects, which are new each render.
@@ -124,9 +124,9 @@ export const Arrow: React.FC<ArrowProps> = ({
           head,
           seed,
         },
-        { width, height },
+        { width, height, detail },
       ),
-    [fromX, fromY, toX, toY, bend, head, seed, width, height],
+    [fromX, fromY, toX, toY, bend, head, seed, width, height, detail],
   );
 
   return <StrokePaths strokes={strokes} t={t} color={color} />;

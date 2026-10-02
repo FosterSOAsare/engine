@@ -15,7 +15,14 @@ import { handTracks, planVideo, type PlannedBoard } from "./plan";
 // is wiped. The camera shows one area at a time, glides to the next as the
 // narration moves on, and at the end zooms out to show everything at once.
 
-export const AREA = FORMATS.landscape; // each area is one screen
+// Each area is one screen, drawn in the detailed style: everything at half
+// size with a finer pen, so a frame holds much more.
+export const DETAIL = 0.5;
+export const AREA = {
+  width: FORMATS.landscape.width,
+  height: FORMATS.landscape.height,
+  detail: DETAIL,
+};
 const GAP = 0.12; // between areas, as a share of an area's height
 const OVERVIEW_MARGIN = 0.04; // room around the board in the final overview
 

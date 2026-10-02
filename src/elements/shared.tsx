@@ -24,10 +24,17 @@ export const INK = "#222222";
 export const BOARD = "#faf8f3"; // the whiteboard background
 export const STROKE_WIDTH = 8;
 
-export const roughStyle = (seed: number): Options => ({
+// The pen on a board: its thickness in pixels and Rough.js's wobble. A
+// detailed board (landscape videos) uses a finer, steadier pen.
+export const penOf = ({ detail = 1 }: FrameSize) => ({
+  width: STROKE_WIDTH * detail,
+  roughness: detail < 1 ? 0.7 : 1.2,
+});
+
+export const roughStyle = (seed: number, frame: FrameSize): Options => ({
   stroke: INK,
-  strokeWidth: STROKE_WIDTH,
-  roughness: 1.2,
+  strokeWidth: penOf(frame).width,
+  roughness: penOf(frame).roughness,
   // One pass per line, like a single stroke of a marker (Rough.js draws
   // every line twice by default).
   disableMultiStroke: true,
@@ -44,14 +51,18 @@ export type Filled = {
 
 export const FILL_FADE_SECONDS = 0.4;
 
-export const shapeStyle = (seed: number, filled: Filled = {}): Options => ({
-  ...roughStyle(seed),
+export const shapeStyle = (
+  seed: number,
+  frame: FrameSize,
+  filled: Filled = {},
+): Options => ({
+  ...roughStyle(seed, frame),
   ...(filled.fill
     ? {
         fill: filled.fill,
         fillStyle: filled.fillStyle ?? "solid",
-        fillWeight: STROKE_WIDTH * 0.5,
-        hachureGap: STROKE_WIDTH * 2.5,
+        fillWeight: penOf(frame).width * 0.5,
+        hachureGap: penOf(frame).width * 2.5,
       }
     : {}),
 });
@@ -70,11 +81,14 @@ export type Timing = {
 
 // Elements build their strokes from the frame size alone, so the same
 // builders serve the element itself and the hand that follows it.
-export type FrameSize = { width: number; height: number };
+// "detail" below 1 makes everything on the board smaller (sizes, labels,
+// the pen) so more fits: landscape videos use 0.5 (layout/canvas.ts).
+export type FrameSize = { width: number; height: number; detail?: number };
 
-// 1% of the frame's shorter side, in pixels.
-export const unitOf = ({ width, height }: FrameSize) =>
-  Math.min(width, height) / 100;
+// The size unit: 1% of the frame's shorter side, in pixels, times the
+// board's detail.
+export const unitOf = ({ width, height, detail = 1 }: FrameSize) =>
+  (Math.min(width, height) / 100) * detail;
 
 // The board elements are laid out on. Usually the whole frame; when a
 // video is shown in another format, its boards keep the shape they were
@@ -88,8 +102,8 @@ export const useBoardSize = (): FrameSize => {
 };
 
 export const useFrameUnits = () => {
-  const { width, height } = useBoardSize();
-  return { width, height, unit: unitOf({ width, height }) };
+  const { width, height, detail = 1 } = useBoardSize();
+  return { width, height, detail, unit: unitOf({ width, height, detail }) };
 };
 
 // The element's progress from 0 (not started) to 1 (finished).
@@ -140,7 +154,8 @@ export const FillPaths: React.FC<{
   from: number;
 }> = ({ fills, fill, from }) => {
   const frame = useCurrentFrame();
-  const { width, height } = useBoardSize();
+  const board = useBoardSize();
+  const { width, height } = board;
   const opacity = interpolate(
     frame,
     [secondsToFrames(from), secondsToFrames(from + FILL_FADE_SECONDS)],
@@ -161,7 +176,7 @@ export const FillPaths: React.FC<{
               d={path.d}
               fill="none"
               stroke={fill}
-              strokeWidth={STROKE_WIDTH * 0.5}
+              strokeWidth={penOf(board).width * 0.5}
               strokeLinecap="round"
             />
           ),
@@ -177,7 +192,8 @@ export const StrokePaths: React.FC<{
   t: number;
   color?: string;
 }> = ({ strokes, t, color = INK }) => {
-  const { width, height } = useBoardSize();
+  const board = useBoardSize();
+  const { width, height } = board;
   const progress = strokeProgress(strokes, t);
 
   return (
@@ -195,7 +211,7 @@ export const StrokePaths: React.FC<{
               strokeDashoffset={1 - progress[i]}
               fill="none"
               stroke={color}
-              strokeWidth={STROKE_WIDTH}
+              strokeWidth={penOf(board).width}
               strokeLinecap="round"
               strokeLinejoin="round"
             />
