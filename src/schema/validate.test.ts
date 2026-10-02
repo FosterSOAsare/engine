@@ -204,7 +204,7 @@ describe("validateVideo", () => {
 });
 
 describe("layouts", () => {
-  const withLayouts = (layouts: unknown, format = "portrait") => ({
+  const withLayouts = (layouts: unknown, format = "all") => ({
     version: 1 as const,
     title: "Test",
     format,
@@ -231,7 +231,12 @@ describe("layouts", () => {
       'scene "main", layouts.square.a: a box has no "size"',
     ]);
     expect(errorsOf(withLayouts({ portrait: { a: { x: 5 } } }))).toEqual([
-      'scene "main", layouts.portrait: the file is written for portrait; change the elements themselves',
+      'scene "main", layouts.portrait: the file is written in portrait; change the elements themselves',
+    ]);
+    expect(
+      errorsOf(withLayouts({ square: { a: { x: 5 } } }, "landscape")),
+    ).toEqual([
+      'scene "main", layouts.square: landscape videos are made only in landscape',
     ]);
   });
 
@@ -247,6 +252,20 @@ describe("cover", () => {
     expect(errorsOf({ ...video([box("a", 0)]), cover: 3 })).toEqual([]);
     expect(errorsOf({ ...video([box("a", 0)]), cover: "nope" })).toEqual([
       'file: "cover" names no scene "nope"',
+    ]);
+  });
+});
+
+describe("place", () => {
+  it("is only for landscape videos", () => {
+    const placed = (format: string) => ({
+      ...video([box("a", 0)]),
+      format,
+      scenes: [{ ...video([box("a", 0)]).scenes[0], place: [1, 0] }],
+    });
+    expect(errorsOf(placed("landscape"))).toEqual([]);
+    expect(errorsOf(placed("all"))).toEqual([
+      'scene "main": "place" is for landscape videos, which put every scene on one board',
     ]);
   });
 });

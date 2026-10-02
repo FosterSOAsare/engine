@@ -13,21 +13,29 @@ const imports = Object.fromEntries(
   ),
 );
 
-// Every video, with the format its scene file is written for.
+// Every video, with the format its scene file is written in: landscape
+// for detailed explainers (made only in landscape), otherwise portrait
+// ("all", made in every format).
 export const videos = [
   ...videosFile.matchAll(/id: "([^"]+)", scene: (\w+)/g),
-].map(([, id, name]) => ({
-  id,
-  written: JSON.parse(read(`../${imports[name]}`)).format ?? "portrait",
-}));
+].map(([, id, name]) => {
+  const format = JSON.parse(read(`../${imports[name]}`)).format ?? "all";
+  return {
+    id,
+    written: format === "landscape" ? "landscape" : "portrait",
+    onlyWritten: format === "landscape",
+  };
+});
 
 export const formats = [
   ...read("../src/layout/formats.ts").matchAll(/^ {2}(\w+): \{\r?\n {4}width/gm),
 ].map(([, name]) => name);
 
 // A video's compositions in the other formats.
-export const variants = ({ id, written }) =>
-  formats.filter((format) => format !== written).map((f) => `${id}-${f}`);
+export const variants = ({ id, written, onlyWritten }) =>
+  onlyWritten
+    ? []
+    : formats.filter((format) => format !== written).map((f) => `${id}-${f}`);
 
 // Every composition id.
 export const known = videos.flatMap((video) => [video.id, ...variants(video)]);

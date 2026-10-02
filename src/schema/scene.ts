@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { ASSET_NAMES } from "../assets";
 import { ICON_NAMES } from "../elements/icons";
-import { FORMAT_NAMES } from "../layout/formats";
+import { FORMAT_NAMES, VIDEO_FORMATS } from "../layout/formats";
 
 // The scene file: one JSON file describes a whole video. Positions are in
 // percent of the frame (0 to 100), sizes in percent of the frame's shorter
@@ -226,6 +226,9 @@ export const sceneSchema = z.strictObject({
   // Keep the previous scene's drawing instead of wiping the board.
   keepPrevious: z.boolean().default(false),
   elements: z.array(elementSchema),
+  // Landscape videos: where the scene sits on the board, as [column, row]
+  // of the grid (0-based). Default: the next free cell in reading order.
+  place: z.tuple([z.number().int().min(0), z.number().int().min(0)]).optional(),
   // The scene laid out again for other formats: per format, new positions
   // for elements by id, e.g. a row in landscape instead of a column. In
   // those formats the scene is laid out directly in that frame; elsewhere
@@ -238,10 +241,11 @@ export const sceneSchema = z.strictObject({
 export const videoSchema = z.strictObject({
   version: z.literal(1),
   title: z.string().min(1),
-  // The frame shape the file is written for: "portrait" (9:16), "feed"
-  // (4:5), "square" (1:1) or "landscape" (16:9). Every video can still be
-  // rendered in all of them.
-  format: z.enum(FORMAT_NAMES).default("portrait"),
+  // "all": a short, simple video, scene after scene, written in portrait
+  // and made in every format. "landscape": a detailed explainer, every
+  // scene on one big board with the camera moving between them, made only
+  // in landscape.
+  format: z.enum(VIDEO_FORMATS).default("all"),
   // Narrate every scene's line with text-to-speech (npm run voice -- <id>).
   // Each scene then lasts as long as its audio plus its pause.
   voiceover: z.boolean().default(false),

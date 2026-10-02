@@ -5,7 +5,12 @@ import { textWidth, type TextProps } from "../elements/Text";
 import { unitOf, type FrameSize } from "../elements/shared";
 import type { CompiledAssets } from "../assets/compiled";
 import type { Scene, Video } from "../schema/scene";
-import { FORMATS, type FormatName, type Margins } from "./formats";
+import {
+  FORMATS,
+  writtenFormat,
+  type FormatName,
+  type Margins,
+} from "./formats";
 import { planVideo, type Drawing, type PlannedBoard } from "./plan";
 
 // Showing a video in a format it wasn't written for. Positions in a scene
@@ -216,9 +221,9 @@ export const stagesFor = (
   target: FormatName,
   assets: CompiledAssets = {},
 ): Stage[] => {
-  const written = FORMATS[video.format];
+  const written = FORMATS[writtenFormat(video.format)];
   const plan = planVideo(video, written, assets);
-  if (target === video.format) {
+  if (target === writtenFormat(video.format)) {
     return plan.map((board) => ({ board, frame: written, placement: IDENTITY }));
   }
   const frame = FORMATS[target];

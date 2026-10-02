@@ -21,7 +21,7 @@ const twoBoxes = (layouts?: VideoInput["scenes"][number]["layouts"]) => {
   const result = validateVideo({
     version: 1,
     title: "Test",
-    format: "portrait",
+    format: "all",
     scenes: [
       {
         id: "main",

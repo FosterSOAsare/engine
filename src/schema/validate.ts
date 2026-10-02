@@ -1,5 +1,5 @@
 import type { z } from "zod";
-import { FPS } from "../layout/formats";
+import { FPS, writtenFormat } from "../layout/formats";
 import {
   elementSchema,
   videoSchema,
@@ -167,12 +167,22 @@ const crossCheck = (video: Video): string[] => {
       }
     });
 
+    if (scene.place && video.format !== "landscape") {
+      errors.push(
+        `${sceneName}: "place" is for landscape videos, which put every scene on one board`,
+      );
+    }
+
     // Layouts for other formats move this scene's own elements, by id.
     for (const [format, moves] of Object.entries(scene.layouts ?? {})) {
       const at = `${sceneName}, layouts.${format}`;
-      if (format === video.format) {
+      if (video.format === "landscape") {
+        errors.push(`${at}: landscape videos are made only in landscape`);
+        continue;
+      }
+      if (format === writtenFormat(video.format)) {
         errors.push(
-          `${at}: the file is written for ${format}; change the elements themselves`,
+          `${at}: the file is written in ${format}; change the elements themselves`,
         );
         continue;
       }

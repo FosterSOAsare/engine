@@ -6,8 +6,13 @@ import {
   Sequence,
   staticFile,
   useCurrentFrame,
+  useVideoConfig,
 } from "remotion";
-import { sceneTimes, WIPE_SECONDS } from "./animation/timeline";
+import {
+  scenesLength,
+  sceneTimes,
+  WIPE_SECONDS,
+} from "./animation/timeline";
 import { Captions } from "./captions/Captions";
 import { captionPages } from "./captions/pages";
 import type { CompiledAssets } from "./assets/compiled";
@@ -18,8 +23,20 @@ import { Image } from "./elements/Image";
 import { Shape } from "./elements/Shape";
 import { Text } from "./elements/Text";
 import { BOARD, BoardSize } from "./elements/shared";
+import {
+  AREA,
+  cameraPlacement,
+  canvasFor,
+  onScreen,
+  viewAt,
+} from "./layout/canvas";
 import { placeTrack, stagesFor } from "./layout/fit";
-import { secondsToFrames, type FormatName } from "./layout/formats";
+import {
+  FPS,
+  secondsToFrames,
+  writtenFormat,
+  type FormatName,
+} from "./layout/formats";
 import { handTracks, type PlannedBoard } from "./layout/plan";
 import type { HeardWords } from "./schema/timing";
 import { validateVideo, type AudioLengths } from "./schema/validate";
@@ -150,17 +167,31 @@ export const SceneVideo: React.FC<SceneVideoProps> = ({
   cover,
 }) => {
   const frame = useCurrentFrame();
+  const { width, height } = useVideoConfig();
 
   const result = useMemo(
     () => validateVideo(video, audio, heard),
     [video, audio, heard],
   );
-  // Each board laid out for the format shown (layout/fit.ts), and the
-  // hand's path placed with it.
+  // A landscape video: every scene on one board, seen through a camera
+  // (layout/canvas.ts).
+  const canvas = useMemo(
+    () =>
+      result.ok && result.video.format === "landscape"
+        ? canvasFor(result.video, assets ?? {})
+        : null,
+    [result, assets],
+  );
+  // Any other video: each board laid out for the format shown
+  // (layout/fit.ts), and the hand's path placed with it.
   const stages = useMemo(
     () =>
-      result.ok
-        ? stagesFor(result.video, format ?? result.video.format, assets ?? {})
+      result.ok && result.video.format !== "landscape"
+        ? stagesFor(
+            result.video,
+            format ?? writtenFormat(result.video.format),
+            assets ?? {},
+          )
         : [],
     [result, format, assets],
   );
@@ -196,6 +227,19 @@ export const SceneVideo: React.FC<SceneVideoProps> = ({
       ]
     : [];
   if (!result.ok) return <Errors errors={result.errors} />;
+  const narration =
+    result.video.voiceover && !cover
+      ? sceneTimes(result.video).map(({ scene, start, end }) => (
+          <Sequence
+            key={scene.id}
+            from={secondsToFrames(start)}
+            durationInFrames={secondsToFrames(end) - secondsToFrames(start)}
+            layout="none"
+          >
+            <Audio src={narrationFile(id, scene.id, versions?.[scene.id])} />
+          </Sequence>
+        ))
+      : null;
   if (missing.length > 0) {
     return (
       <Errors
@@ -203,6 +247,63 @@ export const SceneVideo: React.FC<SceneVideoProps> = ({
           (name) => `design "${name}" isn't compiled yet; run npm run assets`,
         )}
       />
+    );
+  }
+
+  if (canvas) {
+    // The camera at this moment; boards it can't see aren't drawn.
+    const size = { width, height };
+    const camera = cameraPlacement(
+      viewAt(canvas, frame / FPS, scenesLength(result.video), size),
+      size,
+    );
+    return (
+      <AbsoluteFill style={{ background: BOARD }}>
+        <div
+          style={{
+            position: "absolute",
+            left: 0,
+            top: 0,
+            width: canvas.width,
+            height: canvas.height,
+            transform: `translate(${camera.x}px, ${camera.y}px) scale(${camera.scale})`,
+            transformOrigin: "0 0",
+          }}
+        >
+          {canvas.boards.map((board, i) => {
+            const area = canvas.areas[i];
+            return frame >= secondsToFrames(board.start) &&
+              onScreen(area, camera, size) ? (
+              <div
+                key={i}
+                style={{
+                  position: "absolute",
+                  left: area.left,
+                  top: area.top,
+                  width: area.width,
+                  height: area.height,
+                }}
+              >
+                <BoardSize value={AREA}>
+                  <BoardView board={board} />
+                </BoardSize>
+              </div>
+            ) : null;
+          })}
+        </div>
+        {!cover ? (
+          <>
+            <Hand
+              tracks={canvas.tracks.map((track) => placeTrack(track, camera))}
+            />
+            <Captions pages={pages} />
+          </>
+        ) : null}
+        {result.video.watermark !== false ? (
+          <Watermark text={result.video.watermark ?? WATERMARK} />
+        ) : null}
+        {narration}
+      </AbsoluteFill>
     );
   }
 
@@ -242,18 +343,7 @@ export const SceneVideo: React.FC<SceneVideoProps> = ({
       {result.video.watermark !== false ? (
         <Watermark text={result.video.watermark ?? WATERMARK} />
       ) : null}
-      {result.video.voiceover && !cover
-        ? sceneTimes(result.video).map(({ scene, start, end }) => (
-            <Sequence
-              key={scene.id}
-              from={secondsToFrames(start)}
-              durationInFrames={secondsToFrames(end) - secondsToFrames(start)}
-              layout="none"
-            >
-              <Audio src={narrationFile(id, scene.id, versions?.[scene.id])} />
-            </Sequence>
-          ))
-        : null}
+      {narration}
     </AbsoluteFill>
   );
 };

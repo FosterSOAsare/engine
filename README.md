@@ -58,16 +58,19 @@ For a narrated video, generate its narration and word timings first (see [Narrat
 
 ## Formats
 
-Every video renders in four formats. A scene file is written for one of them (its `format`); in Studio each video is a folder with one composition per format.
+A scene file's `format` picks one of two kinds of video:
+
+- **`"all"`** (default): short and simple. Scenes play one after another, each wiped before the next, written in the tall portrait frame. It renders in all four formats below.
+- **`"landscape"`**: a detailed explainer, made only in landscape. Every scene is drawn on **one big board** and nothing is wiped. The camera glides from scene to scene as the narration moves on, and the video ends by zooming out to show the whole board in one frame (about 4 s extra). Scenes fill a grid in reading order, about as many columns as rows. A scene can choose its cell with `"place": [column, row]` (0-based), and scenes with `keepPrevious` share the previous scene's area. Element positions work as before, in percent of that scene's area. The default cover is the final overview.
 
 | Format | Size | Composition | For |
 |---|---|---|---|
-| `portrait` | 1080×1920 (9:16) | `<id>-portrait` | TikTok, Reels, Shorts |
+| `portrait` | 1080×1920 (9:16) | `<id>` for `"all"` videos | TikTok, Reels, Shorts |
 | `feed` | 1080×1350 (4:5) | `<id>-feed` | LinkedIn and Instagram feed |
 | `square` | 1080×1080 (1:1) | `<id>-square` | Feeds |
-| `landscape` | 1920×1080 (16:9) | `<id>-landscape` | YouTube, LinkedIn video |
+| `landscape` | 1920×1080 (16:9) | `<id>-landscape`, or `<id>` for landscape videos | YouTube, LinkedIn video |
 
-In the format it is written for, a video's composition is just `<id>`. In the others, each board keeps the shape it was written for and is scaled to fit that format's safe area: clear of the captions and, in portrait, of the buttons and description the apps lay over the video. It is never scaled up, so text stays as large as written or smaller.
+An `"all"` video in another format keeps each board's portrait shape and scales it to fit that format's safe area: clear of the captions and, in portrait, of the buttons and description the apps lay over the video. It is never scaled up, so text stays as large as written or smaller.
 
 When a scene doesn't work scaled (a portrait column in a wide frame, say), give it a layout for that format: new positions and sizes for its elements, by id. That scene is then laid out directly in that frame.
 
@@ -136,7 +139,7 @@ If the file has a problem, the Studio shows a list of what is wrong and where (f
 {
   "version": 1,
   "title": "How DNS works",
-  "format": "portrait",
+  "format": "all",
   "scenes": [
     {
       "id": "ask",
@@ -154,9 +157,9 @@ If the file has a problem, the Studio shows a list of what is wrong and where (f
 
 **Units.** Positions (`x`, `y`) are percent of the frame, 0 to 100, measured to the element's centre. Sizes (`w`, `h`, `size`) are percent of the frame's shorter side, so shapes keep their proportions in every format. Times are seconds.
 
-**Video.** `version` (1), `title`, `format` (the format it is written for: `"portrait"`, `"feed"`, `"square"` or `"landscape"`; default portrait; see [Formats](#formats)), `fps` (30 only for now), `voiceover` (narrate every scene; default `false`), `voice` (a Piper voice; default `en_US-bryce-medium`), `captions` (word-by-word captions on narrated videos; default `true`), `cover` (the moment for cover images: a scene id or seconds; see [Posting](#posting)), `scenes`.
+**Video.** `version` (1), `title`, `format` (`"all"`, the default: simple, every format; or `"landscape"`: one big board with a moving camera; see [Formats](#formats)), `fps` (30 only for now), `voiceover` (narrate every scene; default `false`), `voice` (a Piper voice; default `en_US-bryce-medium`), `captions` (word-by-word captions on narrated videos; default `true`), `cover` (the moment for cover images: a scene id or seconds; see [Posting](#posting)), `scenes`.
 
-**Scene.** One idea and one narration line. `id`, `duration` (seconds), `narration`, `pause` (silence after the narration; default 0.5 s), `keepPrevious` (keep the previous scene's drawing instead of wiping the board; default `false`), `elements`, `layouts` (positions for other formats; see [Formats](#formats)). Scenes play one after another; at the end of each, the board is wiped unless the next scene keeps it. In a narrated video `duration` is optional: a scene lasts as long as its narration plus the pause, or its `duration` if that is longer, and stretches if its drawings need more time.
+**Scene.** One idea and one narration line. `id`, `duration` (seconds), `narration`, `pause` (silence after the narration; default 0.5 s), `keepPrevious` (keep the previous scene's drawing instead of wiping the board; default `false`), `elements`, `layouts` (positions for other formats, in `"all"` videos), `place` (its grid cell, in landscape videos; see [Formats](#formats)). Scenes play one after another; at the end of each, the board is wiped unless the next scene keeps it. In a narrated video `duration` is optional: a scene lasts as long as its narration plus the pause, or its `duration` if that is longer, and stretches if its drawings need more time.
 
 **Every element** has `type` and `draw` (seconds the drawing takes), and optionally `id` (to connect arrows and rings to it), `color` (any CSS colour), `seed` (fixes the sketchy wobble; derived from the id when left out) and a time to start:
 
@@ -254,7 +257,8 @@ The `version` field lets the engine reject or upgrade old files when the format 
 
 - **Version 1** (M2). Videos with `title`, `format`, `fps` and scenes with `duration`, `narration`, `keepPrevious`. Elements: box, circle, ellipse, diamond, triangle, icon, text, list, arrow, line, ring; `fill` and `fillStyle` on closed shapes; arrow `head`.
 - **Version 1, M3 additions** (all optional; older files are still valid). Videos: `voiceover`, `voice`, `captions`. Scenes: `pause`; `duration` optional with a voiceover. Elements: `start` optional, `at`; lists: `itemGap`. Elements now queue instead of being rejected when they overlap.
-- **Version 1, M4 additions** (optional). Formats `feed` and `square`. Videos: `cover`. Scenes: `layouts`.
+- **Version 1, M4 additions** (optional). Videos: `cover`. Scenes: `layouts`.
+- **Version 1, board videos.** `format` is now `"all"` (default; was `"portrait"`) or `"landscape"` (one big board with a camera). Scenes: `place`.
 
 ## Roadmap
 

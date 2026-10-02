@@ -1,7 +1,7 @@
 {
   "version": 1,
   "title": "Browser to server",
-  "format": "portrait",
+  "format": "all",
   "fps": 30,
   "scenes": [
     {

@@ -1,7 +1,7 @@
 {
   "version": 1,
   "title": "Renderer check",
-  "format": "portrait",
+  "format": "all",
   "scenes": [
     {
       "id": "one",

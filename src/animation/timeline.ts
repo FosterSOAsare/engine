@@ -34,8 +34,23 @@ export const sceneTimes = (video: Video): TimedScene[] => {
   });
 };
 
-export const videoLength = (video: Video) =>
+// The scenes, one after another.
+export const scenesLength = (video: Video) =>
   video.scenes.reduce((sum, scene) => sum + (scene.duration ?? 0), 0);
+
+// A landscape video ends on its whole board: after the last scene the
+// camera zooms out (layout/canvas.ts) and holds the overview.
+export const OVERVIEW_MOVE_SECONDS = 1.5;
+// Between boards the camera glides for this long, centred on the change.
+export const CAMERA_MOVE_SECONDS = 1;
+export const OVERVIEW_HOLD_SECONDS = 2.5;
+
+// The whole video, in seconds.
+export const videoLength = (video: Video) =>
+  scenesLength(video) +
+  (video.format === "landscape"
+    ? OVERVIEW_MOVE_SECONDS + OVERVIEW_HOLD_SECONDS
+    : 0);
 
 export const boards = (video: Video): Board[] => {
   const result: Board[] = [];
@@ -60,21 +75,34 @@ export const boards = (video: Video): Board[] => {
 };
 
 // The moment shown on cover images, in seconds: the video's "cover" (a
-// scene id or seconds), by default the end of the first scene. A scene's
-// end is just before its board is wiped, with everything drawn.
+// scene id or seconds). By default the end of the first scene, or for a
+// landscape video the overview of its whole board. A scene's end is just
+// before its board is wiped, with everything drawn.
 export const coverTime = (video: Video): number => {
   const length = videoLength(video);
   const lastFrame = Math.max(0, length - 1 / FPS);
   if (typeof video.cover === "number") return Math.min(video.cover, lastFrame);
+  if (video.cover === undefined && video.format === "landscape") {
+    return lastFrame;
+  }
   const times = sceneTimes(video);
   const index = Math.max(
     0,
     times.findIndex(({ scene }) => scene.id === (video.cover ?? video.scenes[0].id)),
   );
   const next = video.scenes[index + 1];
-  const wiped = next !== undefined && !next.keepPrevious;
+  const wiped =
+    next !== undefined && !next.keepPrevious && video.format !== "landscape";
+  // Before the wipe, or in a landscape video before the camera moves on.
+  const leaves =
+    video.format === "landscape" && next !== undefined && !next.keepPrevious
+      ? CAMERA_MOVE_SECONDS / 2
+      : 0;
   return Math.max(
     0,
-    Math.min(lastFrame, times[index].end - (wiped ? WIPE_SECONDS : 0) - 2 / FPS),
+    Math.min(
+      lastFrame,
+      times[index].end - (wiped ? WIPE_SECONDS : 0) - leaves - 2 / FPS,
+    ),
   );
 };

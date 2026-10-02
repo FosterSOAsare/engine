@@ -13,8 +13,10 @@ import type { CompiledAsset, CompiledAssets } from "./assets/compiled";
 import { fetchWavDuration } from "./audio/wav";
 import { coverTime, videoLength } from "./animation/timeline";
 import {
-  FORMAT_NAMES,
   FORMATS,
+  formatsFor,
+  writtenFormat,
+  type VideoFormat,
   FPS,
   secondsToFrames,
   type FormatName,
@@ -102,7 +104,7 @@ const sceneVideoMetadata = async ({ props }: { props: SceneVideoProps }) => {
     : [];
   const assets = await loadAssets(imageNames);
   const { width, height } =
-    FORMATS[props.format ?? video?.format ?? "portrait"];
+    FORMATS[props.format ?? writtenFormat(video?.format ?? "all")];
   return {
     // For a cover the video stops at the cover moment: its last frame is
     // the cover (npm run cover renders it).
@@ -116,10 +118,10 @@ const sceneVideoMetadata = async ({ props }: { props: SceneVideoProps }) => {
   };
 };
 
-// The format a scene file is written for (portrait unless it says).
-const formatOf = (scene: unknown): FormatName => {
+// A scene file's kind of video ("all" unless it says).
+const videoFormatOf = (scene: unknown): VideoFormat => {
   const parsed = videoSchema.safeParse(scene);
-  return parsed.success ? parsed.data.format : "portrait";
+  return parsed.success ? parsed.data.format : "all";
 };
 
 // The composition id of a video in a format: the plain id in the format
@@ -133,17 +135,15 @@ export const compositionId = (
 
 // Each <Composition> is an entry in the Studio sidebar and can be rendered by
 // its id. Every video in src/videos.ts gets a folder with one composition per
-// format, the one it is written for first. Plus TestCard, the M0 smoke test.
+// format it is made in (all four, or landscape only), the one it is written
+// in first. Plus TestCard, the M0 smoke test.
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
       {VIDEOS.map(({ id, scene }) => {
-        const written = formatOf(scene);
-        const formats = [
-          written,
-          ...FORMAT_NAMES.filter((format) => format !== written),
-        ];
+        const formats = formatsFor(videoFormatOf(scene));
+        const written = formats[0];
         return (
           <Folder key={id} name={id}>
             {formats.map((format) => (

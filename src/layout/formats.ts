@@ -1,7 +1,11 @@
 // Output formats. Every composition takes its size from here.
 //
-// A video is written for one format (its "format" in the scene file) and
-// can be rendered in all of them: see layout/fit.ts.
+// A scene file's "format" is one of two kinds of video:
+//   "all"        short and simple: scene after scene, written in the tall
+//                portrait frame, made in every format (see layout/fit.ts)
+//   "landscape"  a detailed explainer: every scene on one big board, the
+//                camera moving between them, made only in landscape (see
+//                layout/canvas.ts)
 
 export const FPS = 30;
 
@@ -62,6 +66,21 @@ export const FORMAT_NAMES = Object.keys(FORMATS) as [
   FormatName,
   ...FormatName[],
 ];
+
+export const VIDEO_FORMATS = ["all", "landscape"] as const;
+export type VideoFormat = (typeof VIDEO_FORMATS)[number];
+
+// The frame a video's scenes are written in.
+export const writtenFormat = (format: VideoFormat): FormatName =>
+  format === "landscape" ? "landscape" : "portrait";
+
+// The formats a video is made in, the one it is written in first.
+export const formatsFor = (format: VideoFormat): FormatName[] => {
+  const written = writtenFormat(format);
+  return format === "landscape"
+    ? [written]
+    : [written, ...FORMAT_NAMES.filter((f) => f !== written)];
+};
 
 // The format with this frame size (portrait if none matches).
 export const formatOfSize = (width: number, height: number): Format =>
