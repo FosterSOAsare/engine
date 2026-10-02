@@ -1,0 +1,1348 @@
+{
+  "version": 1,
+  "title": "Latency, explained: why the internet makes you wait",
+  "format": "landscape",
+  "voiceover": true,
+  "voice": "en_US-bryce-medium",
+  "captions": true,
+  "scenes": [
+    {
+      "id": "hook",
+      "chapter": "What is latency?",
+      "narration": "You tap a button, and nothing happens. Then, a moment later, the page jumps to life. That pause is called latency: the time it takes for data to travel from you to a server and back.",
+      "elements": [
+        {
+          "type": "image",
+          "id": "phone",
+          "name": "latency/phone",
+          "x": 16,
+          "y": 42,
+          "w": 20,
+          "label": "you",
+          "draw": 1.2,
+          "at": "tap"
+        },
+        {
+          "type": "icon",
+          "name": "mouse-pointer-click",
+          "x": 25,
+          "y": 29,
+          "size": 7,
+          "color": "#1e6fd9",
+          "draw": 0.5,
+          "at": "button"
+        },
+        {
+          "type": "image",
+          "name": "latency/hourglass",
+          "x": 50,
+          "y": 59,
+          "w": 9,
+          "draw": 0.8,
+          "at": "nothing"
+        },
+        {
+          "type": "line",
+          "x1": 22,
+          "y1": 74,
+          "x2": 78,
+          "y2": 74,
+          "draw": 0.6,
+          "at": "moment"
+        },
+        {
+          "type": "text",
+          "x": 22,
+          "y": 79,
+          "size": 4.5,
+          "text": "tap",
+          "draw": 0.3
+        },
+        {
+          "type": "text",
+          "x": 78,
+          "y": 79,
+          "size": 4.5,
+          "text": "page appears",
+          "draw": 0.5,
+          "at": "jumps"
+        },
+        {
+          "type": "text",
+          "x": 50,
+          "y": 79,
+          "size": 4.5,
+          "text": "the pause",
+          "color": "#c0392b",
+          "draw": 0.5,
+          "at": "pause"
+        },
+        {
+          "type": "text",
+          "x": 50,
+          "y": 13,
+          "size": 13,
+          "text": "Latency",
+          "color": "#1e6fd9",
+          "draw": 0.8,
+          "at": "latency"
+        },
+        {
+          "type": "text",
+          "x": 50,
+          "y": 22,
+          "size": 5,
+          "text": "the time for one round trip: there and back",
+          "color": "#6b6b6b",
+          "draw": 1
+        },
+        {
+          "type": "image",
+          "id": "server",
+          "name": "latency/server",
+          "x": 84,
+          "y": 42,
+          "w": 20,
+          "label": "server",
+          "draw": 1.2,
+          "at": "data"
+        },
+        {
+          "type": "arrow",
+          "from": "phone",
+          "to": "server",
+          "bend": 8,
+          "label": "request",
+          "color": "#1e6fd9",
+          "draw": 0.6,
+          "at": "travel"
+        },
+        {
+          "type": "arrow",
+          "from": "server",
+          "to": "phone",
+          "bend": 8,
+          "label": "response",
+          "color": "#2a9d4b",
+          "draw": 0.6,
+          "at": "back"
+        }
+      ]
+    },
+    {
+      "id": "bandwidth",
+      "narration": "People often mix up latency and bandwidth. Bandwidth is how much data can flow at once, like the number of lanes on a highway. Latency is how long a single trip takes, like the length of the road.",
+      "camera": [
+        {
+          "focus": [
+            "cmp.3"
+          ],
+          "at": "highway"
+        },
+        {
+          "focus": "all",
+          "at": "single"
+        }
+      ],
+      "elements": [
+        {
+          "type": "text",
+          "x": 50,
+          "y": 9,
+          "size": 8,
+          "text": "Bandwidth is not latency",
+          "draw": 0.8,
+          "at": "mix"
+        },
+        {
+          "type": "table",
+          "id": "cmp",
+          "x": 50,
+          "y": 37,
+          "w": 120,
+          "size": 5,
+          "rows": [
+            [
+              "",
+              "Bandwidth",
+              "Latency"
+            ],
+            [
+              "Measures",
+              "how much data at once",
+              "how long one trip takes"
+            ],
+            [
+              "Unit",
+              "megabits per second",
+              "milliseconds"
+            ],
+            [
+              "Highway",
+              "number of lanes",
+              "length of the road"
+            ]
+          ],
+          "draw": 1.0,
+          "at": "bandwidth",
+          "rowGap": 0.15
+        },
+        {
+          "type": "line",
+          "x1": 8,
+          "y1": 64,
+          "x2": 40,
+          "y2": 64,
+          "draw": 0.2,
+          "at": "lanes"
+        },
+        {
+          "type": "line",
+          "x1": 8,
+          "y1": 71,
+          "x2": 40,
+          "y2": 71,
+          "draw": 0.2
+        },
+        {
+          "type": "line",
+          "x1": 8,
+          "y1": 78,
+          "x2": 40,
+          "y2": 78,
+          "draw": 0.2
+        },
+        {
+          "type": "image",
+          "name": "latency/car",
+          "x": 15,
+          "y": 67.5,
+          "w": 7,
+          "draw": 0.3
+        },
+        {
+          "type": "image",
+          "name": "latency/car",
+          "x": 27,
+          "y": 74.5,
+          "w": 7,
+          "draw": 0.3
+        },
+        {
+          "type": "image",
+          "name": "latency/car",
+          "x": 35,
+          "y": 67.5,
+          "w": 7,
+          "draw": 0.3
+        },
+        {
+          "type": "text",
+          "x": 24,
+          "y": 85,
+          "size": 4.5,
+          "text": "more lanes = more bandwidth",
+          "color": "#1e6fd9",
+          "draw": 0.5
+        },
+        {
+          "type": "image",
+          "name": "latency/road",
+          "x": 57,
+          "y": 70,
+          "w": 12,
+          "draw": 0.4,
+          "at": "length"
+        },
+        {
+          "type": "line",
+          "x1": 63,
+          "y1": 74,
+          "x2": 93,
+          "y2": 74,
+          "draw": 0.2
+        },
+        {
+          "type": "image",
+          "name": "latency/car",
+          "x": 67,
+          "y": 70,
+          "w": 7,
+          "draw": 0.3
+        },
+        {
+          "type": "image",
+          "name": "latency/pin",
+          "x": 93,
+          "y": 68,
+          "w": 6,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "x": 75,
+          "y": 85,
+          "size": 4.5,
+          "text": "longer road = more latency",
+          "color": "#c0392b",
+          "draw": 0.5,
+          "at": "road"
+        }
+      ]
+    },
+    {
+      "id": "distance",
+      "chapter": "Where the time goes",
+      "narration": "The first cause is distance. Light in a fibre cable covers about two hundred kilometres every millisecond. So a trip from London to New York and back takes at least fifty six milliseconds, before anything else happens.",
+      "elements": [
+        {
+          "type": "text",
+          "x": 12,
+          "y": 10,
+          "size": 8,
+          "text": "1. Distance",
+          "draw": 0.6,
+          "at": "distance"
+        },
+        {
+          "type": "image",
+          "name": "latency/globe",
+          "x": 50,
+          "y": 45,
+          "w": 34,
+          "draw": 1.6
+        },
+        {
+          "type": "image",
+          "name": "latency/lightning",
+          "reveal": "pop",
+          "x": 8,
+          "y": 26,
+          "w": 6,
+          "draw": 0.4,
+          "at": "Light"
+        },
+        {
+          "type": "text",
+          "x": 12,
+          "y": 26,
+          "size": 5,
+          "text": "light in fibre: about 200 km per millisecond",
+          "align": "left",
+          "draw": 1.2,
+          "at": "kilometres"
+        },
+        {
+          "type": "image",
+          "id": "london",
+          "name": "latency/pin",
+          "x": 26,
+          "y": 46,
+          "w": 8,
+          "label": "London",
+          "draw": 0.6,
+          "at": "London"
+        },
+        {
+          "type": "image",
+          "id": "ny",
+          "name": "latency/pin",
+          "x": 74,
+          "y": 46,
+          "w": 8,
+          "label": "New York",
+          "draw": 0.6,
+          "at": "York"
+        },
+        {
+          "type": "arrow",
+          "from": "london",
+          "to": "ny",
+          "head": "both",
+          "bend": 26,
+          "color": "#1e6fd9",
+          "draw": 0.7,
+          "at": "back"
+        },
+        {
+          "type": "text",
+          "x": 50,
+          "y": 24,
+          "size": 5.5,
+          "text": "5,570 km each way",
+          "color": "#1e6fd9",
+          "draw": 0.6
+        },
+        {
+          "type": "text",
+          "x": 50,
+          "y": 75,
+          "size": 5,
+          "text": "5,570 km there + 5,570 km back, at 200 km per ms",
+          "color": "#6b6b6b",
+          "draw": 1,
+          "at": "fifty"
+        },
+        {
+          "type": "text",
+          "x": 50,
+          "y": 84,
+          "size": 8,
+          "text": "at least 56 ms",
+          "color": "#c0392b",
+          "draw": 0.7,
+          "at": "before"
+        }
+      ]
+    },
+    {
+      "id": "hops",
+      "narration": "The second cause is hops. Your data passes through many routers on the way. Each one reads the packet, decides where it goes next, and sometimes makes it wait in a queue.",
+      "camera": [
+        {
+          "focus": [
+            "r1",
+            "r2",
+            "r3"
+          ],
+          "at": "routers"
+        },
+        {
+          "focus": "all",
+          "at": "reads"
+        }
+      ],
+      "elements": [
+        {
+          "type": "text",
+          "x": 10,
+          "y": 10,
+          "size": 8,
+          "text": "2. Hops",
+          "draw": 0.6,
+          "at": "hops"
+        },
+        {
+          "type": "image",
+          "id": "lap",
+          "name": "latency/laptop",
+          "x": 9,
+          "y": 40,
+          "w": 14,
+          "label": "you",
+          "draw": 0.7,
+          "at": "data"
+        },
+        {
+          "type": "image",
+          "id": "r1",
+          "name": "latency/router",
+          "x": 30,
+          "y": 40,
+          "w": 11,
+          "label": "router",
+          "draw": 0.4,
+          "at": "routers"
+        },
+        {
+          "type": "image",
+          "id": "r2",
+          "name": "latency/router",
+          "x": 50,
+          "y": 40,
+          "w": 11,
+          "label": "router",
+          "draw": 0.4
+        },
+        {
+          "type": "image",
+          "id": "r3",
+          "name": "latency/router",
+          "x": 70,
+          "y": 40,
+          "w": 11,
+          "label": "router",
+          "draw": 0.4
+        },
+        {
+          "type": "image",
+          "id": "srv",
+          "name": "latency/server",
+          "x": 91,
+          "y": 40,
+          "w": 14,
+          "label": "server",
+          "draw": 0.7
+        },
+        {
+          "type": "arrow",
+          "from": "lap",
+          "to": "r1",
+          "draw": 0.25
+        },
+        {
+          "type": "arrow",
+          "from": "r1",
+          "to": "r2",
+          "draw": 0.25
+        },
+        {
+          "type": "arrow",
+          "from": "r2",
+          "to": "r3",
+          "draw": 0.25
+        },
+        {
+          "type": "arrow",
+          "from": "r3",
+          "to": "srv",
+          "draw": 0.25
+        },
+        {
+          "type": "text",
+          "x": 50,
+          "y": 55,
+          "size": 4.5,
+          "text": "every arrow is one hop",
+          "color": "#6b6b6b",
+          "draw": 0.5
+        },
+        {
+          "type": "list",
+          "x": 10,
+          "y": 66,
+          "size": 5,
+          "items": [
+            "reads the packet",
+            "decides where it goes next",
+            "may wait in a queue"
+          ],
+          "draw": 1.6,
+          "at": "reads"
+        },
+        {
+          "type": "ring",
+          "target": "r2",
+          "padding": 3,
+          "draw": 0.5,
+          "at": "queue"
+        },
+        {
+          "type": "bubble",
+          "x": 68,
+          "y": 72,
+          "w": 34,
+          "size": 4.5,
+          "text": "Busy! Wait your turn...",
+          "to": "r2",
+          "draw": 0.9
+        }
+      ]
+    },
+    {
+      "id": "trips",
+      "narration": "The third cause is round trips. Before a secure page even starts loading, your browser and the server trade several messages: a DNS lookup, a TCP handshake and a TLS handshake. Every one of them is a full trip.",
+      "camera": [
+        {
+          "focus": [
+            "rt.5"
+          ],
+          "at": "Every"
+        }
+      ],
+      "elements": [
+        {
+          "type": "text",
+          "x": 15,
+          "y": 10,
+          "size": 8,
+          "text": "3. Round trips",
+          "draw": 0.6,
+          "at": "round"
+        },
+        {
+          "type": "table",
+          "id": "rt",
+          "x": 37,
+          "y": 52,
+          "w": 90,
+          "size": 5,
+          "title": "Before the first byte (London to New York)",
+          "rows": [
+            [
+              "Step",
+              "Trips",
+              "Time"
+            ],
+            [
+              "DNS lookup",
+              "1",
+              "56 ms"
+            ],
+            [
+              "TCP handshake",
+              "1",
+              "56 ms"
+            ],
+            [
+              "TLS handshake",
+              "1",
+              "56 ms"
+            ],
+            [
+              "Request the page",
+              "1",
+              "56 ms"
+            ],
+            [
+              "Total",
+              "4",
+              "224 ms"
+            ]
+          ],
+          "draw": 1.0,
+          "at": "secure",
+          "rowGap": 0.15
+        },
+        {
+          "type": "image",
+          "id": "browser",
+          "name": "latency/browser",
+          "x": 82,
+          "y": 27,
+          "w": 15,
+          "label": "browser",
+          "draw": 0.5,
+          "at": "browser"
+        },
+        {
+          "type": "image",
+          "id": "srv",
+          "name": "latency/server",
+          "x": 82,
+          "y": 70,
+          "w": 13,
+          "label": "server",
+          "draw": 0.5
+        },
+        {
+          "type": "arrow",
+          "from": "browser",
+          "to": "srv",
+          "bend": 7,
+          "draw": 0.3,
+          "at": "trade"
+        },
+        {
+          "type": "arrow",
+          "from": "srv",
+          "to": "browser",
+          "bend": 7,
+          "draw": 0.3
+        },
+        {
+          "type": "image",
+          "name": "latency/handshake",
+          "x": 82,
+          "y": 48.5,
+          "w": 7,
+          "draw": 0.35,
+          "at": "handshake"
+        },
+        {
+          "type": "image",
+          "name": "latency/lock",
+          "x": 69,
+          "y": 48.5,
+          "w": 5,
+          "draw": 0.35,
+          "at": "TLS"
+        },
+        {
+          "type": "ring",
+          "target": "rt.5.2",
+          "padding": 1.5,
+          "draw": 0.5,
+          "at": "full"
+        }
+      ]
+    },
+    {
+      "id": "server",
+      "narration": "Finally, the server needs time to think. It reads from the database, runs your code and builds the page. A single slow query here can cost more than all the travel combined.",
+      "elements": [
+        {
+          "type": "text",
+          "x": 14,
+          "y": 10,
+          "size": 8,
+          "text": "4. Server time",
+          "draw": 0.6,
+          "at": "Finally"
+        },
+        {
+          "type": "image",
+          "id": "s",
+          "name": "latency/server",
+          "x": 20,
+          "y": 46,
+          "w": 20,
+          "label": "server",
+          "draw": 1,
+          "at": "server"
+        },
+        {
+          "type": "image",
+          "name": "latency/stopwatch",
+          "x": 20,
+          "y": 22,
+          "w": 7,
+          "draw": 0.6,
+          "at": "time"
+        },
+        {
+          "type": "image",
+          "id": "db",
+          "name": "latency/database",
+          "x": 55,
+          "y": 27,
+          "w": 13,
+          "label": "database",
+          "draw": 1,
+          "at": "database"
+        },
+        {
+          "type": "image",
+          "id": "cpu",
+          "name": "latency/chip",
+          "x": 55,
+          "y": 63,
+          "w": 12,
+          "label": "runs code",
+          "draw": 0.8,
+          "at": "code"
+        },
+        {
+          "type": "image",
+          "id": "page",
+          "name": "latency/page",
+          "x": 85,
+          "y": 45,
+          "w": 14,
+          "label": "the page",
+          "draw": 0.8,
+          "at": "builds"
+        },
+        {
+          "type": "arrow",
+          "from": "s",
+          "to": "db",
+          "label": "query",
+          "draw": 0.4
+        },
+        {
+          "type": "arrow",
+          "from": "s",
+          "to": "cpu",
+          "draw": 0.4
+        },
+        {
+          "type": "arrow",
+          "from": "db",
+          "to": "page",
+          "draw": 0.4
+        },
+        {
+          "type": "arrow",
+          "from": "cpu",
+          "to": "page",
+          "draw": 0.4
+        },
+        {
+          "type": "ring",
+          "target": "db",
+          "padding": 3,
+          "draw": 0.5,
+          "at": "slow"
+        },
+        {
+          "type": "text",
+          "x": 50,
+          "y": 86,
+          "size": 6,
+          "text": "one slow query > all the travel",
+          "color": "#c0392b",
+          "draw": 1,
+          "at": "travel"
+        }
+      ]
+    },
+    {
+      "id": "numbers",
+      "chapter": "Numbers to know",
+      "narration": "Here is a sense of scale. Reading from memory takes about a tenth of a microsecond. A round trip inside a data centre takes half a millisecond. A continent away, about forty milliseconds. An ocean away, well over a hundred.",
+      "camera": [
+        {
+          "focus": [
+            "nums.3",
+            "nums.4"
+          ],
+          "at": "continent"
+        },
+        {
+          "focus": "all",
+          "at": "hundred"
+        }
+      ],
+      "elements": [
+        {
+          "type": "text",
+          "x": 22,
+          "y": 10,
+          "size": 8,
+          "text": "Typical latencies",
+          "draw": 0.6,
+          "at": "scale"
+        },
+        {
+          "type": "table",
+          "id": "nums",
+          "x": 38,
+          "y": 50,
+          "w": 90,
+          "size": 5.5,
+          "rows": [
+            [
+              "Operation",
+              "Typical time"
+            ],
+            [
+              "Read from memory",
+              "0.0001 ms"
+            ],
+            [
+              "Round trip in a data centre",
+              "0.5 ms"
+            ],
+            [
+              "A continent away",
+              "40 ms"
+            ],
+            [
+              "An ocean away",
+              "150 ms"
+            ]
+          ],
+          "draw": 1.0,
+          "at": "memory",
+          "rowGap": 0.15
+        },
+        {
+          "type": "image",
+          "name": "latency/chip",
+          "x": 80,
+          "y": 31,
+          "w": 8,
+          "label": "memory",
+          "draw": 0.45
+        },
+        {
+          "type": "image",
+          "name": "latency/server",
+          "x": 80,
+          "y": 50,
+          "w": 8,
+          "label": "data centre",
+          "draw": 0.45,
+          "at": "centre"
+        },
+        {
+          "type": "image",
+          "name": "latency/globe",
+          "x": 80,
+          "y": 69,
+          "w": 9,
+          "label": "the world",
+          "draw": 0.45,
+          "at": "ocean"
+        },
+        {
+          "type": "ring",
+          "target": "nums.4.1",
+          "padding": 1.5,
+          "draw": 0.5,
+          "at": "hundred"
+        },
+        {
+          "type": "text",
+          "x": 38,
+          "y": 85,
+          "size": 5,
+          "text": "from a ten-millionth of a second to a sixth of a second",
+          "color": "#6b6b6b",
+          "draw": 0.45
+        }
+      ]
+    },
+    {
+      "id": "feel",
+      "narration": "And people feel it. Under a tenth of a second feels instant. At around one second, people notice the wait. After about ten seconds, many of them simply leave.",
+      "elements": [
+        {
+          "type": "text",
+          "x": 50,
+          "y": 10,
+          "size": 8,
+          "text": "What people feel",
+          "draw": 0.6,
+          "at": "feel"
+        },
+        {
+          "type": "line",
+          "x1": 10,
+          "y1": 55,
+          "x2": 90,
+          "y2": 55,
+          "draw": 0.6
+        },
+        {
+          "type": "image",
+          "name": "latency/lightning",
+          "reveal": "pop",
+          "x": 20,
+          "y": 37,
+          "w": 12,
+          "label": "feels instant",
+          "draw": 0.45,
+          "at": "instant"
+        },
+        {
+          "type": "text",
+          "x": 20,
+          "y": 63,
+          "size": 7,
+          "text": "0.1 s",
+          "color": "#2a9d4b",
+          "draw": 0.3
+        },
+        {
+          "type": "image",
+          "name": "latency/hourglass",
+          "x": 50,
+          "y": 37,
+          "w": 12,
+          "label": "you notice the wait",
+          "draw": 0.45,
+          "at": "notice"
+        },
+        {
+          "type": "text",
+          "x": 50,
+          "y": 63,
+          "size": 7,
+          "text": "1 s",
+          "color": "#e67e22",
+          "draw": 0.3
+        },
+        {
+          "type": "image",
+          "name": "latency/exit",
+          "reveal": "pop",
+          "x": 80,
+          "y": 37,
+          "w": 12,
+          "label": "people leave",
+          "draw": 0.45,
+          "at": "leave"
+        },
+        {
+          "type": "text",
+          "x": 80,
+          "y": 63,
+          "size": 7,
+          "text": "10 s",
+          "color": "#c0392b",
+          "draw": 0.3
+        },
+        {
+          "type": "text",
+          "x": 50,
+          "y": 80,
+          "size": 4.5,
+          "text": "response-time limits from usability research (Jakob Nielsen)",
+          "color": "#6b6b6b",
+          "draw": 0.45
+        }
+      ]
+    },
+    {
+      "id": "cdn",
+      "chapter": "How to cut it",
+      "narration": "So how do we cut latency? First, move the data closer. A content delivery network keeps copies of a site on servers around the world, so your request travels a few hundred kilometres instead of crossing an ocean.",
+      "elements": [
+        {
+          "type": "text",
+          "x": 20,
+          "y": 10,
+          "size": 8,
+          "text": "1. Move the data closer",
+          "draw": 0.6,
+          "at": "closer"
+        },
+        {
+          "type": "image",
+          "name": "latency/globe",
+          "x": 80,
+          "y": 44,
+          "w": 28,
+          "draw": 0.45,
+          "at": "network"
+        },
+        {
+          "type": "image",
+          "name": "latency/pin",
+          "x": 72,
+          "y": 33,
+          "w": 5,
+          "draw": 0.3,
+          "at": "copies"
+        },
+        {
+          "type": "image",
+          "name": "latency/pin",
+          "x": 87,
+          "y": 31,
+          "w": 5,
+          "draw": 0.3
+        },
+        {
+          "type": "image",
+          "name": "latency/pin",
+          "x": 77,
+          "y": 54,
+          "w": 5,
+          "draw": 0.3
+        },
+        {
+          "type": "image",
+          "name": "latency/pin",
+          "x": 90,
+          "y": 50,
+          "w": 5,
+          "draw": 0.3
+        },
+        {
+          "type": "text",
+          "x": 80,
+          "y": 72,
+          "size": 4.5,
+          "text": "copies on servers worldwide",
+          "color": "#2a9d4b",
+          "draw": 0.8,
+          "at": "world"
+        },
+        {
+          "type": "image",
+          "id": "b1",
+          "name": "latency/laptop",
+          "x": 9,
+          "y": 34,
+          "w": 11,
+          "label": "you, London",
+          "draw": 0.45,
+          "at": "request"
+        },
+        {
+          "type": "image",
+          "id": "b2",
+          "name": "latency/server",
+          "x": 32,
+          "y": 34,
+          "w": 10,
+          "label": "CDN, London",
+          "draw": 0.45
+        },
+        {
+          "type": "arrow",
+          "from": "b1",
+          "to": "b2",
+          "label": "about 5 ms",
+          "color": "#2a9d4b",
+          "draw": 0.35,
+          "at": "hundred"
+        },
+        {
+          "type": "image",
+          "id": "a1",
+          "name": "latency/laptop",
+          "x": 9,
+          "y": 68,
+          "w": 11,
+          "label": "you, London",
+          "draw": 0.45
+        },
+        {
+          "type": "image",
+          "id": "a2",
+          "name": "latency/server",
+          "x": 52,
+          "y": 68,
+          "w": 10,
+          "label": "origin, New York",
+          "draw": 0.45
+        },
+        {
+          "type": "arrow",
+          "from": "a1",
+          "to": "a2",
+          "label": "56 ms or more",
+          "color": "#c0392b",
+          "draw": 0.35,
+          "at": "ocean"
+        }
+      ]
+    },
+    {
+      "id": "fewer",
+      "narration": "Second, make fewer trips. Keep connections open so you only shake hands once, use newer protocols like HTTP 3 that need fewer round trips, and cache answers so the next request never leaves the device.",
+      "camera": [
+        {
+          "focus": [
+            "rt2"
+          ],
+          "at": "protocols"
+        },
+        {
+          "focus": "all",
+          "at": "cache"
+        }
+      ],
+      "elements": [
+        {
+          "type": "text",
+          "x": 16,
+          "y": 10,
+          "size": 8,
+          "text": "2. Make fewer trips",
+          "draw": 0.6,
+          "at": "fewer"
+        },
+        {
+          "type": "image",
+          "name": "latency/handshake",
+          "x": 8,
+          "y": 31,
+          "w": 7,
+          "draw": 0.45,
+          "at": "Keep"
+        },
+        {
+          "type": "text",
+          "x": 13,
+          "y": 31,
+          "size": 5.5,
+          "text": "keep connections open",
+          "align": "left",
+          "draw": 0.6
+        },
+        {
+          "type": "image",
+          "name": "latency/lightning",
+          "reveal": "pop",
+          "x": 8,
+          "y": 44,
+          "w": 6,
+          "draw": 0.4,
+          "at": "newer"
+        },
+        {
+          "type": "text",
+          "x": 13,
+          "y": 44,
+          "size": 5.5,
+          "text": "use HTTP/3 (fewer handshakes)",
+          "align": "left",
+          "draw": 0.6
+        },
+        {
+          "type": "image",
+          "name": "latency/cache",
+          "x": 8,
+          "y": 57,
+          "w": 7,
+          "draw": 0.45,
+          "at": "cache"
+        },
+        {
+          "type": "text",
+          "x": 13,
+          "y": 57,
+          "size": 5.5,
+          "text": "cache answers on the device",
+          "align": "left",
+          "draw": 0.6
+        },
+        {
+          "type": "table",
+          "id": "rt2",
+          "x": 70,
+          "y": 46,
+          "w": 70,
+          "size": 5,
+          "title": "Trips before the page",
+          "rows": [
+            [
+              "Connection",
+              "Trips"
+            ],
+            [
+              "New (TCP + TLS 1.3)",
+              "3"
+            ],
+            [
+              "HTTP/3",
+              "2"
+            ],
+            [
+              "Reused",
+              "1"
+            ],
+            [
+              "Cached answer",
+              "0"
+            ]
+          ],
+          "draw": 1.0,
+          "at": "protocols",
+          "rowGap": 0.15
+        },
+        {
+          "type": "ring",
+          "target": "rt2.4.1",
+          "padding": 1.5,
+          "color": "#2a9d4b",
+          "draw": 0.5,
+          "at": "never"
+        },
+        {
+          "type": "text",
+          "x": 50,
+          "y": 84,
+          "size": 5.5,
+          "text": "the fastest trip is the one you never make",
+          "color": "#2a9d4b",
+          "draw": 0.45
+        }
+      ]
+    },
+    {
+      "id": "recap",
+      "chapter": "Recap",
+      "narration": "So, latency is the time a round trip takes. Distance, hops, handshakes and server time all add to it. Shorten the distance, cut the trips, and your app will feel instant. Follow for more.",
+      "elements": [
+        {
+          "type": "image",
+          "name": "latency/stopwatch",
+          "x": 18,
+          "y": 12,
+          "w": 7,
+          "draw": 0.6
+        },
+        {
+          "type": "text",
+          "x": 52,
+          "y": 12,
+          "size": 8,
+          "text": "Latency = the time for one round trip",
+          "color": "#1e6fd9",
+          "draw": 1,
+          "at": "latency"
+        },
+        {
+          "type": "box",
+          "x": 17,
+          "y": 34,
+          "w": 42,
+          "h": 12,
+          "label": "distance",
+          "draw": 0.4,
+          "at": "Distance"
+        },
+        {
+          "type": "box",
+          "x": 39,
+          "y": 34,
+          "w": 42,
+          "h": 12,
+          "label": "hops",
+          "draw": 0.4,
+          "at": "hops"
+        },
+        {
+          "type": "box",
+          "x": 61,
+          "y": 34,
+          "w": 42,
+          "h": 12,
+          "label": "handshakes",
+          "draw": 0.4,
+          "at": "handshakes"
+        },
+        {
+          "type": "box",
+          "x": 83,
+          "y": 34,
+          "w": 42,
+          "h": 12,
+          "label": "server time",
+          "draw": 0.4,
+          "at": "server"
+        },
+        {
+          "type": "text",
+          "x": 50,
+          "y": 48,
+          "size": 5.5,
+          "text": "all add up",
+          "color": "#c0392b",
+          "draw": 0.5,
+          "at": "add"
+        },
+        {
+          "type": "box",
+          "x": 25,
+          "y": 64,
+          "w": 70,
+          "h": 13,
+          "label": "move closer (CDN)",
+          "fill": "#d3f9d8",
+          "color": "#2a9d4b",
+          "draw": 0.5,
+          "at": "Shorten"
+        },
+        {
+          "type": "box",
+          "x": 67,
+          "y": 64,
+          "w": 128,
+          "h": 13,
+          "label": "fewer trips (reuse, HTTP/3, cache)",
+          "fill": "#d3f9d8",
+          "color": "#2a9d4b",
+          "draw": 0.5,
+          "at": "cut"
+        },
+        {
+          "type": "text",
+          "x": 50,
+          "y": 81,
+          "size": 7,
+          "text": "and it feels instant",
+          "color": "#2a9d4b",
+          "draw": 0.8,
+          "at": "instant"
+        }
+      ]
+    }
+  ]
+}

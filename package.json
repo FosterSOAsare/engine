@@ -45,7 +45,8 @@
     "assets": "node scripts/assets.mjs",
     "predev": "node scripts/assets.mjs",
     "compress": "node scripts/compress.mjs",
-    "cover": "node scripts/cover.mjs"
+    "cover": "node scripts/cover.mjs",
+    "images": "node scripts/images.mjs"
   },
   "sideEffects": [
     "*.css"

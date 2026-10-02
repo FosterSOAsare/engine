@@ -113,6 +113,7 @@ npm run cover -- api-square                      # one format
 |---|---|
 | `npm run dev` | Start Remotion Studio for live preview |
 | `npm run render -- <id>` | Render a video to `out/<id>.mp4` (`all` for every video) |
+| `npm run images -- <id>` | Fetch the illustrations listed in `videos/<id>/images.json` from Iconify into `public/assets/<id>/` (scene files use `"name": "<id>/<name>"`), with licences and credits in `public/assets/<id>/CREDITS.md` |
 | `npm run cover -- <id>` | Cover images in every format to `out/<id>.cover.jpg` (`<id>-<format>` for one) |
 | `npm run compress -- <id>` | Shrink `out/<id>.mp4` to `out/<id>.small.mp4` for posting (`all`, `--quality=28`: lower is sharper and bigger) |
 | `npm run render:test` | Render the M0 test composition to `out/test.mp4` |
