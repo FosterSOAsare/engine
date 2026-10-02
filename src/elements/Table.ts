@@ -33,15 +33,20 @@ export const CELL_PADDING = 0.45; // left of each cell's text, in font sizes
 export const columnCount = (rows: string[][]) =>
   Math.max(1, ...rows.map((row) => row.length));
 
-export const tableLayout = (table: TableShape, frame: FrameSize): TableLayout => {
+export const tableLayout = (
+  table: TableShape,
+  frame: FrameSize,
+): TableLayout => {
   const unit = unitOf(frame);
   const fontSize = table.size * unit;
   const columns = columnCount(table.rows);
   const weights =
     table.columns && table.columns.length === columns
       ? table.columns
-      : Array.from({ length: columns }, (_, c) =>
-          Math.max(3, ...table.rows.map((row) => (row[c] ?? "").length)) + 2,
+      : Array.from(
+          { length: columns },
+          (_, c) =>
+            Math.max(3, ...table.rows.map((row) => (row[c] ?? "").length)) + 2,
         );
   const total = weights.reduce((sum, w) => sum + w, 0);
   const width = table.w * unit;
@@ -50,7 +55,8 @@ export const tableLayout = (table: TableShape, frame: FrameSize): TableLayout =>
   const height = rowHeight * table.rows.length;
   const titleHeight = table.title ? fontSize * TITLE_SIZE * 1.8 : 0;
   const left = (table.x / 100) * frame.width - width / 2;
-  const top = (table.y / 100) * frame.height - (height + titleHeight) / 2 + titleHeight;
+  const top =
+    (table.y / 100) * frame.height - (height + titleHeight) / 2 + titleHeight;
   const columnLefts = columnWidths.map((_, c) =>
     columnWidths.slice(0, c).reduce((sum, w) => sum + w, left),
   );
@@ -80,9 +86,18 @@ export const tablePart = (
   if (!Number.isInteger(row) || row < 0 || row >= rows.length) return null;
   const top = layout.top + row * layout.rowHeight;
   if (column === undefined) {
-    return { left: layout.left, top, width: layout.width, height: layout.rowHeight };
+    return {
+      left: layout.left,
+      top,
+      width: layout.width,
+      height: layout.rowHeight,
+    };
   }
-  if (!Number.isInteger(column) || column < 0 || column >= layout.columnWidths.length) {
+  if (
+    !Number.isInteger(column) ||
+    column < 0 ||
+    column >= layout.columnWidths.length
+  ) {
     return null;
   }
   return {

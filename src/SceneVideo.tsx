@@ -8,8 +8,9 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-import { sceneTimes, WIPE_SECONDS } from "./animation/timeline";
+import { sceneTimes, videoLength, WIPE_SECONDS } from "./animation/timeline";
 import { Captions } from "./captions/Captions";
+import { Chapter, chapterSpans } from "./Chapter";
 import { captionPages } from "./captions/pages";
 import type { CompiledAssets } from "./assets/compiled";
 import { WATERMARK } from "./brand";
@@ -208,6 +209,19 @@ export const SceneVideo: React.FC<SceneVideoProps> = ({
     );
   }, [result, captions]);
 
+  // Section headings in the corner.
+  const chapters = useMemo(
+    () =>
+      result.video
+        ? chapterSpans(
+            result.video.scenes,
+            sceneTimes(result.video).map((t) => t.start),
+            videoLength(result.video),
+          )
+        : [],
+    [result],
+  );
+
   // Designs that couldn't be loaded (not compiled yet, or misnamed).
   const missing = result.ok
     ? [
@@ -249,10 +263,7 @@ export const SceneVideo: React.FC<SceneVideoProps> = ({
   if (canvas) {
     // The camera at this moment; boards it can't see aren't drawn.
     const size = { width, height };
-    const camera = cameraPlacement(
-      viewAt(canvas, frame / FPS),
-      size,
-    );
+    const camera = cameraPlacement(viewAt(canvas, frame / FPS), size);
     return (
       <AbsoluteFill style={{ background: BOARD }}>
         <div
@@ -295,6 +306,7 @@ export const SceneVideo: React.FC<SceneVideoProps> = ({
             <Captions pages={pages} />
           </>
         ) : null}
+        <Chapter spans={chapters} />
         {result.video.watermark !== false ? (
           <Watermark text={result.video.watermark ?? WATERMARK} />
         ) : null}
@@ -336,6 +348,7 @@ export const SceneVideo: React.FC<SceneVideoProps> = ({
           <Captions pages={pages} />
         </>
       ) : null}
+      <Chapter spans={chapters} />
       {result.video.watermark !== false ? (
         <Watermark text={result.video.watermark ?? WATERMARK} />
       ) : null}

@@ -66,7 +66,10 @@ export const gridCells = (
   return places.map((place) => {
     if (place) return place;
     for (;;) {
-      const cell: [number, number] = [next % columns, Math.floor(next / columns)];
+      const cell: [number, number] = [
+        next % columns,
+        Math.floor(next / columns),
+      ];
       next++;
       if (!taken.has(cell.join(","))) {
         taken.add(cell.join(","));
@@ -143,7 +146,10 @@ const overviewView = (size: { width: number; height: number }): View => {
   };
 };
 
-export const canvasFor = (video: Video, assets: CompiledAssets = {}): Canvas => {
+export const canvasFor = (
+  video: Video,
+  assets: CompiledAssets = {},
+): Canvas => {
   // Nothing is wiped: every board stays on the big board.
   const boards = planVideo(video, AREA, assets).map((board) => ({
     ...board,
@@ -179,7 +185,8 @@ export const canvasFor = (video: Video, assets: CompiledAssets = {}): Canvas => 
       const scene = video.scenes[index] as Video["scenes"][number] &
         Partial<Pick<TimedScene, "cameraTimes">>;
       (scene.camera ?? []).forEach((move, k) => {
-        const at = times[index].start + (scene.cameraTimes?.[k] ?? move.start ?? 0);
+        const at =
+          times[index].start + (scene.cameraTimes?.[k] ?? move.start ?? 0);
         const rect =
           move.focus === "all"
             ? null
@@ -236,15 +243,17 @@ const between = (a: View, b: View, t: number): View => {
 // each move in turn; a move that starts before the last one is finished
 // takes over from wherever the camera is.
 export const viewAt = (canvas: Canvas, seconds: number): View => {
-  let view = canvas.areas.length > 0
-    ? areaView(canvas.areas[0])
-    : overviewView(canvas);
+  let view =
+    canvas.areas.length > 0 ? areaView(canvas.areas[0]) : overviewView(canvas);
   for (let i = 0; i < canvas.moves.length; i++) {
     const move = canvas.moves[i];
     if (seconds < move.at) break;
     const next = canvas.moves[i + 1];
     // Where this move has got to when the next one begins (or now).
-    const until = Math.min(seconds, next && next.at < seconds ? next.at : seconds);
+    const until = Math.min(
+      seconds,
+      next && next.at < seconds ? next.at : seconds,
+    );
     const t = (until - move.at) / move.duration;
     view = t >= 1 ? move.to : between(view, move.to, t);
   }
@@ -266,5 +275,7 @@ export const onScreen = (area: Area, p: Placement, frame: FrameSize) => {
     right: (area.left + area.width) * p.scale + p.x,
     bottom: (area.top + area.height) * p.scale + p.y,
   };
-  return r.right > 0 && r.bottom > 0 && r.left < frame.width && r.top < frame.height;
+  return (
+    r.right > 0 && r.bottom > 0 && r.left < frame.width && r.top < frame.height
+  );
 };

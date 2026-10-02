@@ -6,7 +6,13 @@ import { arrowTracks, type ArrowProps } from "../elements/Arrow";
 import { imageBox, imageTracks, type ImageProps } from "../elements/Image";
 import { shapeTracks, type ShapeProps } from "../elements/Shape";
 import { CELL_PADDING, tableLayout, tablePart } from "../elements/Table";
-import { textTrack, textWidth, type TextProps } from "../elements/Text";
+import {
+  LETTERS_PER_SIZE,
+  textTrack,
+  textWidth,
+  wrapText,
+  type TextProps,
+} from "../elements/Text";
 import { unitOf, type FrameSize } from "../elements/shared";
 import type { SceneElement, Video } from "../schema/scene";
 import {
@@ -53,7 +59,6 @@ export const seedFrom = (text: string) => {
   return (hash >>> 0) % 1_000_000;
 };
 
-
 const toPercent = (point: { x: number; y: number }, frame: FrameSize) => ({
   x: (point.x / frame.width) * 100,
   y: (point.y / frame.height) * 100,
@@ -77,6 +82,10 @@ const outlineOf = (element: SceneElement, frame: FrameSize): Outline | null => {
         halfW: textWidth(element.text, fontSize) / 2,
         halfH: fontSize * 0.6,
       };
+    }
+    case "bubble": {
+      const { halfW, halfH } = bubbleSize(element, frame);
+      return { kind: "rect", cx, cy, halfW, halfH };
     }
     case "table": {
       const layout = tableLayout(element, frame);
@@ -332,6 +341,8 @@ const drawingsOf = (
     }
     case "table":
       return tableDrawings(element, common, frame);
+    case "bubble":
+      return bubbleDrawings(element, common, outlines, frame);
     case "ring": {
       const target = outlines.get(element.target);
       if (!target) return [];
@@ -354,6 +365,116 @@ const drawingsOf = (
 };
 
 type Box = { left: number; top: number; width: number; height: number };
+
+type BubbleElement = Extract<SceneElement, { type: "bubble" }>;
+
+// A bubble's text, wrapped to its width, and its half-size in pixels.
+const BUBBLE_PADDING = 0.7; // inside the box, in font sizes
+const BUBBLE_LINE = 1.35; // line height, in font sizes
+const bubbleSize = (element: BubbleElement, frame: FrameSize) => {
+  const unit = unitOf(frame);
+  const fontSize = element.size * unit;
+  const halfW = (element.w * unit) / 2;
+  const inner = 2 * halfW - 2 * BUBBLE_PADDING * fontSize;
+  const lines = wrapText(
+    element.text,
+    Math.max(4, Math.floor((inner / fontSize) * LETTERS_PER_SIZE)),
+  );
+  const halfH =
+    (lines.length * BUBBLE_LINE * fontSize + 2 * BUBBLE_PADDING * fontSize) / 2;
+  return { halfW, halfH, lines, fontSize };
+};
+
+// The box, then the tail (two strokes from the box's edge to near what it
+// points at), then the lines of text.
+const BUBBLE_BOX_SHARE = 0.35;
+const BUBBLE_TAIL_SHARE = 0.15;
+const bubbleDrawings = (
+  element: BubbleElement,
+  common: { start: number; draw: number; color?: string; seed: number },
+  outlines: Map<string, Outline>,
+  frame: FrameSize,
+): Drawing[] => {
+  const unit = unitOf(frame);
+  const { halfW, halfH, lines, fontSize } = bubbleSize(element, frame);
+  const cx = (element.x / 100) * frame.width;
+  const cy = (element.y / 100) * frame.height;
+  const px = (x: number) => (x / frame.width) * 100;
+  const py = (y: number) => (y / frame.height) * 100;
+  const drawings: Drawing[] = [];
+  let at = common.start;
+
+  const boxDraw = common.draw * BUBBLE_BOX_SHARE;
+  drawings.push({
+    type: "shape",
+    props: {
+      kind: "box",
+      x: element.x,
+      y: element.y,
+      w: (2 * halfW) / unit,
+      h: (2 * halfH) / unit,
+      color: common.color,
+      start: at,
+      draw: boxDraw,
+      seed: common.seed,
+    },
+  });
+  at += boxDraw;
+
+  const target = element.to ? outlines.get(element.to) : undefined;
+  const tailDraw = target ? common.draw * BUBBLE_TAIL_SHARE : 0;
+  if (target) {
+    const self: Outline = { kind: "rect", cx, cy, halfW, halfH };
+    const { from: base, to: tip } = connect(self, target, ARROW_GAP * unit);
+    const length = Math.hypot(tip.x - base.x, tip.y - base.y) || 1;
+    // The tail's two sides leave the box a little apart.
+    const spread = Math.min(1.2 * fontSize, halfW * 0.4);
+    const nx = (-(tip.y - base.y) / length) * spread;
+    const ny = ((tip.x - base.x) / length) * spread;
+    const sides = [
+      { from: { x: base.x + nx, y: base.y + ny }, to: tip },
+      { from: tip, to: { x: base.x - nx, y: base.y - ny } },
+    ];
+    sides.forEach((side, i) => {
+      drawings.push({
+        type: "arrow",
+        props: {
+          from: { x: px(side.from.x), y: py(side.from.y) },
+          to: { x: px(side.to.x), y: py(side.to.y) },
+          head: "none",
+          color: common.color,
+          start: at + (tailDraw / 2) * i,
+          draw: tailDraw / 2,
+          seed: common.seed + i + 1,
+        },
+        label: null,
+      });
+    });
+    at += tailDraw;
+  }
+
+  // The text, line by line, sharing what's left by length.
+  const writing = common.start + common.draw - at;
+  const letters = lines.reduce((sum, line) => sum + line.length, 0) || 1;
+  const top = cy - ((lines.length - 1) * BUBBLE_LINE * fontSize) / 2;
+  lines.forEach((line, i) => {
+    const draw = writing * (line.length / letters);
+    drawings.push({
+      type: "text",
+      props: {
+        start: at,
+        draw,
+        color: common.color,
+        x: element.x,
+        y: py(top + i * BUBBLE_LINE * fontSize),
+        size: element.size,
+        text: line,
+      },
+    });
+    at += draw;
+  });
+  return drawings;
+};
 
 const rectOutline = (r: Box): Outline => ({
   kind: "rect",
@@ -403,7 +524,12 @@ const tableDrawings = (
         start: t.start + sceneOffset,
         draw: t.draw,
       }))
-    : tableRowTimes(element.rows, common.start + gridDraw, element.rowGap, null);
+    : tableRowTimes(
+        element.rows,
+        common.start + gridDraw,
+        element.rowGap,
+        null,
+      );
   const px = (x: number) => (x / frame.width) * 100;
   const py = (y: number) => (y / frame.height) * 100;
   const drawings: Drawing[] = [];

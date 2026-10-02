@@ -192,6 +192,20 @@ const table = z.strictObject({
   rowGap: seconds.default(0.3), // pause between rows
 });
 
+// A speech bubble: a box with its text wrapped inside, and a tail pointing
+// at "to" (an element id, e.g. a person). "draw" covers the box, the tail
+// and the writing.
+const bubble = z.strictObject({
+  type: z.literal("bubble"),
+  ...common,
+  x: percent, // centre
+  y: percent,
+  w: positive.default(40), // width; the height follows the text
+  text: z.string().min(1), // "\n" starts a new line
+  size: positive.default(4), // font size
+  to: z.string().min(1).optional(),
+});
+
 export const elementSchema = z.discriminatedUnion("type", [
   box,
   circle,
@@ -206,6 +220,7 @@ export const elementSchema = z.discriminatedUnion("type", [
   icon,
   image,
   table,
+  bubble,
 ]);
 
 // New positions and sizes for an element in one format (see "layouts").
@@ -266,6 +281,9 @@ export const sceneSchema = z.strictObject({
       }),
     )
     .optional(),
+  // A small heading in the top-right corner of the screen, kept for the
+  // following scenes until one sets another ("" for none).
+  chapter: z.string().optional(),
   // The scene laid out again for other formats: per format, new positions
   // for elements by id, e.g. a row in landscape instead of a column. In
   // those formats the scene is laid out directly in that frame; elsewhere

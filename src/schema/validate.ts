@@ -71,7 +71,7 @@ const FIELDS: Record<string, Set<string>> = Object.fromEntries(
 );
 
 // Elements a ring can go around: anything with a visible extent.
-const RING_TARGETS = new Set([...ARROW_TARGETS, "text"]);
+const RING_TARGETS = new Set([...ARROW_TARGETS, "text", "bubble"]);
 
 type RawScene = { id?: unknown; elements?: { type?: unknown }[] };
 type Raw = { scenes?: RawScene[] };
@@ -195,6 +195,18 @@ const crossCheck = (video: Video): string[] => {
             `${where}: can't ring a ${target.type}; rings go around shapes, icons and text`,
           );
         }
+      }
+    });
+
+    // Bubbles point at something on the board.
+    scene.elements.forEach((element, index) => {
+      if (element.type !== "bubble" || element.to === undefined) return;
+      const where = `${sceneName}, ${describeElement(index, element.type)}`;
+      const target = targetOf(board, element.to);
+      if (!target) {
+        errors.push(`${where}: "to" points to unknown id "${element.to}"`);
+      } else if (!RING_TARGETS.has(target.type)) {
+        errors.push(`${where}: "to" points to a ${target.type}; bubbles point at shapes, icons, designs and text`);
       }
     });
 

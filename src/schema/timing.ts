@@ -29,7 +29,9 @@ export const busyFor = (element: SceneElement) => {
 const namesOf = (element: SceneElement): string[] => {
   const names: string[] = [];
   if ("label" in element && element.label) names.push(element.label);
-  if (element.type === "text") names.push(element.text);
+  if (element.type === "text" || element.type === "bubble") {
+    names.push(element.text);
+  }
   if (element.type === "icon") names.push(element.name.replace(/-/g, " "));
   if (element.type === "list") names.push(element.items[0]);
   if (element.type === "table" && element.title) names.push(element.title);

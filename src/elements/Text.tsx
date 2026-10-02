@@ -15,7 +15,7 @@ import {
 // reveal. Instead it is uncovered left to right, like writing.
 
 // Remotion waits for the font before rendering a frame.
-const { fontFamily } = loadFont("normal", {
+export const { fontFamily: HAND_FONT } = loadFont("normal", {
   weights: ["700"],
   subsets: ["latin"],
 });
@@ -32,6 +32,25 @@ export type TextProps = Timing &
     text: string;
     align?: "center" | "left"; // default centre; lists use left
   };
+
+// Breaks text into lines of at most `letters` letters, at spaces ("\n"
+// always breaks). A word longer than a line gets a line of its own.
+export const wrapText = (text: string, letters: number): string[] =>
+  text.split("\n").flatMap((paragraph) => {
+    const lines: string[] = [];
+    let line = "";
+    for (const word of paragraph.split(/\s+/).filter(Boolean)) {
+      if (line && line.length + 1 + word.length > letters) {
+        lines.push(line);
+        line = word;
+      } else {
+        line = line ? `${line} ${word}` : word;
+      }
+    }
+    return [...lines, line];
+  });
+
+export const LETTERS_PER_SIZE = 1 / 0.38; // letters per font size of width
 
 // Roughly how wide a line of text is, in pixels.
 export const textWidth = (text: string, fontSize: number) =>
@@ -103,7 +122,7 @@ export const Text: React.FC<TextProps> = ({
         // Left-aligned text starts exactly at x despite the padding below.
         marginLeft: align === "left" ? "-0.25em" : undefined,
         top: `${y}%`,
-        fontFamily,
+        fontFamily: HAND_FONT,
         fontWeight: 700,
         fontSize: size * unit,
         color,
