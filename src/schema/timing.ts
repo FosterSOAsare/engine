@@ -32,6 +32,11 @@ const namesOf = (element: SceneElement): string[] => {
   if (element.type === "text") names.push(element.text);
   if (element.type === "icon") names.push(element.name.replace(/-/g, " "));
   if (element.type === "list") names.push(element.items[0]);
+  if (element.type === "image") {
+    // "tech/laptop" is said as "laptop"; numbered designs have no name.
+    const last = element.name.split("/").pop() ?? "";
+    if (!/^[\d-]*$/.test(last) && !/-\d+$/.test(last)) names.push(last);
+  }
   return names;
 };
 
@@ -110,16 +115,19 @@ export const resolveTiming = (
     const wanted = scene.elements.map((element, i) => {
       if (element.start !== undefined) return element.start;
       if (element.at !== undefined) {
-        const where = `${name}, element ${i + 1} (${element.type})`;
-        if (!words) {
-          errors.push(`${where}: "at" needs captions; run npm run captions`);
-          return undefined;
+        // Whether the line says the word is known from the text alone;
+        // when it is said needs the word timings (npm run captions).
+        // Without them the element just follows the previous one.
+        const said = findWord(
+          words ?? alignWords(scene.narration, []),
+          element.at,
+        );
+        if (!said) {
+          errors.push(
+            `${name}, element ${i + 1} (${element.type}): the narration never says "${element.at}"`,
+          );
         }
-        const word = findWord(words, element.at);
-        if (!word) {
-          errors.push(`${where}: the narration never says "${element.at}"`);
-        }
-        return word?.start;
+        return words ? said?.start : undefined;
       }
       return words ? autoWord(element, words)?.start : undefined;
     });

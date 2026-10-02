@@ -1,7 +1,9 @@
 import type { HandTrack } from "../animation/hand";
 import { LABEL_WRITE_SECONDS } from "../animation/labels";
 import { boards as timelineBoards } from "../animation/timeline";
+import type { CompiledAssets } from "../assets/compiled";
 import { arrowTracks, type ArrowProps } from "../elements/Arrow";
+import { imageBox, imageTracks, type ImageProps } from "../elements/Image";
 import { shapeTracks, type ShapeProps } from "../elements/Shape";
 import { textTrack, textWidth, type TextProps } from "../elements/Text";
 import type { FrameSize } from "../elements/shared";
@@ -21,7 +23,8 @@ const RING_COLOR = "#c0392b"; // rings point things out, so red by default
 export type Drawing =
   | { type: "shape"; props: ShapeProps }
   | { type: "text"; props: TextProps }
-  | { type: "arrow"; props: ArrowProps; label: TextProps | null };
+  | { type: "arrow"; props: ArrowProps; label: TextProps | null }
+  | { type: "image"; props: ImageProps };
 
 export type PlannedBoard = {
   start: number; // seconds
@@ -65,6 +68,16 @@ const outlineOf = (element: SceneElement, frame: FrameSize): Outline | null => {
         cy,
         halfW: textWidth(element.text, fontSize) / 2,
         halfH: fontSize * 0.6,
+      };
+    }
+    case "image": {
+      const box = imageBox(element, frame);
+      return {
+        kind: "rect",
+        cx,
+        cy,
+        halfW: box.width / 2,
+        halfH: box.height / 2,
       };
     }
     case "circle":
@@ -161,6 +174,7 @@ const drawingsOf = (
   common: { start: number; draw: number; color?: string; seed: number },
   outlines: Map<string, Outline>,
   frame: FrameSize,
+  assets: CompiledAssets,
 ): Drawing[] => {
   const unit = unitOf(frame);
   const { start, draw, color } = common;
@@ -175,6 +189,29 @@ const drawingsOf = (
         {
           type: "shape",
           props: { ...common, kind: type, x, y, w, h, label, fill, fillStyle },
+        },
+      ];
+    }
+    case "image": {
+      const { name, x, y, w, reveal, label, fill, ink, colors } = element;
+      const { start, draw } = common;
+      return [
+        {
+          type: "image",
+          props: {
+            start,
+            draw,
+            name,
+            asset: assets[name],
+            x,
+            y,
+            w,
+            reveal,
+            label,
+            fill,
+            ink,
+            colors,
+          },
         },
       ];
     }
@@ -200,9 +237,12 @@ const drawingsOf = (
       ];
     }
     case "text": {
-      const { x, y, size, text } = element;
+      const { x, y, size, text, align } = element;
       return [
-        { type: "text", props: { start, draw, color, x, y, size, text } },
+        {
+          type: "text",
+          props: { start, draw, color, x, y, size, text, align },
+        },
       ];
     }
     case "list": {
@@ -293,7 +333,11 @@ const drawingsOf = (
   }
 };
 
-export const planVideo = (video: Video, frame: FrameSize): PlannedBoard[] =>
+export const planVideo = (
+  video: Video,
+  frame: FrameSize,
+  assets: CompiledAssets = {},
+): PlannedBoard[] =>
   timelineBoards(video).map((board) => {
     const drawings: Drawing[] = [];
     // Outlines of everything on this board so far, by id, for arrows and
@@ -314,7 +358,7 @@ export const planVideo = (video: Video, frame: FrameSize): PlannedBoard[] =>
           color: element.color,
           seed: element.seed ?? seedFrom(element.id ?? `${scene.id}#${index}`),
         };
-        drawings.push(...drawingsOf(element, common, outlines, frame));
+        drawings.push(...drawingsOf(element, common, outlines, frame, assets));
       });
     }
 
@@ -338,6 +382,8 @@ export const handTracks = (
           return shapeTracks(drawing.props, frame);
         case "text":
           return [textTrack(drawing.props, frame)];
+        case "image":
+          return imageTracks(drawing.props, frame);
         case "arrow":
           return [
             ...arrowTracks(drawing.props, frame),

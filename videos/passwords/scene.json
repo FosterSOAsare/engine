@@ -1,0 +1,107 @@
+{
+  "version": 1,
+  "title": "Why websites don't know your password",
+  "format": "portrait",
+  "voiceover": true,
+  "voice": "en_US-bryce-medium",
+  "captions": true,
+  "scenes": [
+    {
+      "id": "hook",
+      "narration": "The website you just logged into doesn't know your password. And if it does, you should be worried.",
+      "elements": [
+        { "type": "icon", "id": "server", "name": "server", "label": "website", "x": 50, "y": 64, "size": 26, "draw": 0.8, "at": "website" },
+        { "type": "box", "id": "login", "x": 50, "y": 26, "w": 66, "h": 30, "draw": 0.8, "at": "logged" },
+        { "type": "text", "text": "Log in", "x": 50, "y": 21, "size": 7, "draw": 0.5 },
+        { "type": "icon", "id": "doubt", "name": "circle-question-mark", "x": 74, "y": 52, "size": 12, "color": "#c0392b", "draw": 0.5, "at": "know" },
+        { "type": "text", "text": "password: ••••••••", "x": 50, "y": 30, "size": 5.5, "draw": 0.8, "at": "password" },
+        { "type": "ring", "target": "doubt", "draw": 0.6, "at": "worried" }
+      ]
+    },
+    {
+      "id": "problem",
+      "narration": "If a site stored your password as-is, one breach would hand it straight to attackers. And because most people reuse passwords, your email and bank go down with it.",
+      "elements": [
+        { "type": "icon", "id": "db", "name": "archive", "label": "Database", "x": 28, "y": 22, "size": 22, "draw": 0.8, "at": "stored" },
+        { "type": "text", "text": "alice : sunshine123", "x": 50, "y": 42, "size": 6, "color": "#c0392b", "draw": 1, "at": "as-is" },
+        { "type": "icon", "id": "attacker", "name": "hat-glasses", "label": "attacker", "x": 76, "y": 22, "size": 18, "color": "#c0392b", "draw": 0.8, "at": "attackers" },
+        { "type": "arrow", "from": "db", "to": "attacker", "color": "#c0392b", "draw": 0.4 },
+        { "type": "icon", "id": "mail", "name": "mail", "label": "email", "x": 18, "y": 68, "size": 12, "draw": 0.5, "at": "email" },
+        { "type": "arrow", "from": "db", "to": "mail", "color": "#c0392b", "draw": 0.4 },
+        { "type": "icon", "id": "bank", "name": "landmark", "label": "bank", "x": 50, "y": 68, "size": 12, "draw": 0.5, "at": "bank" },
+        { "type": "arrow", "from": "db", "to": "bank", "color": "#c0392b", "draw": 0.4 },
+        { "type": "icon", "id": "insta", "name": "camera", "label": "Instagram", "x": 82, "y": 68, "size": 12, "draw": 0.5, "at": "down" },
+        { "type": "arrow", "from": "db", "to": "insta", "color": "#c0392b", "draw": 0.4 }
+      ]
+    },
+    {
+      "id": "hashing",
+      "narration": "So instead, sites run your password through a hash function. Think of a blender: password in, scrambled fingerprint out. The same input always gives the same fingerprint, but you can't un-blend a smoothie back into fruit.",
+      "elements": [
+        { "type": "box", "id": "plain", "label": "sunshine123", "x": 50, "y": 14, "w": 52, "h": 10, "draw": 0.7, "at": "password" },
+        { "type": "icon", "id": "blender", "name": "blender", "x": 50, "y": 40, "size": 22, "draw": 0.8, "at": "hash function" },
+        { "type": "text", "text": "hash function", "x": 22, "y": 40, "size": 5, "draw": 0.6 },
+        { "type": "arrow", "from": "plain", "to": "blender", "draw": 0.4, "at": "in" },
+        { "type": "arrow", "from": "blender", "to": "hashed", "color": "#1e6fd9", "draw": 0.4, "at": "scrambled" },
+        { "type": "box", "id": "hashed", "label": "a9f3...e1", "x": 50, "y": 68, "w": 46, "h": 10, "color": "#1e6fd9", "draw": 0.7, "at": "fingerprint" },
+        { "type": "text", "text": "same input = same fingerprint", "x": 50, "y": 80, "size": 5, "draw": 1.2, "at": "same input" },
+        { "type": "arrow", "from": "hashed", "to": "plain", "bend": -22, "color": "#c0392b", "draw": 0.7, "at": "un-blend" },
+        { "type": "icon", "name": "x", "x": 74, "y": 41, "size": 12, "color": "#c0392b", "draw": 0.4, "at": "smoothie" }
+      ]
+    },
+    {
+      "id": "login",
+      "narration": "When you log in, the site blends whatever you typed and compares the fingerprints. If they match, you're in. The site never needs the original.",
+      "elements": [
+        { "type": "icon", "id": "you", "name": "user", "label": "you", "x": 18, "y": 14, "size": 13, "draw": 0.6, "at": "log in" },
+        { "type": "icon", "id": "blender", "name": "blender", "x": 50, "y": 32, "size": 16, "draw": 0.7, "at": "blends" },
+        { "type": "arrow", "from": "you", "to": "blender", "draw": 0.4 },
+        { "type": "text", "text": "typed", "x": 28, "y": 53, "size": 4.5, "draw": 0.4, "at": "typed" },
+        { "type": "box", "id": "typed", "label": "a9f3...e1", "x": 28, "y": 60, "w": 40, "h": 9, "color": "#1e6fd9", "draw": 0.6 },
+        { "type": "arrow", "from": "blender", "to": "typed", "color": "#1e6fd9", "draw": 0.4 },
+        { "type": "text", "text": "stored", "x": 72, "y": 53, "size": 4.5, "draw": 0.4, "at": "compares" },
+        { "type": "box", "id": "stored", "label": "a9f3...e1", "x": 72, "y": 60, "w": 40, "h": 9, "color": "#2a9d4b", "draw": 0.6 },
+        { "type": "icon", "name": "circle-check", "x": 50, "y": 76, "size": 14, "color": "#2a9d4b", "draw": 0.6, "at": "match" }
+      ]
+    },
+    {
+      "id": "salt",
+      "narration": "But there's a catch. Same password, same fingerprint, and attackers keep huge lookup tables of common ones. The fix is salt: a random value added to each password before blending. Now identical passwords produce different fingerprints, and those tables are useless.",
+      "elements": [
+        { "type": "icon", "name": "user", "label": "sunshine123", "x": 22, "y": 9, "size": 9, "draw": 0.5, "at": "same password" },
+        { "type": "icon", "name": "user", "label": "sunshine123", "x": 78, "y": 9, "size": 9, "draw": 0.5 },
+        { "type": "box", "label": "a9f3...e1", "x": 22, "y": 25, "w": 40, "h": 8, "color": "#c0392b", "draw": 0.5, "at": "same fingerprint" },
+        { "type": "box", "label": "a9f3...e1", "x": 78, "y": 25, "w": 40, "h": 8, "color": "#c0392b", "draw": 0.5 },
+        { "type": "icon", "id": "book", "name": "book-open", "label": "lookup table", "x": 50, "y": 37, "size": 12, "draw": 0.7, "at": "lookup" },
+        { "type": "text", "text": "+ salt", "x": 50, "y": 52, "size": 7, "color": "#1e6fd9", "draw": 0.5, "at": "salt" },
+        { "type": "text", "text": "sunshine123 + x7Q", "x": 22, "y": 60, "size": 4.5, "draw": 0.8, "at": "random" },
+        { "type": "text", "text": "sunshine123 + p2K", "x": 78, "y": 60, "size": 4.5, "draw": 0.8 },
+        { "type": "box", "label": "4c1d...9b", "x": 22, "y": 70, "w": 40, "h": 8, "color": "#2a9d4b", "draw": 0.5, "at": "different" },
+        { "type": "box", "label": "e80a...3f", "x": 78, "y": 70, "w": 40, "h": 8, "color": "#2a9d4b", "draw": 0.5 },
+        { "type": "icon", "name": "x", "x": 50, "y": 37, "size": 18, "color": "#c0392b", "draw": 0.5, "at": "useless" }
+      ]
+    },
+    {
+      "id": "slow",
+      "narration": "Good sites also use hash functions that are slow on purpose, like bcrypt or Argon2. It's instant for you, but it makes guessing billions of passwords painfully slow.",
+      "elements": [
+        { "type": "icon", "name": "snail", "label": "bcrypt / Argon2", "x": 50, "y": 24, "size": 24, "draw": 0.9, "at": "slow" },
+        { "type": "icon", "name": "user", "label": "you: instant", "x": 25, "y": 56, "size": 12, "color": "#2a9d4b", "draw": 0.6, "at": "instant" },
+        { "type": "icon", "name": "hat-glasses", "label": "attacker", "x": 75, "y": 56, "size": 12, "color": "#c0392b", "draw": 0.6, "at": "guessing" },
+        { "type": "text", "text": "billions of guesses", "x": 75, "y": 71, "size": 4.5, "color": "#c0392b", "draw": 0.8, "at": "billions" },
+        { "type": "icon", "name": "hourglass", "x": 50, "y": 79, "size": 9, "draw": 0.6, "at": "painfully" }
+      ]
+    },
+    {
+      "id": "takeaway",
+      "narration": "So if a site ever emails you your actual password, it's storing it wrong. Change it. Follow for more on how the internet really works.",
+      "elements": [
+        { "type": "icon", "name": "mail", "x": 50, "y": 20, "size": 22, "draw": 0.7, "at": "emails" },
+        { "type": "text", "text": "Your password is: sunshine123", "x": 50, "y": 40, "size": 5.5, "draw": 1, "at": "actual password" },
+        { "type": "icon", "name": "x", "x": 50, "y": 40, "size": 30, "color": "#c0392b", "draw": 0.5, "at": "wrong" },
+        { "type": "text", "text": "Change it.", "x": 50, "y": 60, "size": 10, "color": "#c0392b", "draw": 0.6, "at": "change" },
+        { "type": "text", "text": "Follow for more", "x": 50, "y": 74, "size": 7, "color": "#1e6fd9", "draw": 0.8, "at": "follow" }
+      ]
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 import "./index.css";
-import { Composition } from "remotion";
+import { Composition, staticFile } from "remotion";
 import {
   captionsFile,
   narrationFile,
@@ -9,6 +9,7 @@ import {
   type SceneVideoProps,
 } from "./SceneVideo";
 import { TestCard } from "./TestCard";
+import type { CompiledAsset, CompiledAssets } from "./assets/compiled";
 import { fetchWavDuration } from "./audio/wav";
 import { videoLength } from "./animation/timeline";
 import { FORMATS, FPS, secondsToFrames } from "./layout/formats";
@@ -40,6 +41,27 @@ const loadJson = async <T,>(url: string): Promise<T | undefined> => {
   }
 };
 
+// The compiled designs a video uses (npm run assets), by name.
+const loadAssets = async (names: string[]): Promise<CompiledAssets> => {
+  const loaded = await Promise.all(
+    names.map(
+      async (name) =>
+        [
+          name,
+          await loadJson<CompiledAsset>(
+            staticFile(`compiled-assets/${name}.json`),
+          ),
+        ] as const,
+    ),
+  );
+  return Object.fromEntries(
+    loaded.filter(
+      (entry): entry is readonly [string, CompiledAsset] =>
+        entry[1] !== undefined,
+    ),
+  );
+};
+
 // A scene video takes its length and frame shape from its scene file, and
 // for a voiceover video from its narration: the audio is measured here and
 // handed to the video. A file too broken to read gets a few seconds in
@@ -61,6 +83,18 @@ const sceneVideoMetadata = async ({ props }: { props: SceneVideoProps }) => {
       )
     : undefined;
   const { video } = validateVideo(props.video, audio, heard);
+  const imageNames = parsed.success
+    ? [
+        ...new Set(
+          parsed.data.scenes.flatMap((scene) =>
+            scene.elements.flatMap((element) =>
+              element.type === "image" ? [element.name] : [],
+            ),
+          ),
+        ),
+      ]
+    : [];
+  const assets = await loadAssets(imageNames);
   const { width, height } = FORMATS[video?.format ?? "portrait"];
   return {
     durationInFrames: Math.max(
@@ -69,7 +103,7 @@ const sceneVideoMetadata = async ({ props }: { props: SceneVideoProps }) => {
     ),
     width,
     height,
-    props: { ...props, audio, heard, versions },
+    props: { ...props, audio, heard, versions, assets },
   };
 };
 

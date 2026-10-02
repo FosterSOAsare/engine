@@ -11,8 +11,11 @@ import {
 import { sceneTimes, WIPE_SECONDS } from "./animation/timeline";
 import { Captions } from "./captions/Captions";
 import { captionPages } from "./captions/pages";
+import type { CompiledAssets } from "./assets/compiled";
+import { WATERMARK } from "./brand";
 import { Arrow } from "./elements/Arrow";
 import { Hand } from "./elements/Hand";
+import { Image } from "./elements/Image";
 import { Shape } from "./elements/Shape";
 import { Text } from "./elements/Text";
 import { BOARD } from "./elements/shared";
@@ -20,6 +23,7 @@ import { secondsToFrames } from "./layout/formats";
 import { handTracks, planVideo, type PlannedBoard } from "./layout/plan";
 import type { HeardWords } from "./schema/timing";
 import { validateVideo, type AudioLengths } from "./schema/validate";
+import { Watermark } from "./Watermark";
 
 // Draws a whole video from its scene file. The file arrives as plain JSON
 // (a composition prop), is checked, and either drawn or, if it has
@@ -34,6 +38,7 @@ export type SceneVideoProps = {
   // Overrides the scene file's "captions" for one render:
   // npm run render -- <id> --no-captions
   captions?: boolean;
+  assets?: CompiledAssets; // the designs the video uses (see Root.tsx)
 };
 
 // npm run voice records a fingerprint of each scene's narration in
@@ -99,6 +104,8 @@ const BoardView: React.FC<{ board: PlannedBoard }> = ({ board }) => {
             return <Shape key={i} {...drawing.props} />;
           case "text":
             return <Text key={i} {...drawing.props} />;
+          case "image":
+            return <Image key={i} {...drawing.props} />;
           case "arrow":
             return (
               <AbsoluteFill key={i}>
@@ -131,6 +138,7 @@ export const SceneVideo: React.FC<SceneVideoProps> = ({
   heard,
   versions,
   captions,
+  assets,
 }) => {
   const frame = useCurrentFrame();
   const { width, height } = useVideoConfig();
@@ -140,8 +148,9 @@ export const SceneVideo: React.FC<SceneVideoProps> = ({
     [video, audio, heard],
   );
   const plan = useMemo(
-    () => (result.ok ? planVideo(result.video, { width, height }) : []),
-    [result, width, height],
+    () =>
+      result.ok ? planVideo(result.video, { width, height }, assets ?? {}) : [],
+    [result, width, height, assets],
   );
   const tracks = useMemo(
     () => handTracks(plan, { width, height }),
@@ -157,7 +166,30 @@ export const SceneVideo: React.FC<SceneVideoProps> = ({
     );
   }, [result, captions]);
 
+  // Designs that couldn't be loaded (not compiled yet, or misnamed).
+  const missing = result.ok
+    ? [
+        ...new Set(
+          result.video.scenes.flatMap((scene) =>
+            scene.elements.flatMap((element) =>
+              element.type === "image" && !assets?.[element.name]
+                ? [element.name]
+                : [],
+            ),
+          ),
+        ),
+      ]
+    : [];
   if (!result.ok) return <Errors errors={result.errors} />;
+  if (missing.length > 0) {
+    return (
+      <Errors
+        errors={missing.map(
+          (name) => `design "${name}" isn't compiled yet; run npm run assets`,
+        )}
+      />
+    );
+  }
 
   // Only the board on screen right now is drawn.
   const board = plan.find(
@@ -169,6 +201,9 @@ export const SceneVideo: React.FC<SceneVideoProps> = ({
       {board ? <BoardView board={board} /> : null}
       <Hand tracks={tracks} />
       <Captions pages={pages} />
+      {result.video.watermark !== false ? (
+        <Watermark text={result.video.watermark ?? WATERMARK} />
+      ) : null}
       {result.video.voiceover
         ? sceneTimes(result.video).map(({ scene, start, end }) => (
             <Sequence

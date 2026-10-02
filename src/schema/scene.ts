@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { ASSET_NAMES } from "../assets";
 import { ICON_NAMES } from "../elements/icons";
 import { FORMAT_NAMES } from "../layout/formats";
 
@@ -90,6 +91,8 @@ const text = z.strictObject({
   y: percent,
   size: positive.default(8), // font size
   text: z.string().min(1),
+  // "left": x is where the text starts instead of its centre.
+  align: z.enum(["center", "left"]).default("center"),
 });
 
 // Bullet points, written one line after another. x and y are where the
@@ -147,6 +150,27 @@ const icon = z.strictObject({
   label: z.string().optional(), // written underneath
 });
 
+// A design from public/assets/ (npm run assets), by name, e.g.
+// "peeps/standing/12" or "tech/laptop". Its height follows its shape.
+const image = z.strictObject({
+  type: z.literal("image"),
+  ...common,
+  name: z.enum(ASSET_NAMES),
+  x: percent, // centre
+  y: percent,
+  w: positive.default(25), // width, percent of the shorter side
+  // "draw": the hand traces its lines, then its colours fade in;
+  // "fade": it fades in; "pop": it grows into place.
+  reveal: z.enum(["draw", "fade", "pop"]).default("draw"),
+  label: z.string().optional(), // written underneath
+  // Recolouring: "fill" for every coloured area, "ink" for every line, or
+  // "colors" to swap exact colours ({ "#ffffff": "#ffd8a8" }); "colors"
+  // wins where both apply.
+  fill: z.string().min(1).optional(),
+  ink: z.string().min(1).optional(),
+  colors: z.record(z.string(), z.string().min(1)).optional(),
+});
+
 export const elementSchema = z.discriminatedUnion("type", [
   box,
   circle,
@@ -159,6 +183,7 @@ export const elementSchema = z.discriminatedUnion("type", [
   line,
   ring,
   icon,
+  image,
 ]);
 
 export const sceneSchema = z.strictObject({
@@ -185,6 +210,9 @@ export const videoSchema = z.strictObject({
   voice: z.string().min(1).optional(), // a Piper voice; default bryce
   // Word-by-word captions of the narration (npm run captions).
   captions: z.boolean().default(true),
+  // The handle in the bottom-right corner: the default from src/brand.ts,
+  // other text, or false for none.
+  watermark: z.union([z.string().min(1), z.literal(false)]).optional(),
   fps: z.number().int().positive().default(30),
   scenes: z.array(sceneSchema).min(1),
 });

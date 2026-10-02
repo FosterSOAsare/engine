@@ -1,0 +1,83 @@
+{
+  "version": 1,
+  "title": "What is an API? Explained in 60 seconds",
+  "format": "portrait",
+  "voiceover": true,
+  "voice": "en_US-bryce-medium",
+  "captions": true,
+  "scenes": [
+    {
+      "id": "hook",
+      "narration": "Every app on your phone is quietly talking to other apps. The thing that lets them talk is called an API.",
+      "elements": [
+        { "type": "image", "id": "phone", "name": "tech/phone", "x": 26, "y": 28, "w": 30, "draw": 1.4, "at": "phone" },
+        { "type": "image", "id": "server", "name": "tech/server", "x": 74, "y": 28, "w": 30, "draw": 1.4, "at": "other apps" },
+        { "type": "arrow", "from": "phone", "to": "server", "head": "both", "color": "#1e6fd9", "draw": 0.5, "at": "talking" },
+        { "type": "text", "text": "API", "x": 50, "y": 56, "size": 22, "color": "#1e6fd9", "draw": 0.8, "at": "API" },
+        { "type": "text", "text": "Application Programming Interface", "x": 50, "y": 70, "size": 4.6, "color": "#888888", "draw": 1 }
+      ]
+    },
+    {
+      "id": "restaurant",
+      "narration": "Think of a restaurant. You don't walk into the kitchen yourself. You tell the waiter what you want, and the waiter brings it back.",
+      "elements": [
+        { "type": "text", "text": "THINK OF A RESTAURANT", "x": 26, "y": 5, "size": 3.6, "color": "#888888", "draw": 0.6, "at": "restaurant" },
+        { "type": "image", "id": "you", "name": "peeps/standing/12", "label": "you", "x": 17, "y": 50, "w": 21, "draw": 1.6, "at": "you" },
+        { "type": "icon", "id": "kitchen", "name": "chef-hat", "label": "kitchen", "x": 82, "y": 32, "size": 22, "draw": 0.7, "at": "kitchen" },
+        { "type": "image", "id": "waiter", "name": "peeps/standing/6", "label": "waiter", "x": 52, "y": 50, "w": 21, "draw": 1.6, "at": "waiter" },
+        { "type": "arrow", "from": "you", "to": "waiter", "label": "order", "color": "#1e6fd9", "draw": 0.4, "at": "want" },
+        { "type": "arrow", "from": "waiter", "to": "kitchen", "color": "#1e6fd9", "draw": 0.4 },
+        { "type": "arrow", "from": "kitchen", "to": "you", "bend": -10, "label": "your food", "color": "#2a9d4b", "draw": 0.7, "at": "back" }
+      ]
+    },
+    {
+      "id": "mapping",
+      "narration": "In software, your app is the customer, the server is the kitchen, and the API is the waiter in between.",
+      "elements": [
+        { "type": "text", "text": "IN SOFTWARE", "x": 15, "y": 5, "size": 3.6, "color": "#888888", "draw": 0.5 },
+        { "type": "image", "id": "app", "name": "tech/phone", "label": "your app", "x": 16, "y": 28, "w": 22, "draw": 1, "at": "app" },
+        { "type": "text", "text": "customer = your app", "x": 50, "y": 58, "size": 6, "draw": 0.8, "at": "customer" },
+        { "type": "image", "id": "srv", "name": "tech/server", "label": "server", "x": 84, "y": 28, "w": 22, "draw": 1, "at": "server" },
+        { "type": "text", "text": "kitchen = the server", "x": 50, "y": 66, "size": 6, "draw": 0.8, "at": "kitchen" },
+        { "type": "box", "id": "api", "label": "API", "x": 50, "y": 28, "w": 26, "h": 14, "fill": "#d0ebff", "color": "#1e6fd9", "draw": 0.7, "at": "API" },
+        { "type": "text", "text": "waiter = the API", "x": 50, "y": 74, "size": 6, "color": "#1e6fd9", "draw": 0.8, "at": "waiter" },
+        { "type": "arrow", "from": "app", "to": "api", "color": "#1e6fd9", "draw": 0.3 },
+        { "type": "arrow", "from": "api", "to": "srv", "color": "#1e6fd9", "draw": 0.3 }
+      ]
+    },
+    {
+      "id": "weather",
+      "narration": "When a weather app shows tomorrow's forecast, it sends a request: weather for London, please. The API sends the answer back as data.",
+      "elements": [
+        { "type": "icon", "name": "cloud-sun", "x": 22, "y": 14, "size": 14, "color": "#ff9f43", "draw": 0.6, "at": "weather" },
+        { "type": "image", "id": "app", "name": "tech/phone", "label": "weather app", "x": 22, "y": 38, "w": 24, "draw": 1, "at": "app" },
+        { "type": "image", "id": "srv", "name": "tech/server", "label": "weather API", "x": 78, "y": 38, "w": 24, "draw": 1, "at": "forecast" },
+        { "type": "arrow", "from": "app", "to": "srv", "bend": 6, "label": "weather for London?", "color": "#1e6fd9", "draw": 0.6, "at": "request" },
+        { "type": "arrow", "from": "srv", "to": "app", "bend": 6, "label": "18°C, sunny", "color": "#2a9d4b", "draw": 0.6, "at": "answer" },
+        { "type": "text", "text": "{ \"temp\": 18, \"sky\": \"sunny\" }", "x": 50, "y": 74, "size": 5, "color": "#2a9d4b", "draw": 1, "at": "data" }
+      ]
+    },
+    {
+      "id": "menu",
+      "narration": "The app never sees how the forecast is made. It only knows how to ask. That's an API: a menu of things you can ask for, and a promise about what comes back.",
+      "elements": [
+        { "type": "icon", "name": "eye-off", "x": 50, "y": 8, "size": 10, "color": "#888888", "draw": 0.5, "at": "sees" },
+        { "type": "box", "x": 50, "y": 36, "w": 64, "h": 46, "fill": "#fff3c4", "color": "#b8a46a", "draw": 0.7, "at": "menu" },
+        { "type": "text", "text": "MENU", "x": 50, "y": 24, "size": 6, "draw": 0.4 },
+        { "type": "text", "text": "GET /weather", "x": 50, "y": 33, "size": 5, "color": "#1e6fd9", "draw": 0.5 },
+        { "type": "text", "text": "GET /forecast", "x": 50, "y": 40, "size": 5, "color": "#1e6fd9", "draw": 0.5 },
+        { "type": "text", "text": "POST /alerts", "x": 50, "y": 47, "size": 5, "color": "#1e6fd9", "draw": 0.5 },
+        { "type": "text", "text": "+ a promise about what comes back", "x": 50, "y": 66, "size": 5, "color": "#2a9d4b", "draw": 1.2, "at": "promise" }
+      ]
+    },
+    {
+      "id": "close",
+      "narration": "So next time an app shows you something it didn't make itself, there's probably an API behind it. Follow for more.",
+      "elements": [
+        { "type": "image", "name": "peeps/bust/42", "x": 50, "y": 30, "w": 40, "draw": 2.2, "at": "next" },
+        { "type": "text", "text": "there's an API behind it", "x": 50, "y": 60, "size": 6.5, "color": "#1e6fd9", "draw": 1, "at": "API" },
+        { "type": "text", "text": "Follow for more", "x": 50, "y": 74, "size": 6, "draw": 0.7, "at": "follow" }
+      ]
+    }
+  ]
+}

@@ -24,7 +24,9 @@
     "@types/react": "19.2.7",
     "@types/web": "0.0.166",
     "eslint": "9.39.5",
+    "fast-xml-parser": "5.11.2",
     "prettier": "3.8.1",
+    "svgpath": "2.6.0",
     "typescript": "5.9.3",
     "vitest": "5.0.3"
   },
@@ -39,7 +41,10 @@
     "voice": "node scripts/voice.mjs",
     "voice:setup": "node scripts/voice-setup.mjs",
     "captions": "node scripts/captions.mjs",
-    "captions:setup": "node scripts/captions-setup.mjs"
+    "captions:setup": "node scripts/captions-setup.mjs",
+    "assets": "node scripts/assets.mjs",
+    "predev": "node scripts/assets.mjs",
+    "compress": "node scripts/compress.mjs"
   },
   "sideEffects": [
     "*.css"

@@ -111,9 +111,18 @@ describe("resolveTiming", () => {
     ]);
   });
 
-  it("asks for captions when at is used without them", () => {
-    expect(timed([box({ at: "resolver" })], {}).errors).toEqual([
-      'scene "s", element 1 (box): "at" needs captions; run npm run captions',
+  it("queues at-elements until there are word timings", () => {
+    const { video, errors } = timed(
+      [box({ start: 0, draw: 1 }), box({ at: "resolver" })],
+      {},
+    );
+    expect(errors).toEqual([]);
+    expect(video.scenes[0].elements[1].start).toBeCloseTo(1.15);
+  });
+
+  it("checks the word is in the narration even without word timings", () => {
+    expect(timed([box({ at: "router" })], {}).errors).toEqual([
+      'scene "s", element 1 (box): the narration never says "router"',
     ]);
   });
 

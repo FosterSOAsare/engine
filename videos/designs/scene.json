@@ -1,0 +1,4310 @@
+{
+  "version": 1,
+  "title": "Design gallery",
+  "format": "landscape",
+  "watermark": false,
+  "scenes": [
+    {
+      "id": "drawn",
+      "duration": 15.9,
+      "narration": "",
+      "elements": [
+        {
+          "type": "text",
+          "text": "Drawn by hand",
+          "x": 50,
+          "y": 7,
+          "size": 5,
+          "draw": 0.8,
+          "start": 0.2
+        },
+        {
+          "type": "image",
+          "name": "peeps/standing/12",
+          "x": 18,
+          "y": 54,
+          "w": 17,
+          "reveal": "draw",
+          "start": 1.2,
+          "draw": 4
+        },
+        {
+          "type": "image",
+          "name": "peeps/sitting/3",
+          "x": 50,
+          "y": 54,
+          "w": 30,
+          "reveal": "draw",
+          "start": 5.6000000000000005,
+          "draw": 4
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/42",
+          "x": 82,
+          "y": 54,
+          "w": 26,
+          "reveal": "draw",
+          "start": 10.0,
+          "draw": 4
+        }
+      ]
+    },
+    {
+      "id": "starter",
+      "duration": 23.6,
+      "narration": "",
+      "elements": [
+        {
+          "type": "text",
+          "text": "Starter pack",
+          "x": 50,
+          "y": 7,
+          "size": 5,
+          "draw": 0.8,
+          "start": 0.2
+        },
+        {
+          "type": "image",
+          "name": "data/chart",
+          "x": 7.14,
+          "y": 26,
+          "w": 13,
+          "reveal": "draw",
+          "start": 1.2,
+          "draw": 0.9
+        },
+        {
+          "type": "text",
+          "text": "data/chart",
+          "x": 7.14,
+          "y": 34.7,
+          "size": 2.6,
+          "color": "#888888",
+          "start": 2.15,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "data/document",
+          "x": 21.43,
+          "y": 26,
+          "w": 13,
+          "reveal": "draw",
+          "start": 2.3,
+          "draw": 0.9
+        },
+        {
+          "type": "text",
+          "text": "data/document",
+          "x": 21.43,
+          "y": 34.7,
+          "size": 2.6,
+          "color": "#888888",
+          "start": 3.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "objects/lightbulb",
+          "x": 35.71,
+          "y": 26,
+          "w": 13,
+          "reveal": "draw",
+          "start": 3.4,
+          "draw": 0.9
+        },
+        {
+          "type": "text",
+          "text": "objects/lightbulb",
+          "x": 35.71,
+          "y": 34.7,
+          "size": 2.6,
+          "color": "#888888",
+          "start": 4.35,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "objects/mail",
+          "x": 50.0,
+          "y": 26,
+          "w": 13,
+          "reveal": "draw",
+          "start": 4.5,
+          "draw": 0.9
+        },
+        {
+          "type": "text",
+          "text": "objects/mail",
+          "x": 50.0,
+          "y": 34.7,
+          "size": 2.6,
+          "color": "#888888",
+          "start": 5.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "objects/rocket",
+          "x": 64.29,
+          "y": 26,
+          "w": 13,
+          "reveal": "draw",
+          "start": 5.6,
+          "draw": 0.9
+        },
+        {
+          "type": "text",
+          "text": "objects/rocket",
+          "x": 64.29,
+          "y": 34.7,
+          "size": 2.6,
+          "color": "#888888",
+          "start": 6.55,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "people/developer",
+          "x": 78.57,
+          "y": 26,
+          "w": 13,
+          "reveal": "draw",
+          "start": 6.7,
+          "draw": 0.9
+        },
+        {
+          "type": "text",
+          "text": "people/developer",
+          "x": 78.57,
+          "y": 34.7,
+          "size": 2.6,
+          "color": "#888888",
+          "start": 7.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "people/team",
+          "x": 92.86,
+          "y": 26,
+          "w": 13,
+          "reveal": "draw",
+          "start": 7.8,
+          "draw": 0.9
+        },
+        {
+          "type": "text",
+          "text": "people/team",
+          "x": 92.86,
+          "y": 34.7,
+          "size": 2.6,
+          "color": "#888888",
+          "start": 8.75,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "people/user",
+          "x": 7.14,
+          "y": 56,
+          "w": 13,
+          "reveal": "draw",
+          "start": 8.9,
+          "draw": 0.9
+        },
+        {
+          "type": "text",
+          "text": "people/user",
+          "x": 7.14,
+          "y": 64.7,
+          "size": 2.6,
+          "color": "#888888",
+          "start": 9.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "security/hacker",
+          "x": 21.43,
+          "y": 56,
+          "w": 13,
+          "reveal": "draw",
+          "start": 10.0,
+          "draw": 0.9
+        },
+        {
+          "type": "text",
+          "text": "security/hacker",
+          "x": 21.43,
+          "y": 64.7,
+          "size": 2.6,
+          "color": "#888888",
+          "start": 10.95,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "security/key",
+          "x": 35.71,
+          "y": 56,
+          "w": 13,
+          "reveal": "draw",
+          "start": 11.1,
+          "draw": 0.9
+        },
+        {
+          "type": "text",
+          "text": "security/key",
+          "x": 35.71,
+          "y": 64.7,
+          "size": 2.6,
+          "color": "#888888",
+          "start": 12.05,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "security/lock",
+          "x": 50.0,
+          "y": 56,
+          "w": 13,
+          "reveal": "draw",
+          "start": 12.2,
+          "draw": 0.9
+        },
+        {
+          "type": "text",
+          "text": "security/lock",
+          "x": 50.0,
+          "y": 64.7,
+          "size": 2.6,
+          "color": "#888888",
+          "start": 13.15,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "security/shield",
+          "x": 64.29,
+          "y": 56,
+          "w": 13,
+          "reveal": "draw",
+          "start": 13.3,
+          "draw": 0.9
+        },
+        {
+          "type": "text",
+          "text": "security/shield",
+          "x": 64.29,
+          "y": 64.7,
+          "size": 2.6,
+          "color": "#888888",
+          "start": 14.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "tech/browser",
+          "x": 78.57,
+          "y": 56,
+          "w": 13,
+          "reveal": "draw",
+          "start": 14.4,
+          "draw": 0.9
+        },
+        {
+          "type": "text",
+          "text": "tech/browser",
+          "x": 78.57,
+          "y": 64.7,
+          "size": 2.6,
+          "color": "#888888",
+          "start": 15.35,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "tech/cloud",
+          "x": 92.86,
+          "y": 56,
+          "w": 13,
+          "reveal": "draw",
+          "start": 15.5,
+          "draw": 0.9
+        },
+        {
+          "type": "text",
+          "text": "tech/cloud",
+          "x": 92.86,
+          "y": 64.7,
+          "size": 2.6,
+          "color": "#888888",
+          "start": 16.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "tech/database",
+          "x": 7.14,
+          "y": 86,
+          "w": 13,
+          "reveal": "draw",
+          "start": 16.6,
+          "draw": 0.9
+        },
+        {
+          "type": "text",
+          "text": "tech/database",
+          "x": 7.14,
+          "y": 94.7,
+          "size": 2.6,
+          "color": "#888888",
+          "start": 17.55,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "tech/laptop",
+          "x": 21.43,
+          "y": 86,
+          "w": 13,
+          "reveal": "draw",
+          "start": 17.7,
+          "draw": 0.9
+        },
+        {
+          "type": "text",
+          "text": "tech/laptop",
+          "x": 21.43,
+          "y": 94.7,
+          "size": 2.6,
+          "color": "#888888",
+          "start": 18.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "tech/phone",
+          "x": 35.71,
+          "y": 86,
+          "w": 13,
+          "reveal": "draw",
+          "start": 18.8,
+          "draw": 0.9
+        },
+        {
+          "type": "text",
+          "text": "tech/phone",
+          "x": 35.71,
+          "y": 94.7,
+          "size": 2.6,
+          "color": "#888888",
+          "start": 19.75,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "tech/router",
+          "x": 50.0,
+          "y": 86,
+          "w": 13,
+          "reveal": "draw",
+          "start": 19.9,
+          "draw": 0.9
+        },
+        {
+          "type": "text",
+          "text": "tech/router",
+          "x": 50.0,
+          "y": 94.7,
+          "size": 2.6,
+          "color": "#888888",
+          "start": 20.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "tech/server",
+          "x": 64.29,
+          "y": 86,
+          "w": 13,
+          "reveal": "draw",
+          "start": 21.0,
+          "draw": 0.9
+        },
+        {
+          "type": "text",
+          "text": "tech/server",
+          "x": 64.29,
+          "y": 94.7,
+          "size": 2.6,
+          "color": "#888888",
+          "start": 21.95,
+          "draw": 0.1
+        }
+      ]
+    },
+    {
+      "id": "standing",
+      "duration": 44.7,
+      "narration": "",
+      "elements": [
+        {
+          "type": "text",
+          "text": "Open Peeps: standing",
+          "x": 50,
+          "y": 7,
+          "size": 5,
+          "draw": 0.8,
+          "start": 0.2
+        },
+        {
+          "type": "image",
+          "name": "peeps/standing/1",
+          "x": 5.0,
+          "y": 22,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 1.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "standing/1",
+          "x": 5.0,
+          "y": 35.11,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 2.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/standing/2",
+          "x": 15.0,
+          "y": 22,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 2.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "standing/2",
+          "x": 15.0,
+          "y": 35.38,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 3.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/standing/3",
+          "x": 25.0,
+          "y": 22,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 4.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "standing/3",
+          "x": 25.0,
+          "y": 34.9,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 5.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/standing/4",
+          "x": 35.0,
+          "y": 22,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 5.4,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "standing/4",
+          "x": 35.0,
+          "y": 31.48,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 6.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/standing/5",
+          "x": 45.0,
+          "y": 22,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 6.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "standing/5",
+          "x": 45.0,
+          "y": 31.47,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 8.05,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/standing/6",
+          "x": 55.0,
+          "y": 22,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 8.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "standing/6",
+          "x": 55.0,
+          "y": 31.44,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 9.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/standing/7",
+          "x": 65.0,
+          "y": 22,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 9.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "standing/7",
+          "x": 65.0,
+          "y": 33.15,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 10.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/standing/8",
+          "x": 75.0,
+          "y": 22,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 11.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "standing/8",
+          "x": 75.0,
+          "y": 33.06,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 12.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/standing/9",
+          "x": 85.0,
+          "y": 22,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 12.4,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "standing/9",
+          "x": 85.0,
+          "y": 32.97,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 13.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/standing/10",
+          "x": 95.0,
+          "y": 22,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 13.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "standing/10",
+          "x": 95.0,
+          "y": 32.97,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 15.05,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/standing/11",
+          "x": 5.0,
+          "y": 49,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 15.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "standing/11",
+          "x": 5.0,
+          "y": 59.62,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 16.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/standing/12",
+          "x": 15.0,
+          "y": 49,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 16.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "standing/12",
+          "x": 15.0,
+          "y": 60.25,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 17.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/standing/13",
+          "x": 25.0,
+          "y": 49,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 18.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "standing/13",
+          "x": 25.0,
+          "y": 59.82,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 19.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/standing/14",
+          "x": 35.0,
+          "y": 49,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 19.4,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "standing/14",
+          "x": 35.0,
+          "y": 59.92,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 20.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/standing/15",
+          "x": 45.0,
+          "y": 49,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 20.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "standing/15",
+          "x": 45.0,
+          "y": 59.86,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 22.05,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/standing/16",
+          "x": 55.0,
+          "y": 49,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 22.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "standing/16",
+          "x": 55.0,
+          "y": 58.06,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 23.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/standing/17",
+          "x": 65.0,
+          "y": 49,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 23.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "standing/17",
+          "x": 65.0,
+          "y": 57.69,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 24.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/standing/18",
+          "x": 75.0,
+          "y": 49,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 25.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "standing/18",
+          "x": 75.0,
+          "y": 60.08,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 26.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/standing/19",
+          "x": 85.0,
+          "y": 49,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 26.4,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "standing/19",
+          "x": 85.0,
+          "y": 62.2,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 27.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/standing/20",
+          "x": 95.0,
+          "y": 49,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 27.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "standing/20",
+          "x": 95.0,
+          "y": 61.97,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 29.05,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/standing/21",
+          "x": 5.0,
+          "y": 76,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 29.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "standing/21",
+          "x": 5.0,
+          "y": 89.18,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 30.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/standing/22",
+          "x": 15.0,
+          "y": 76,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 30.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "standing/22",
+          "x": 15.0,
+          "y": 85.2,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 31.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/standing/23",
+          "x": 25.0,
+          "y": 76,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 32.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "standing/23",
+          "x": 25.0,
+          "y": 85.28,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 33.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/standing/24",
+          "x": 35.0,
+          "y": 76,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 33.4,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "standing/24",
+          "x": 35.0,
+          "y": 85.21,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 34.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/standing/25",
+          "x": 45.0,
+          "y": 76,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 34.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "standing/25",
+          "x": 45.0,
+          "y": 87.62,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 36.05,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/standing/26",
+          "x": 55.0,
+          "y": 76,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 36.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "standing/26",
+          "x": 55.0,
+          "y": 87.14,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 37.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/standing/27",
+          "x": 65.0,
+          "y": 76,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 37.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "standing/27",
+          "x": 65.0,
+          "y": 87.62,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 38.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/standing/28",
+          "x": 75.0,
+          "y": 76,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 39.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "standing/28",
+          "x": 75.0,
+          "y": 88.79,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 40.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/standing/29",
+          "x": 85.0,
+          "y": 76,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 40.4,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "standing/29",
+          "x": 85.0,
+          "y": 88.71,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 41.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/standing/30",
+          "x": 95.0,
+          "y": 76,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 41.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "standing/30",
+          "x": 95.0,
+          "y": 88.9,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 43.05,
+          "draw": 0.1
+        }
+      ]
+    },
+    {
+      "id": "sitting",
+      "duration": 27.9,
+      "narration": "",
+      "elements": [
+        {
+          "type": "text",
+          "text": "Open Peeps: sitting",
+          "x": 50,
+          "y": 7,
+          "size": 5,
+          "draw": 0.8,
+          "start": 0.2
+        },
+        {
+          "type": "image",
+          "name": "peeps/sitting/1",
+          "x": 5.56,
+          "y": 26,
+          "w": 11,
+          "reveal": "draw",
+          "start": 1.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "sitting/1",
+          "x": 5.56,
+          "y": 36.31,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 2.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/sitting/2",
+          "x": 16.67,
+          "y": 26,
+          "w": 11,
+          "reveal": "draw",
+          "start": 2.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "sitting/2",
+          "x": 16.67,
+          "y": 36.48,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 3.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/sitting/3",
+          "x": 27.78,
+          "y": 26,
+          "w": 11,
+          "reveal": "draw",
+          "start": 4.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "sitting/3",
+          "x": 27.78,
+          "y": 33.35,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 5.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/sitting/4",
+          "x": 38.89,
+          "y": 26,
+          "w": 11,
+          "reveal": "draw",
+          "start": 5.4,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "sitting/4",
+          "x": 38.89,
+          "y": 35.72,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 6.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/sitting/5",
+          "x": 50.0,
+          "y": 26,
+          "w": 11,
+          "reveal": "draw",
+          "start": 6.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "sitting/5",
+          "x": 50.0,
+          "y": 35.79,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 8.05,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/sitting/6",
+          "x": 61.11,
+          "y": 26,
+          "w": 11,
+          "reveal": "draw",
+          "start": 8.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "sitting/6",
+          "x": 61.11,
+          "y": 36.89,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 9.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/sitting/7",
+          "x": 72.22,
+          "y": 26,
+          "w": 11,
+          "reveal": "draw",
+          "start": 9.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "sitting/7",
+          "x": 72.22,
+          "y": 37.49,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 10.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/sitting/8",
+          "x": 83.33,
+          "y": 26,
+          "w": 11,
+          "reveal": "draw",
+          "start": 11.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "sitting/8",
+          "x": 83.33,
+          "y": 33.35,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 12.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/sitting/9",
+          "x": 94.44,
+          "y": 26,
+          "w": 11,
+          "reveal": "draw",
+          "start": 12.4,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "sitting/9",
+          "x": 94.44,
+          "y": 36.13,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 13.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/sitting/10",
+          "x": 5.56,
+          "y": 70,
+          "w": 11,
+          "reveal": "draw",
+          "start": 13.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "sitting/10",
+          "x": 5.56,
+          "y": 80.42,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 15.05,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/sitting/11",
+          "x": 16.67,
+          "y": 70,
+          "w": 11,
+          "reveal": "draw",
+          "start": 15.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "sitting/11",
+          "x": 16.67,
+          "y": 80.33,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 16.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/sitting/12",
+          "x": 27.78,
+          "y": 70,
+          "w": 11,
+          "reveal": "draw",
+          "start": 16.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "sitting/12",
+          "x": 27.78,
+          "y": 80.45,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 17.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/sitting/13",
+          "x": 38.89,
+          "y": 70,
+          "w": 11,
+          "reveal": "draw",
+          "start": 18.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "sitting/13",
+          "x": 38.89,
+          "y": 77.64,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 19.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/sitting/14",
+          "x": 50.0,
+          "y": 70,
+          "w": 11,
+          "reveal": "draw",
+          "start": 19.4,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "sitting/14",
+          "x": 50.0,
+          "y": 79.38,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 20.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/sitting/15",
+          "x": 61.11,
+          "y": 70,
+          "w": 11,
+          "reveal": "draw",
+          "start": 20.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "sitting/15",
+          "x": 61.11,
+          "y": 79.64,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 22.05,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/sitting/16",
+          "x": 72.22,
+          "y": 70,
+          "w": 11,
+          "reveal": "draw",
+          "start": 22.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "sitting/16",
+          "x": 72.22,
+          "y": 77.52,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 23.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/sitting/17",
+          "x": 83.33,
+          "y": 70,
+          "w": 11,
+          "reveal": "draw",
+          "start": 23.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "sitting/17",
+          "x": 83.33,
+          "y": 80.88,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 24.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/sitting/18",
+          "x": 94.44,
+          "y": 70,
+          "w": 11,
+          "reveal": "draw",
+          "start": 25.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "sitting/18",
+          "x": 94.44,
+          "y": 80.16,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 26.25,
+          "draw": 0.1
+        }
+      ]
+    },
+    {
+      "id": "bust-1",
+      "duration": 79.7,
+      "narration": "",
+      "elements": [
+        {
+          "type": "text",
+          "text": "Open Peeps: busts (1 of 2)",
+          "x": 50,
+          "y": 7,
+          "size": 5,
+          "draw": 0.8,
+          "start": 0.2
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/1",
+          "x": 4.55,
+          "y": 20,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 1.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/1",
+          "x": 4.55,
+          "y": 27.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 2.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/2",
+          "x": 13.64,
+          "y": 20,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 2.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/2",
+          "x": 13.64,
+          "y": 27.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 3.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/3",
+          "x": 22.73,
+          "y": 20,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 4.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/3",
+          "x": 22.73,
+          "y": 27.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 5.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/4",
+          "x": 31.82,
+          "y": 20,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 5.4,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/4",
+          "x": 31.82,
+          "y": 27.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 6.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/5",
+          "x": 40.91,
+          "y": 20,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 6.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/5",
+          "x": 40.91,
+          "y": 27.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 8.05,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/6",
+          "x": 50.0,
+          "y": 20,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 8.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/6",
+          "x": 50.0,
+          "y": 27.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 9.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/7",
+          "x": 59.09,
+          "y": 20,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 9.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/7",
+          "x": 59.09,
+          "y": 27.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 10.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/8",
+          "x": 68.18,
+          "y": 20,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 11.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/8",
+          "x": 68.18,
+          "y": 27.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 12.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/9",
+          "x": 77.27,
+          "y": 20,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 12.4,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/9",
+          "x": 77.27,
+          "y": 27.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 13.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/10",
+          "x": 86.36,
+          "y": 20,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 13.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/10",
+          "x": 86.36,
+          "y": 27.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 15.05,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/11",
+          "x": 95.45,
+          "y": 20,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 15.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/11",
+          "x": 95.45,
+          "y": 27.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 16.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/12",
+          "x": 4.55,
+          "y": 36,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 16.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/12",
+          "x": 4.55,
+          "y": 43.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 17.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/13",
+          "x": 13.64,
+          "y": 36,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 18.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/13",
+          "x": 13.64,
+          "y": 43.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 19.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/14",
+          "x": 22.73,
+          "y": 36,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 19.4,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/14",
+          "x": 22.73,
+          "y": 43.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 20.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/15",
+          "x": 31.82,
+          "y": 36,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 20.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/15",
+          "x": 31.82,
+          "y": 43.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 22.05,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/16",
+          "x": 40.91,
+          "y": 36,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 22.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/16",
+          "x": 40.91,
+          "y": 43.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 23.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/17",
+          "x": 50.0,
+          "y": 36,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 23.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/17",
+          "x": 50.0,
+          "y": 43.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 24.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/18",
+          "x": 59.09,
+          "y": 36,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 25.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/18",
+          "x": 59.09,
+          "y": 43.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 26.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/19",
+          "x": 68.18,
+          "y": 36,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 26.4,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/19",
+          "x": 68.18,
+          "y": 43.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 27.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/20",
+          "x": 77.27,
+          "y": 36,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 27.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/20",
+          "x": 77.27,
+          "y": 43.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 29.05,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/21",
+          "x": 86.36,
+          "y": 36,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 29.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/21",
+          "x": 86.36,
+          "y": 43.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 30.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/22",
+          "x": 95.45,
+          "y": 36,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 30.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/22",
+          "x": 95.45,
+          "y": 43.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 31.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/23",
+          "x": 4.55,
+          "y": 52,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 32.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/23",
+          "x": 4.55,
+          "y": 59.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 33.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/24",
+          "x": 13.64,
+          "y": 52,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 33.4,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/24",
+          "x": 13.64,
+          "y": 59.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 34.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/25",
+          "x": 22.73,
+          "y": 52,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 34.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/25",
+          "x": 22.73,
+          "y": 59.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 36.05,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/26",
+          "x": 31.82,
+          "y": 52,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 36.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/26",
+          "x": 31.82,
+          "y": 59.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 37.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/27",
+          "x": 40.91,
+          "y": 52,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 37.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/27",
+          "x": 40.91,
+          "y": 59.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 38.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/28",
+          "x": 50.0,
+          "y": 52,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 39.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/28",
+          "x": 50.0,
+          "y": 59.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 40.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/29",
+          "x": 59.09,
+          "y": 52,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 40.4,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/29",
+          "x": 59.09,
+          "y": 59.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 41.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/30",
+          "x": 68.18,
+          "y": 52,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 41.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/30",
+          "x": 68.18,
+          "y": 59.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 43.05,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/31",
+          "x": 77.27,
+          "y": 52,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 43.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/31",
+          "x": 77.27,
+          "y": 59.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 44.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/32",
+          "x": 86.36,
+          "y": 52,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 44.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/32",
+          "x": 86.36,
+          "y": 59.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 45.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/33",
+          "x": 95.45,
+          "y": 52,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 46.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/33",
+          "x": 95.45,
+          "y": 59.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 47.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/34",
+          "x": 4.55,
+          "y": 68,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 47.4,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/34",
+          "x": 4.55,
+          "y": 75.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 48.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/35",
+          "x": 13.64,
+          "y": 68,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 48.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/35",
+          "x": 13.64,
+          "y": 75.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 50.05,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/36",
+          "x": 22.73,
+          "y": 68,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 50.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/36",
+          "x": 22.73,
+          "y": 75.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 51.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/37",
+          "x": 31.82,
+          "y": 68,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 51.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/37",
+          "x": 31.82,
+          "y": 75.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 52.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/38",
+          "x": 40.91,
+          "y": 68,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 53.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/38",
+          "x": 40.91,
+          "y": 75.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 54.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/39",
+          "x": 50.0,
+          "y": 68,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 54.4,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/39",
+          "x": 50.0,
+          "y": 75.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 55.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/40",
+          "x": 59.09,
+          "y": 68,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 55.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/40",
+          "x": 59.09,
+          "y": 75.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 57.05,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/41",
+          "x": 68.18,
+          "y": 68,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 57.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/41",
+          "x": 68.18,
+          "y": 75.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 58.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/42",
+          "x": 77.27,
+          "y": 68,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 58.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/42",
+          "x": 77.27,
+          "y": 75.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 59.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/43",
+          "x": 86.36,
+          "y": 68,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 60.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/43",
+          "x": 86.36,
+          "y": 75.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 61.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/44",
+          "x": 95.45,
+          "y": 68,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 61.4,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/44",
+          "x": 95.45,
+          "y": 75.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 62.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/45",
+          "x": 4.55,
+          "y": 84,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 62.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/45",
+          "x": 4.55,
+          "y": 91.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 64.05,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/46",
+          "x": 13.64,
+          "y": 84,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 64.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/46",
+          "x": 13.64,
+          "y": 91.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 65.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/47",
+          "x": 22.73,
+          "y": 84,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 65.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/47",
+          "x": 22.73,
+          "y": 91.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 66.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/48",
+          "x": 31.82,
+          "y": 84,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 67.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/48",
+          "x": 31.82,
+          "y": 91.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 68.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/49",
+          "x": 40.91,
+          "y": 84,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 68.4,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/49",
+          "x": 40.91,
+          "y": 91.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 69.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/50",
+          "x": 50.0,
+          "y": 84,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 69.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/50",
+          "x": 50.0,
+          "y": 91.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 71.05,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/51",
+          "x": 59.09,
+          "y": 84,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 71.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/51",
+          "x": 59.09,
+          "y": 91.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 72.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/52",
+          "x": 68.18,
+          "y": 84,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 72.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/52",
+          "x": 68.18,
+          "y": 91.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 73.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/53",
+          "x": 77.27,
+          "y": 84,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 74.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/53",
+          "x": 77.27,
+          "y": 91.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 75.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/54",
+          "x": 86.36,
+          "y": 84,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 75.4,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/54",
+          "x": 86.36,
+          "y": 91.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 76.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/55",
+          "x": 95.45,
+          "y": 84,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 76.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/55",
+          "x": 95.45,
+          "y": 91.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 78.05,
+          "draw": 0.1
+        }
+      ]
+    },
+    {
+      "id": "bust-2",
+      "duration": 72.7,
+      "narration": "",
+      "elements": [
+        {
+          "type": "text",
+          "text": "Open Peeps: busts (2 of 2)",
+          "x": 50,
+          "y": 7,
+          "size": 5,
+          "draw": 0.8,
+          "start": 0.2
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/56",
+          "x": 5.0,
+          "y": 20,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 1.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/56",
+          "x": 5.0,
+          "y": 27.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 2.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/57",
+          "x": 15.0,
+          "y": 20,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 2.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/57",
+          "x": 15.0,
+          "y": 27.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 3.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/58",
+          "x": 25.0,
+          "y": 20,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 4.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/58",
+          "x": 25.0,
+          "y": 27.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 5.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/59",
+          "x": 35.0,
+          "y": 20,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 5.4,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/59",
+          "x": 35.0,
+          "y": 27.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 6.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/60",
+          "x": 45.0,
+          "y": 20,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 6.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/60",
+          "x": 45.0,
+          "y": 27.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 8.05,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/61",
+          "x": 55.0,
+          "y": 20,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 8.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/61",
+          "x": 55.0,
+          "y": 27.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 9.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/62",
+          "x": 65.0,
+          "y": 20,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 9.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/62",
+          "x": 65.0,
+          "y": 27.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 10.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/63",
+          "x": 75.0,
+          "y": 20,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 11.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/63",
+          "x": 75.0,
+          "y": 27.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 12.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/64",
+          "x": 85.0,
+          "y": 20,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 12.4,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/64",
+          "x": 85.0,
+          "y": 27.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 13.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/65",
+          "x": 95.0,
+          "y": 20,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 13.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/65",
+          "x": 95.0,
+          "y": 27.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 15.05,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/66",
+          "x": 5.0,
+          "y": 36,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 15.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/66",
+          "x": 5.0,
+          "y": 43.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 16.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/67",
+          "x": 15.0,
+          "y": 36,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 16.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/67",
+          "x": 15.0,
+          "y": 43.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 17.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/68",
+          "x": 25.0,
+          "y": 36,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 18.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/68",
+          "x": 25.0,
+          "y": 43.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 19.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/69",
+          "x": 35.0,
+          "y": 36,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 19.4,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/69",
+          "x": 35.0,
+          "y": 43.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 20.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/70",
+          "x": 45.0,
+          "y": 36,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 20.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/70",
+          "x": 45.0,
+          "y": 43.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 22.05,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/71",
+          "x": 55.0,
+          "y": 36,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 22.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/71",
+          "x": 55.0,
+          "y": 43.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 23.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/72",
+          "x": 65.0,
+          "y": 36,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 23.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/72",
+          "x": 65.0,
+          "y": 43.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 24.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/73",
+          "x": 75.0,
+          "y": 36,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 25.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/73",
+          "x": 75.0,
+          "y": 43.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 26.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/74",
+          "x": 85.0,
+          "y": 36,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 26.4,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/74",
+          "x": 85.0,
+          "y": 43.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 27.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/75",
+          "x": 95.0,
+          "y": 36,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 27.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/75",
+          "x": 95.0,
+          "y": 43.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 29.05,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/76",
+          "x": 5.0,
+          "y": 52,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 29.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/76",
+          "x": 5.0,
+          "y": 59.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 30.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/77",
+          "x": 15.0,
+          "y": 52,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 30.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/77",
+          "x": 15.0,
+          "y": 59.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 31.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/78",
+          "x": 25.0,
+          "y": 52,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 32.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/78",
+          "x": 25.0,
+          "y": 59.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 33.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/79",
+          "x": 35.0,
+          "y": 52,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 33.4,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/79",
+          "x": 35.0,
+          "y": 59.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 34.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/80",
+          "x": 45.0,
+          "y": 52,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 34.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/80",
+          "x": 45.0,
+          "y": 59.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 36.05,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/81",
+          "x": 55.0,
+          "y": 52,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 36.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/81",
+          "x": 55.0,
+          "y": 59.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 37.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/82",
+          "x": 65.0,
+          "y": 52,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 37.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/82",
+          "x": 65.0,
+          "y": 59.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 38.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/83",
+          "x": 75.0,
+          "y": 52,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 39.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/83",
+          "x": 75.0,
+          "y": 59.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 40.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/84",
+          "x": 85.0,
+          "y": 52,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 40.4,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/84",
+          "x": 85.0,
+          "y": 59.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 41.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/85",
+          "x": 95.0,
+          "y": 52,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 41.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/85",
+          "x": 95.0,
+          "y": 59.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 43.05,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/86",
+          "x": 5.0,
+          "y": 68,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 43.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/86",
+          "x": 5.0,
+          "y": 75.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 44.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/87",
+          "x": 15.0,
+          "y": 68,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 44.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/87",
+          "x": 15.0,
+          "y": 75.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 45.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/88",
+          "x": 25.0,
+          "y": 68,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 46.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/88",
+          "x": 25.0,
+          "y": 75.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 47.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/89",
+          "x": 35.0,
+          "y": 68,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 47.4,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/89",
+          "x": 35.0,
+          "y": 75.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 48.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/90",
+          "x": 45.0,
+          "y": 68,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 48.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/90",
+          "x": 45.0,
+          "y": 75.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 50.05,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/91",
+          "x": 55.0,
+          "y": 68,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 50.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/91",
+          "x": 55.0,
+          "y": 75.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 51.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/92",
+          "x": 65.0,
+          "y": 68,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 51.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/92",
+          "x": 65.0,
+          "y": 75.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 52.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/93",
+          "x": 75.0,
+          "y": 68,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 53.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/93",
+          "x": 75.0,
+          "y": 75.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 54.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/94",
+          "x": 85.0,
+          "y": 68,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 54.4,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/94",
+          "x": 85.0,
+          "y": 75.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 55.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/95",
+          "x": 95.0,
+          "y": 68,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 55.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/95",
+          "x": 95.0,
+          "y": 75.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 57.05,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/96",
+          "x": 5.0,
+          "y": 84,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 57.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/96",
+          "x": 5.0,
+          "y": 91.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 58.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/97",
+          "x": 15.0,
+          "y": 84,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 58.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/97",
+          "x": 15.0,
+          "y": 91.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 59.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/98",
+          "x": 25.0,
+          "y": 84,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 60.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/98",
+          "x": 25.0,
+          "y": 91.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 61.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/99",
+          "x": 35.0,
+          "y": 84,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 61.4,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/99",
+          "x": 35.0,
+          "y": 91.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 62.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/100",
+          "x": 45.0,
+          "y": 84,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 62.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/100",
+          "x": 45.0,
+          "y": 91.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 64.05,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/101",
+          "x": 55.0,
+          "y": 84,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 64.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/101",
+          "x": 55.0,
+          "y": 91.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 65.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/102",
+          "x": 65.0,
+          "y": 84,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 65.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/102",
+          "x": 65.0,
+          "y": 91.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 66.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/103",
+          "x": 75.0,
+          "y": 84,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 67.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/103",
+          "x": 75.0,
+          "y": 91.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 68.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/104",
+          "x": 85.0,
+          "y": 84,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 68.4,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/104",
+          "x": 85.0,
+          "y": 91.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 69.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/bust/105",
+          "x": 95.0,
+          "y": 84,
+          "w": 7.5,
+          "reveal": "draw",
+          "start": 69.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "bust/105",
+          "x": 95.0,
+          "y": 91.26,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 71.05,
+          "draw": 0.1
+        }
+      ]
+    },
+    {
+      "id": "mask",
+      "duration": 53.1,
+      "narration": "",
+      "elements": [
+        {
+          "type": "text",
+          "text": "Open Peeps: masks and medical",
+          "x": 50,
+          "y": 7,
+          "size": 5,
+          "draw": 0.8,
+          "start": 0.2
+        },
+        {
+          "type": "image",
+          "name": "peeps/mask/bust-1",
+          "x": 4.17,
+          "y": 22,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 1.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "mask/bust-1",
+          "x": 4.17,
+          "y": 28.68,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 2.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/mask/bust-2",
+          "x": 12.5,
+          "y": 22,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 2.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "mask/bust-2",
+          "x": 12.5,
+          "y": 28.94,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 3.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/mask/bust-3",
+          "x": 20.83,
+          "y": 22,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 4.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "mask/bust-3",
+          "x": 20.83,
+          "y": 29.0,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 5.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/mask/bust-4",
+          "x": 29.17,
+          "y": 22,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 5.4,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "mask/bust-4",
+          "x": 29.17,
+          "y": 28.88,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 6.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/mask/bust-5",
+          "x": 37.5,
+          "y": 22,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 6.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "mask/bust-5",
+          "x": 37.5,
+          "y": 28.1,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 8.05,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/mask/bust-6",
+          "x": 45.83,
+          "y": 22,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 8.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "mask/bust-6",
+          "x": 45.83,
+          "y": 28.87,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 9.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/mask/bust-7",
+          "x": 54.17,
+          "y": 22,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 9.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "mask/bust-7",
+          "x": 54.17,
+          "y": 27.25,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 10.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/mask/bust-8",
+          "x": 62.5,
+          "y": 22,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 11.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "mask/bust-8",
+          "x": 62.5,
+          "y": 28.69,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 12.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/mask/bust-9",
+          "x": 70.83,
+          "y": 22,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 12.4,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "mask/bust-9",
+          "x": 70.83,
+          "y": 28.98,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 13.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/mask/bust-10",
+          "x": 79.17,
+          "y": 22,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 13.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "mask/bust-10",
+          "x": 79.17,
+          "y": 29.01,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 15.05,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/mask/bust-11",
+          "x": 87.5,
+          "y": 22,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 15.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "mask/bust-11",
+          "x": 87.5,
+          "y": 28.78,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 16.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/mask/bust-12",
+          "x": 95.83,
+          "y": 22,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 16.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "mask/bust-12",
+          "x": 95.83,
+          "y": 28.86,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 17.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/mask/bust-13",
+          "x": 4.17,
+          "y": 44,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 18.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "mask/bust-13",
+          "x": 4.17,
+          "y": 50.76,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 19.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/mask/bust-14",
+          "x": 12.5,
+          "y": 44,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 19.4,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "mask/bust-14",
+          "x": 12.5,
+          "y": 51.03,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 20.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/mask/bust-15",
+          "x": 20.83,
+          "y": 44,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 20.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "mask/bust-15",
+          "x": 20.83,
+          "y": 50.87,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 22.05,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/mask/bust-16",
+          "x": 29.17,
+          "y": 44,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 22.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "mask/bust-16",
+          "x": 29.17,
+          "y": 50.9,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 23.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/mask/sitting-1",
+          "x": 37.5,
+          "y": 44,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 23.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "mask/sitting-1",
+          "x": 37.5,
+          "y": 51.11,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 24.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/mask/sitting-2",
+          "x": 45.83,
+          "y": 44,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 25.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "mask/sitting-2",
+          "x": 45.83,
+          "y": 50.9,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 26.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/mask/sitting-3",
+          "x": 54.17,
+          "y": 44,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 26.4,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "mask/sitting-3",
+          "x": 54.17,
+          "y": 49.42,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 27.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/mask/sitting-4",
+          "x": 62.5,
+          "y": 44,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 27.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "mask/sitting-4",
+          "x": 62.5,
+          "y": 50.91,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 29.05,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/mask/sitting-5",
+          "x": 70.83,
+          "y": 44,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 29.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "mask/sitting-5",
+          "x": 70.83,
+          "y": 50.83,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 30.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/mask/standing-1",
+          "x": 79.17,
+          "y": 44,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 30.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "mask/standing-1",
+          "x": 79.17,
+          "y": 55.04,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 31.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/mask/standing-2",
+          "x": 87.5,
+          "y": 44,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 32.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "mask/standing-2",
+          "x": 87.5,
+          "y": 54.88,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 33.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/mask/standing-3",
+          "x": 95.83,
+          "y": 44,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 33.4,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "mask/standing-3",
+          "x": 95.83,
+          "y": 52.98,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 34.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/mask/standing-4",
+          "x": 4.17,
+          "y": 66,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 34.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "mask/standing-4",
+          "x": 4.17,
+          "y": 75.59,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 36.05,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/mask/standing-5",
+          "x": 12.5,
+          "y": 66,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 36.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "mask/standing-5",
+          "x": 12.5,
+          "y": 77.1,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 37.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/mask/standing-6",
+          "x": 20.83,
+          "y": 66,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 37.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "mask/standing-6",
+          "x": 20.83,
+          "y": 77.15,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 38.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/mask/standing-7",
+          "x": 29.17,
+          "y": 66,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 39.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "mask/standing-7",
+          "x": 29.17,
+          "y": 79.67,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 40.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/mask/standing-8",
+          "x": 37.5,
+          "y": 66,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 40.4,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "mask/standing-8",
+          "x": 37.5,
+          "y": 75.4,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 41.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/medical/1",
+          "x": 45.83,
+          "y": 66,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 41.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "medical/1",
+          "x": 45.83,
+          "y": 78.24,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 43.05,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/medical/2",
+          "x": 54.17,
+          "y": 66,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 43.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "medical/2",
+          "x": 54.17,
+          "y": 78.24,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 44.45,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/medical/3",
+          "x": 62.5,
+          "y": 66,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 44.6,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "medical/3",
+          "x": 62.5,
+          "y": 78.3,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 45.85,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/medical/4",
+          "x": 70.83,
+          "y": 66,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 46.0,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "medical/4",
+          "x": 70.83,
+          "y": 78.3,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 47.25,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/medical/5",
+          "x": 79.17,
+          "y": 66,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 47.4,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "medical/5",
+          "x": 79.17,
+          "y": 78.08,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 48.65,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/medical/6",
+          "x": 87.5,
+          "y": 66,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 48.8,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "medical/6",
+          "x": 87.5,
+          "y": 78.47,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 50.05,
+          "draw": 0.1
+        },
+        {
+          "type": "image",
+          "name": "peeps/medical/7",
+          "x": 95.83,
+          "y": 66,
+          "w": 6.5,
+          "reveal": "draw",
+          "start": 50.2,
+          "draw": 1.2
+        },
+        {
+          "type": "text",
+          "text": "medical/7",
+          "x": 95.83,
+          "y": 78.27,
+          "size": 2.4,
+          "color": "#888888",
+          "start": 51.45,
+          "draw": 0.1
+        }
+      ]
+    }
+  ]
+}

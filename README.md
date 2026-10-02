@@ -48,6 +48,7 @@ npm run render -- dns          # one video   -> out/dns.mp4
 npm run render -- dns os       # several
 npm run render -- all          # every video
 npm run render -- dns --no-captions # without captions, whatever the scene file says
+npm run render -- dns --compress    # also a small copy for posting -> out/dns.small.mp4
 npm run render -- dns --scale=0.5   # other options go on to Remotion
 ```
 
@@ -59,6 +60,7 @@ For a narrated video, generate its narration and word timings first (see [Narrat
 |---|---|
 | `npm run dev` | Start Remotion Studio for live preview |
 | `npm run render -- <id>` | Render a video to `out/<id>.mp4` (`all` for every video) |
+| `npm run compress -- <id>` | Shrink `out/<id>.mp4` to `out/<id>.small.mp4` for posting (`all`, `--quality=28`: lower is sharper and bigger) |
 | `npm run render:test` | Render the M0 test composition to `out/test.mp4` |
 | `npm run voice -- <id>` | Read every scene's narration aloud into `public/videos/<id>/` |
 | `npm run captions -- <id>` | Find when each narration word is spoken (for captions and timing) |
