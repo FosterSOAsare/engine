@@ -13,3 +13,6 @@ out
 public/videos/*/*.wav
 public/videos/*/voice.json
 public/videos/*/captions.json
+
+# Compiled designs (npm run assets), rebuilt from public/assets.
+public/compiled-assets

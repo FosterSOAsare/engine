@@ -29,6 +29,7 @@ const ARROW_TARGETS = new Set([
   "diamond",
   "triangle",
   "icon",
+  "image",
 ]);
 
 // Elements a ring can go around: anything with a visible extent.

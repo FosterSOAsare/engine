@@ -20,7 +20,8 @@ const known = [
 const args = process.argv.slice(2);
 const noCaptions = args.includes("--no-captions");
 const options = args.filter(
-  (arg) => arg.startsWith("-") && arg !== "--no-captions",
+  (arg) =>
+    arg.startsWith("-") && arg !== "--no-captions",
 );
 if (noCaptions) {
   // Props go to Remotion as a file: no quoting trouble on any shell.
@@ -46,6 +47,10 @@ if (unknown.length > 0) {
   process.exit(2);
 }
 
+// Designs must be compiled before rendering (public/compiled-assets).
+const assets = spawnSync("node", ["scripts/assets.mjs"], { stdio: "inherit" });
+if (assets.status !== 0) process.exit(assets.status ?? 1);
+
 for (const id of ids) {
   console.log(`\nRendering ${id} -> out/${id}.mp4`);
   const { status } = spawnSync(
@@ -58,3 +63,4 @@ for (const id of ids) {
   );
   if (status !== 0) process.exit(status ?? 1);
 }
+

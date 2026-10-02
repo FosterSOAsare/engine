@@ -1,4 +1,5 @@
 import check from "../videos/check/scene.json";
+import designs from "../videos/designs/scene.json";
 import dns from "../videos/dns/scene.json";
 import https from "../videos/https/scene.json";
 import icons from "../videos/icons/scene.json";
@@ -22,6 +23,8 @@ export const VIDEOS: { id: string; scene: unknown }[] = [
   { id: "showcase", scene: showcase },
   { id: "m1-demo", scene: m1Demo },
   // A sample of 50 Lucide icons with their names.
+  // Every design in public/assets/, drawn and named.
+  { id: "designs", scene: designs },
   { id: "lucide", scene: lucide },
   // Every hand-made icon with its name.
   { id: "icons", scene: icons },

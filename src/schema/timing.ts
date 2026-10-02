@@ -32,6 +32,11 @@ const namesOf = (element: SceneElement): string[] => {
   if (element.type === "text") names.push(element.text);
   if (element.type === "icon") names.push(element.name.replace(/-/g, " "));
   if (element.type === "list") names.push(element.items[0]);
+  if (element.type === "image") {
+    // "tech/laptop" is said as "laptop"; numbered designs have no name.
+    const last = element.name.split("/").pop() ?? "";
+    if (!/^[\d-]*$/.test(last) && !/-\d+$/.test(last)) names.push(last);
+  }
   return names;
 };
 
