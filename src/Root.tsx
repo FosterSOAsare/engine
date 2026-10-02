@@ -1,5 +1,5 @@
 import "./index.css";
-import { Composition, staticFile } from "remotion";
+import { Composition, Folder, staticFile } from "remotion";
 import {
   captionsFile,
   narrationFile,
@@ -12,7 +12,13 @@ import { TestCard } from "./TestCard";
 import type { CompiledAsset, CompiledAssets } from "./assets/compiled";
 import { fetchWavDuration } from "./audio/wav";
 import { videoLength } from "./animation/timeline";
-import { FORMATS, FPS, secondsToFrames } from "./layout/formats";
+import {
+  FORMAT_NAMES,
+  FORMATS,
+  FPS,
+  secondsToFrames,
+  type FormatName,
+} from "./layout/formats";
 import { videoSchema } from "./schema/scene";
 import type { HeardWords } from "./schema/timing";
 import { validateVideo, type AudioLengths } from "./schema/validate";
@@ -95,7 +101,8 @@ const sceneVideoMetadata = async ({ props }: { props: SceneVideoProps }) => {
       ]
     : [];
   const assets = await loadAssets(imageNames);
-  const { width, height } = FORMATS[video?.format ?? "portrait"];
+  const { width, height } =
+    FORMATS[props.format ?? video?.format ?? "portrait"];
   return {
     durationInFrames: Math.max(
       1,
@@ -107,26 +114,52 @@ const sceneVideoMetadata = async ({ props }: { props: SceneVideoProps }) => {
   };
 };
 
+// The format a scene file is written for (portrait unless it says).
+const formatOf = (scene: unknown): FormatName => {
+  const parsed = videoSchema.safeParse(scene);
+  return parsed.success ? parsed.data.format : "portrait";
+};
+
+// The composition id of a video in a format: the plain id in the format
+// it is written for, "<id>-<format>" in the others (npm run render -- dns,
+// npm run render -- dns-square).
+export const compositionId = (
+  id: string,
+  format: FormatName,
+  written: FormatName,
+) => (format === written ? id : `${id}-${format}`);
+
 // Each <Composition> is an entry in the Studio sidebar and can be rendered by
-// its id: npm run render -- dns. One per scene file in src/videos.ts, plus
-// TestCard, the M0 smoke test.
+// its id. Every video in src/videos.ts gets a folder with one composition per
+// format, the one it is written for first. Plus TestCard, the M0 smoke test.
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
-      {VIDEOS.map(({ id, scene }) => (
-        <Composition
-          key={id}
-          id={id}
-          component={SceneVideo}
-          defaultProps={{ id, video: scene }}
-          calculateMetadata={sceneVideoMetadata}
-          durationInFrames={1}
-          fps={FPS}
-          width={FORMATS.portrait.width}
-          height={FORMATS.portrait.height}
-        />
-      ))}
+      {VIDEOS.map(({ id, scene }) => {
+        const written = formatOf(scene);
+        const formats = [
+          written,
+          ...FORMAT_NAMES.filter((format) => format !== written),
+        ];
+        return (
+          <Folder key={id} name={id}>
+            {formats.map((format) => (
+              <Composition
+                key={format}
+                id={compositionId(id, format, written)}
+                component={SceneVideo}
+                defaultProps={{ id, video: scene, format }}
+                calculateMetadata={sceneVideoMetadata}
+                durationInFrames={1}
+                fps={FPS}
+                width={FORMATS[format].width}
+                height={FORMATS[format].height}
+              />
+            ))}
+          </Folder>
+        );
+      })}
       <Composition
         id="TestCard"
         component={TestCard}

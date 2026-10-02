@@ -1,3 +1,4 @@
+import { createContext, useContext } from "react";
 import {
   AbsoluteFill,
   interpolate,
@@ -75,8 +76,19 @@ export type FrameSize = { width: number; height: number };
 export const unitOf = ({ width, height }: FrameSize) =>
   Math.min(width, height) / 100;
 
-export const useFrameUnits = () => {
+// The board elements are laid out on. Usually the whole frame; when a
+// video is shown in another format, its boards keep the shape they were
+// written for and are scaled into place (see layout/fit.ts).
+const BoardSizeContext = createContext<FrameSize | null>(null);
+export const BoardSize = BoardSizeContext.Provider;
+
+export const useBoardSize = (): FrameSize => {
   const { width, height } = useVideoConfig();
+  return useContext(BoardSizeContext) ?? { width, height };
+};
+
+export const useFrameUnits = () => {
+  const { width, height } = useBoardSize();
   return { width, height, unit: unitOf({ width, height }) };
 };
 
@@ -128,7 +140,7 @@ export const FillPaths: React.FC<{
   from: number;
 }> = ({ fills, fill, from }) => {
   const frame = useCurrentFrame();
-  const { width, height } = useVideoConfig();
+  const { width, height } = useBoardSize();
   const opacity = interpolate(
     frame,
     [secondsToFrames(from), secondsToFrames(from + FILL_FADE_SECONDS)],
@@ -165,7 +177,7 @@ export const StrokePaths: React.FC<{
   t: number;
   color?: string;
 }> = ({ strokes, t, color = INK }) => {
-  const { width, height } = useVideoConfig();
+  const { width, height } = useBoardSize();
   const progress = strokeProgress(strokes, t);
 
   return (

@@ -202,3 +202,41 @@ describe("validateVideo", () => {
     });
   });
 });
+
+describe("layouts", () => {
+  const withLayouts = (layouts: unknown, format = "portrait") => ({
+    version: 1 as const,
+    title: "Test",
+    format,
+    scenes: [
+      {
+        id: "main",
+        duration: 10,
+        narration: "",
+        layouts,
+        elements: [box("a", 0), arrow("a", "a", 1)],
+      },
+    ],
+  });
+
+  it("accepts new positions for the scene's own elements", () => {
+    expect(errorsOf(withLayouts({ landscape: { a: { x: 20, y: 50, w: 30 } } }))).toEqual([]);
+  });
+
+  it("reports unknown ids, wrong fields and the file's own format", () => {
+    expect(errorsOf(withLayouts({ landscape: { nope: { x: 1 } } }))).toEqual([
+      'scene "main", layouts.landscape: no element with id "nope" in this scene',
+    ]);
+    expect(errorsOf(withLayouts({ square: { a: { size: 5 } } }))).toEqual([
+      'scene "main", layouts.square.a: a box has no "size"',
+    ]);
+    expect(errorsOf(withLayouts({ portrait: { a: { x: 5 } } }))).toEqual([
+      'scene "main", layouts.portrait: the file is written for portrait; change the elements themselves',
+    ]);
+  });
+
+  it("rejects unknown formats and fields", () => {
+    expect(errorsOf(withLayouts({ tall: { a: { x: 5 } } }))).not.toEqual([]);
+    expect(errorsOf(withLayouts({ square: { a: { colour: "red" } } }))).not.toEqual([]);
+  });
+});
