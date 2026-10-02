@@ -4,6 +4,8 @@
 //   npm run render -- all          every video in src/videos.ts
 //   npm run render -- dns --no-captions  without captions, whatever the
 //                                        scene file says
+//   npm run render -- dns --compress    also writes a small copy for
+//                                       posting, out/dns.small.mp4
 //   npm run render -- dns --scale=0.5   other options go on to Remotion
 // The ids are the ones in src/videos.ts (also the Studio sidebar names).
 
@@ -19,9 +21,10 @@ const known = [
 
 const args = process.argv.slice(2);
 const noCaptions = args.includes("--no-captions");
+const compress = args.includes("--compress");
 const options = args.filter(
   (arg) =>
-    arg.startsWith("-") && arg !== "--no-captions",
+    arg.startsWith("-") && arg !== "--no-captions" && arg !== "--compress",
 );
 if (noCaptions) {
   // Props go to Remotion as a file: no quoting trouble on any shell.
@@ -64,3 +67,9 @@ for (const id of ids) {
   if (status !== 0) process.exit(status ?? 1);
 }
 
+if (compress) {
+  const { status } = spawnSync("node", ["scripts/compress.mjs", ...ids], {
+    stdio: "inherit",
+  });
+  if (status !== 0) process.exit(status ?? 1);
+}

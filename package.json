@@ -43,7 +43,8 @@
     "captions": "node scripts/captions.mjs",
     "captions:setup": "node scripts/captions-setup.mjs",
     "assets": "node scripts/assets.mjs",
-    "predev": "node scripts/assets.mjs"
+    "predev": "node scripts/assets.mjs",
+    "compress": "node scripts/compress.mjs"
   },
   "sideEffects": [
     "*.css"
