@@ -24,13 +24,11 @@ export const INK = "#222222";
 export const BOARD = "#faf8f3"; // the whiteboard background
 export const STROKE_WIDTH = 8;
 
-// The pen on a board: its thickness in pixels and Rough.js's wobble, in
-// step with the size unit. Detailed boards (landscape videos, unit half the
-// usual) use a finer, steadier pen.
-const FULL_UNIT = 10.8; // the unit on a 1080-pixel frame at full detail
-export const penOf = (frame: FrameSize) => ({
-  width: (STROKE_WIDTH * unitOf(frame)) / FULL_UNIT,
-  roughness: unitOf(frame) < 0.8 * FULL_UNIT ? 0.7 : 1.2,
+// The pen on a board: its thickness in pixels and Rough.js's wobble. A
+// detailed board (landscape videos) uses a finer, steadier pen.
+export const penOf = ({ detail = 1 }: FrameSize) => ({
+  width: STROKE_WIDTH * detail,
+  roughness: detail < 1 ? 0.7 : 1.2,
 });
 
 export const roughStyle = (seed: number, frame: FrameSize): Options => ({

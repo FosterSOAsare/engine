@@ -11,11 +11,10 @@ import { videoSchema, type VideoInput } from "../schema/scene";
 import { validateVideo } from "../schema/validate";
 import {
   AREA,
-  screenAt,
+  boardAt,
   cameraPlacement,
   canvasFor,
   cutCover,
-  assignCells,
   gridCells,
   onScreen,
   viewAt,
@@ -76,20 +75,20 @@ describe("canvasFor", () => {
     );
     expect(canvas.boards).toHaveLength(2); // the third scene keeps the second's board
     expect(canvas.boards.every((b) => !b.wipes)).toBe(true);
-    expect(canvas.screens[0]).toMatchObject({
+    expect(canvas.areas[0]).toMatchObject({
       left: 0,
       top: 0,
       width: 1920,
       height: 1080,
     });
-    expect(canvas.screens[1].left).toBeGreaterThan(1920);
-    expect(canvas.width).toBe(canvas.screens[1].left + 1920);
+    expect(canvas.areas[1].left).toBeGreaterThan(1920);
+    expect(canvas.width).toBe(canvas.areas[1].left + 1920);
   });
 
   it("puts the hand's path on each board's area", () => {
     const canvas = canvasFor(landscape([{ duration: 3 }, { duration: 3 }]));
     const [[first], [second]] = canvas.tracks;
-    expect(second.from.x - first.from.x).toBeCloseTo(canvas.areas[1].left - canvas.areas[0].left, -1);
+    expect(second.from.x - first.from.x).toBeCloseTo(canvas.areas[1].left, -1);
   });
 });
 
@@ -101,19 +100,19 @@ describe("viewAt", () => {
   it("shows each board's area while it is drawn", () => {
     expect(viewAt(canvas, 1)).toEqual({ cx: 960, cy: 540, zoom: 1 });
     const second = viewAt(canvas, 6);
-    expect(second.cx).toBeCloseTo(canvas.screens[1].left + 960);
+    expect(second.cx).toBeCloseTo(canvas.areas[1].left + 960);
     expect(second.zoom).toBe(1);
   });
 
   it("cuts to the next area behind a fade, with the hand on one board at a time", () => {
     expect(viewAt(canvas, 3.99).cx).toBe(960);
-    expect(viewAt(canvas, 4.01).cx).toBeCloseTo(canvas.screens[1].left + 960);
+    expect(viewAt(canvas, 4.01).cx).toBeCloseTo(canvas.areas[1].left + 960);
     expect(cutCover(canvas, 4)).toBe(1);
     expect(cutCover(canvas, 4 - CUT_FADE_SECONDS / 2)).toBeCloseTo(0.5);
     expect(cutCover(canvas, 2)).toBe(0);
-    expect(screenAt(canvas, 3.9)).toBe(0);
-    expect(screenAt(canvas, 4.1)).toBe(1);
-    expect(screenAt(canvas, 99)).toBe(1);
+    expect(boardAt(canvas, 3.9)).toBe(0);
+    expect(boardAt(canvas, 4.1)).toBe(1);
+    expect(boardAt(canvas, 99)).toBe(1);
   });
 
   it("ends on the whole board, inside the frame", () => {
@@ -187,8 +186,8 @@ describe("camera focus", () => {
     const close = viewAt(canvas, 3);
     expect(close.zoom).toBeGreaterThan(1.5);
     const row = canvas.boards[0].outlines.get("t.1")!;
-    expect(close.cx).toBeCloseTo(canvas.areas[0].left + row.cx);
-    expect(close.cy).toBeCloseTo(canvas.areas[0].top + row.cy);
+    expect(close.cx).toBeCloseTo(row.cx);
+    expect(close.cy).toBeCloseTo(row.cy);
     expect(viewAt(canvas, 7)).toEqual({ cx: 960, cy: 540, zoom: 1 });
   });
 
@@ -204,67 +203,5 @@ describe("camera focus", () => {
     expect(withCamera([{ focus: ["a"], at: "banana" }]).errors).toEqual([
       'scene "main", camera move 1: the narration never says "banana"',
     ]);
-  });
-});
-
-describe("cells", () => {
-  it("fill a screen's grid in reading order, then start the next screen", () => {
-    expect(assignCells([{}, {}, {}, {}, {}], [2, 2])).toEqual([
-      { screen: 0, cell: [0, 0], span: [1, 1] },
-      { screen: 0, cell: [1, 0], span: [1, 1] },
-      { screen: 0, cell: [0, 1], span: [1, 1] },
-      { screen: 0, cell: [1, 1], span: [1, 1] },
-      { screen: 1, cell: [0, 0], span: [1, 1] },
-    ]);
-  });
-
-  it("span cells, pick a slot, or start a new screen", () => {
-    expect(
-      assignCells(
-        [
-          { span: [2, 1] },
-          { slot: [1, 1] },
-          {},
-          { newScreen: true },
-          { span: [2, 2] },
-        ],
-        [2, 2],
-      ).map(({ screen, cell }) => [screen, ...cell]),
-    ).toEqual([
-      [0, 0, 0],
-      [0, 1, 1],
-      [0, 0, 1],
-      [1, 0, 0],
-      [2, 0, 0], // doesn't fit next to the previous one
-    ]);
-  });
-
-  it("put several scenes on one screen, with the same size unit in every cell", () => {
-    const video = videoSchema.parse({
-      version: 1,
-      title: "Test",
-      format: "landscape",
-      grid: [2, 2],
-      scenes: [1, 2, 3].map((n) => ({
-        id: `s${n}`,
-        duration: 3,
-        narration: "",
-        span: n === 3 ? ([2, 1] as [number, number]) : undefined,
-        elements: [{ type: "box" as const, x: 50, y: 50, start: 0, draw: 1 }],
-      })),
-    } satisfies VideoInput);
-    const canvas = canvasFor(video);
-    expect(canvas.screens).toHaveLength(1);
-    expect(canvas.screenOf).toEqual([0, 0, 0]);
-    expect(canvas.areas[1].left).toBeGreaterThan(
-      canvas.areas[0].left + canvas.areas[0].width,
-    );
-    expect(canvas.areas[2].width).toBeGreaterThan(canvas.areas[0].width * 2);
-    for (const f of canvas.frames) {
-      expect((Math.min(f.width, f.height) / 100) * (f.detail ?? 1)).toBeCloseTo(5.4);
-    }
-    // No cuts on a single screen; the hand follows every cell.
-    expect(cutCover(canvas, 3)).toBe(0);
-    expect(canvas.tracks[0]).toHaveLength(3);
   });
 });

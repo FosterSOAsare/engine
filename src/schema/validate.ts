@@ -53,8 +53,7 @@ export const targetOf = (
   }
   const [row, column] = parts.map(Number);
   const columns = Math.max(...table.rows.map((r) => r.length));
-  const fits = (n: number, max: number) =>
-    Number.isInteger(n) && n >= 0 && n < max;
+  const fits = (n: number, max: number) => Number.isInteger(n) && n >= 0 && n < max;
   if (!fits(row, table.rows.length)) return undefined;
   if (parts.length === 2 && !fits(column, columns)) return undefined;
   return table;
@@ -207,9 +206,7 @@ const crossCheck = (video: Video): string[] => {
       if (!target) {
         errors.push(`${where}: "to" points to unknown id "${element.to}"`);
       } else if (!RING_TARGETS.has(target.type)) {
-        errors.push(
-          `${where}: "to" points to a ${target.type}; bubbles point at shapes, icons, designs and text`,
-        );
+        errors.push(`${where}: "to" points to a ${target.type}; bubbles point at shapes, icons, designs and text`);
       }
     });
 
@@ -217,9 +214,7 @@ const crossCheck = (video: Video): string[] => {
     (scene.camera ?? []).forEach((move, k) => {
       const at = `${sceneName}, camera move ${k + 1}`;
       if (video.format !== "landscape") {
-        errors.push(
-          `${at}: the camera is for landscape videos (one big board)`,
-        );
+        errors.push(`${at}: the camera is for landscape videos (one big board)`);
         return;
       }
       if (move.focus === "all") return;
@@ -230,26 +225,9 @@ const crossCheck = (video: Video): string[] => {
       }
     });
 
-    for (const field of ["place", "span", "slot", "newScreen"] as const) {
-      if (scene[field] !== undefined && video.format !== "landscape") {
-        errors.push(
-          `${sceneName}: "${field}" is for landscape videos, which put every scene on one board`,
-        );
-      }
-    }
-    const [columns, rows] = video.grid ?? [1, 1];
-    const [spanW, spanH] = scene.span ?? [1, 1];
-    if (spanW > columns || spanH > rows) {
+    if (scene.place && video.format !== "landscape") {
       errors.push(
-        `${sceneName}: "span" [${spanW}, ${spanH}] is bigger than the grid [${columns}, ${rows}]`,
-      );
-    }
-    if (
-      scene.slot &&
-      (scene.slot[0] + spanW > columns || scene.slot[1] + spanH > rows)
-    ) {
-      errors.push(
-        `${sceneName}: "slot" [${scene.slot.join(", ")}] doesn't fit in the grid [${columns}, ${rows}]`,
+        `${sceneName}: "place" is for landscape videos, which put every scene on one board`,
       );
     }
 
@@ -281,9 +259,6 @@ const crossCheck = (video: Video): string[] => {
     }
   });
 
-  if (video.grid && video.format !== "landscape") {
-    errors.push(`file: "grid" is for landscape videos`);
-  }
   if (
     typeof video.cover === "string" &&
     !video.scenes.some((scene) => scene.id === video.cover)

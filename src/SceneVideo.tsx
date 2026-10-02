@@ -21,11 +21,12 @@ import { Shape } from "./elements/Shape";
 import { Text } from "./elements/Text";
 import { BOARD, BoardSize } from "./elements/shared";
 import {
+  AREA,
+  boardAt,
   cameraPlacement,
   canvasFor,
   cutCover,
   onScreen,
-  screenAt,
   viewAt,
 } from "./layout/canvas";
 import { placeTrack, stagesFor } from "./layout/fit";
@@ -292,7 +293,7 @@ export const SceneVideo: React.FC<SceneVideoProps> = ({
                   height: area.height,
                 }}
               >
-                <BoardSize value={canvas.frames[i]}>
+                <BoardSize value={AREA}>
                   <BoardView board={board} />
                 </BoardSize>
               </div>
@@ -302,8 +303,8 @@ export const SceneVideo: React.FC<SceneVideoProps> = ({
         {!cover ? (
           <>
             <Hand
-              tracks={canvas.tracks[screenAt(canvas, frame / FPS)].map(
-                (track) => placeTrack(track, camera),
+              tracks={canvas.tracks[boardAt(canvas, frame / FPS)].map((track) =>
+                placeTrack(track, camera),
               )}
             />
             <Captions pages={pages} />

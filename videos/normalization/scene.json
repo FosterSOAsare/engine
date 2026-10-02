@@ -2,7 +2,6 @@
   "version": 1,
   "title": "First normal form, explained",
   "format": "landscape",
-  "grid": [2, 2],
   "voiceover": true,
   "voice": "en_US-bryce-medium",
   "captions": true,
@@ -12,54 +11,34 @@
       "chapter": "First normal form (1NF)",
       "narration": "Ask who the Beatles were, and two people might answer in a different order. Both answers mean exactly the same thing.",
       "elements": [
-        { "type": "text", "x": 22, "y": 8, "size": 6, "text": "Order doesn't matter", "draw": 0.8 },
-        { "type": "image", "id": "asker", "name": "peeps/standing/12", "x": 11, "y": 60, "w": 16, "draw": 1.4, "at": "Ask" },
-        { "type": "bubble", "id": "q", "x": 44, "y": 26, "w": 44, "size": 5, "text": "Who were the members of the Beatles?", "to": "asker", "draw": 2, "at": "Beatles" },
-        { "type": "bubble", "x": 42, "y": 68, "w": 34, "size": 4.5, "text": "John, Paul, George, and Ringo", "draw": 1.6, "at": "two" },
-        { "type": "bubble", "x": 80, "y": 68, "w": 34, "size": 4.5, "text": "Paul, John, Ringo, and George", "draw": 1.6, "at": "order" },
-        { "type": "text", "x": 61, "y": 92, "size": 5, "text": "(equivalent)", "color": "#2a9d4b", "draw": 0.8, "at": "same" }
+        { "type": "image", "id": "asker", "name": "peeps/standing/12", "x": 14, "y": 55, "w": 22, "draw": 1.4, "at": "Ask" },
+        { "type": "bubble", "id": "q", "x": 38, "y": 22, "w": 42, "size": 5, "text": "Who were the members of the Beatles?", "to": "asker", "draw": 2, "at": "Beatles" },
+        { "type": "bubble", "id": "a1", "x": 40, "y": 62, "w": 40, "size": 5, "text": "John, Paul, George, and Ringo", "draw": 1.8, "at": "two" },
+        { "type": "bubble", "id": "a2", "x": 78, "y": 62, "w": 40, "size": 5, "text": "Paul, John, Ringo, and George", "draw": 1.8, "at": "order" },
+        { "type": "text", "x": 59, "y": 80, "size": 5, "text": "(equivalent)", "color": "#2a9d4b", "draw": 0.8, "at": "same" }
       ]
     },
     {
       "id": "rows",
       "narration": "A table works the same way. The order of its rows should never carry meaning, and every row must be unique.",
       "elements": [
-        { "type": "text", "x": 26, "y": 8, "size": 6, "text": "Rows in a table", "draw": 0.8 },
-        { "type": "table", "id": "band", "x": 28, "y": 55, "w": 40, "size": 4.5, "title": "Beatles", "rows": [["Member", "Instrument"], ["John", "Guitar"], ["Paul", "Bass"], ["George", "Guitar"], ["Ringo", "Drums"]], "draw": 1.5, "at": "table" },
-        { "type": "list", "x": 56, "y": 38, "size": 5, "items": ["no meaning in row order", "every row unique", "no repeating groups"], "draw": 2.5, "at": "order" },
-        { "type": "text", "x": 74, "y": 82, "size": 4.5, "text": "= First Normal Form", "color": "#1e6fd9", "draw": 0.8, "at": "unique" }
+        { "type": "table", "id": "band", "x": 35, "y": 45, "w": 46, "size": 4.5, "title": "Beatles", "rows": [["Member", "Instrument"], ["John", "Guitar"], ["Paul", "Bass"], ["George", "Guitar"], ["Ringo", "Drums"]], "draw": 1.5, "at": "table" },
+        { "type": "list", "x": 64, "y": 38, "size": 5, "items": ["no meaning in row order", "every row unique"], "draw": 2.5, "at": "order" }
       ]
     },
     {
       "id": "anomaly",
       "chapter": "Second normal form (2NF)",
-      "span": [2, 1],
       "narration": "Now look at this inventory. The player jdog21 appears twice, with two different ratings. Which one is true? That is an update anomaly.",
       "camera": [
         { "focus": ["inv.1", "inv.2"], "at": "twice" },
         { "focus": "all", "at": "update" }
       ],
       "elements": [
-        { "type": "table", "id": "inv", "x": 34, "y": 52, "w": 60, "size": 4.5, "title": "Player_Inventory", "rows": [["Player_ID", "Item_Type", "Item_Quantity", "Player_Rating"], ["jdog21", "amulets", "2", "Intermediate"], ["jdog21", "rings", "4", "Advanced"], ["trev73", "shields", "3", "Advanced"], ["trev73", "arrows", "5", "Advanced"]], "draw": 1.2, "at": "inventory" },
+        { "type": "table", "id": "inv", "x": 50, "y": 45, "w": 80, "size": 4.5, "title": "Player_Inventory", "rows": [["Player_ID", "Item_Type", "Item_Quantity", "Player_Rating"], ["jdog21", "amulets", "2", "Intermediate"], ["jdog21", "rings", "4", "Advanced"], ["trev73", "shields", "3", "Advanced"], ["trev73", "arrows", "5", "Advanced"]], "draw": 2, "at": "inventory" },
         { "type": "ring", "target": "inv.1.3", "padding": 1, "draw": 0.6, "at": "different" },
         { "type": "ring", "target": "inv.2.3", "padding": 1, "draw": 0.6 },
-        { "type": "bubble", "x": 82, "y": 30, "w": 26, "size": 4.5, "text": "Which rating is true?", "to": "inv.1.3", "draw": 1.4, "at": "Which" },
-        { "type": "text", "x": 82, "y": 62, "size": 6, "text": "update anomaly", "color": "#c0392b", "draw": 1, "at": "anomaly" },
-        { "type": "text", "x": 82, "y": 74, "size": 4, "text": "one fact, stored twice", "color": "#6b6b6b", "draw": 0.8 }
-      ]
-    },
-    {
-      "id": "fix",
-      "newScreen": true,
-      "span": [2, 2],
-      "narration": "The fix is to split the table. Ratings live in a players table, items live in an inventory table, and each fact is stored exactly once.",
-      "elements": [
-        { "type": "text", "x": 50, "y": 7, "size": 6, "text": "Split the table", "draw": 0.8, "at": "split" },
-        { "type": "table", "id": "players", "x": 25, "y": 40, "w": 34, "size": 4.5, "title": "Players", "rows": [["Player_ID", "Player_Rating"], ["jdog21", "Intermediate"], ["trev73", "Advanced"]], "draw": 1.5, "at": "Ratings" },
-        { "type": "table", "id": "items", "x": 70, "y": 45, "w": 46, "size": 4.5, "title": "Inventory", "rows": [["Player_ID", "Item_Type", "Item_Quantity"], ["jdog21", "amulets", "2"], ["jdog21", "rings", "4"], ["trev73", "shields", "3"], ["trev73", "arrows", "5"]], "draw": 1.5, "at": "items" },
-        { "type": "arrow", "from": "items", "to": "players", "label": "Player_ID", "bend": -6, "color": "#1e6fd9", "draw": 0.8 },
-        { "type": "ring", "target": "players.1.1", "padding": 1, "color": "#2a9d4b", "draw": 0.6, "at": "once" },
-        { "type": "text", "x": 50, "y": 86, "size": 6, "text": "each fact is stored exactly once", "color": "#2a9d4b", "draw": 1.2, "at": "exactly" }
+        { "type": "text", "x": 50, "y": 78, "size": 5, "text": "update anomaly", "color": "#c0392b", "draw": 1, "at": "anomaly" }
       ]
     }
   ]
