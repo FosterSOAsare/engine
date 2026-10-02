@@ -1,4 +1,5 @@
 import { unitOf, type FrameSize } from "./shared";
+import { textWidth } from "./Text";
 
 // Where a table's parts go, in pixels. A table is drawn from existing
 // pieces (layout/plan.ts): a box and lines for the grid, a fill behind the
@@ -7,7 +8,7 @@ import { unitOf, type FrameSize } from "./shared";
 export type TableShape = {
   x: number; // centre of the title and grid together, percent of the frame
   y: number;
-  w: number; // width, in size units
+  w: number; // width, in size units (wider if the text needs it)
   rows: string[][];
   size: number; // font size, in size units
   title?: string;
@@ -40,17 +41,27 @@ export const tableLayout = (
   const unit = unitOf(frame);
   const fontSize = table.size * unit;
   const columns = columnCount(table.rows);
+  // Every column is at least as wide as its longest text (the estimate is
+  // a little generous); the table is "w" wide unless that is too narrow,
+  // and any room left over is shared by "columns" or by those widths.
+  const padding = 2 * CELL_PADDING * fontSize;
+  const needed = Array.from(
+    { length: columns },
+    (_, c) =>
+      Math.max(
+        ...table.rows.map((row) => textWidth(row[c] ?? "", fontSize) * 1.15),
+        fontSize,
+      ) + padding,
+  );
+  const neededTotal = needed.reduce((sum, w) => sum + w, 0);
+  const width = Math.max(table.w * unit, neededTotal);
   const weights =
-    table.columns && table.columns.length === columns
-      ? table.columns
-      : Array.from(
-          { length: columns },
-          (_, c) =>
-            Math.max(3, ...table.rows.map((row) => (row[c] ?? "").length)) + 2,
-        );
-  const total = weights.reduce((sum, w) => sum + w, 0);
-  const width = table.w * unit;
-  const columnWidths = weights.map((w) => (w / total) * width);
+    table.columns && table.columns.length === columns ? table.columns : needed;
+  const weightTotal = weights.reduce((sum, w) => sum + w, 0);
+  const spare = width - neededTotal;
+  const columnWidths = needed.map(
+    (w, c) => w + (spare * weights[c]) / weightTotal,
+  );
   const rowHeight = fontSize * ROW_HEIGHT;
   const height = rowHeight * table.rows.length;
   const titleHeight = table.title ? fontSize * TITLE_SIZE * 1.8 : 0;

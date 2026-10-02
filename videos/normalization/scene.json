@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "title": "First normal form, explained",
+  "format": "landscape",
+  "voiceover": true,
+  "voice": "en_US-bryce-medium",
+  "captions": true,
+  "scenes": [
+    {
+      "id": "beatles",
+      "chapter": "First normal form (1NF)",
+      "narration": "Ask who the Beatles were, and two people might answer in a different order. Both answers mean exactly the same thing.",
+      "elements": [
+        { "type": "image", "id": "asker", "name": "peeps/standing/12", "x": 14, "y": 55, "w": 22, "draw": 1.4, "at": "Ask" },
+        { "type": "bubble", "id": "q", "x": 38, "y": 22, "w": 42, "size": 5, "text": "Who were the members of the Beatles?", "to": "asker", "draw": 2, "at": "Beatles" },
+        { "type": "bubble", "id": "a1", "x": 40, "y": 62, "w": 40, "size": 5, "text": "John, Paul, George, and Ringo", "draw": 1.8, "at": "two" },
+        { "type": "bubble", "id": "a2", "x": 78, "y": 62, "w": 40, "size": 5, "text": "Paul, John, Ringo, and George", "draw": 1.8, "at": "order" },
+        { "type": "text", "x": 59, "y": 80, "size": 5, "text": "(equivalent)", "color": "#2a9d4b", "draw": 0.8, "at": "same" }
+      ]
+    },
+    {
+      "id": "rows",
+      "narration": "A table works the same way. The order of its rows should never carry meaning, and every row must be unique.",
+      "elements": [
+        { "type": "table", "id": "band", "x": 35, "y": 45, "w": 46, "size": 4.5, "title": "Beatles", "rows": [["Member", "Instrument"], ["John", "Guitar"], ["Paul", "Bass"], ["George", "Guitar"], ["Ringo", "Drums"]], "draw": 1.5, "at": "table" },
+        { "type": "list", "x": 64, "y": 38, "size": 5, "items": ["no meaning in row order", "every row unique"], "draw": 2.5, "at": "order" }
+      ]
+    },
+    {
+      "id": "anomaly",
+      "chapter": "Second normal form (2NF)",
+      "narration": "Now look at this inventory. The player jdog21 appears twice, with two different ratings. Which one is true? That is an update anomaly.",
+      "camera": [
+        { "focus": ["inv.1", "inv.2"], "at": "twice" },
+        { "focus": "all", "at": "update" }
+      ],
+      "elements": [
+        { "type": "table", "id": "inv", "x": 50, "y": 45, "w": 80, "size": 4.5, "title": "Player_Inventory", "rows": [["Player_ID", "Item_Type", "Item_Quantity", "Player_Rating"], ["jdog21", "amulets", "2", "Intermediate"], ["jdog21", "rings", "4", "Advanced"], ["trev73", "shields", "3", "Advanced"], ["trev73", "arrows", "5", "Advanced"]], "draw": 2, "at": "inventory" },
+        { "type": "ring", "target": "inv.1.3", "padding": 1, "draw": 0.6, "at": "different" },
+        { "type": "ring", "target": "inv.2.3", "padding": 1, "draw": 0.6 },
+        { "type": "text", "x": 50, "y": 78, "size": 5, "text": "update anomaly", "color": "#c0392b", "draw": 1, "at": "anomaly" }
+      ]
+    }
+  ]
+}

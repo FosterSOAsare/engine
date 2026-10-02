@@ -109,6 +109,9 @@ export const useFrameUnits = () => {
 // The element's progress from 0 (not started) to 1 (finished).
 export const useDrawProgress = ({ start, draw }: Timing) => {
   const frame = useCurrentFrame();
+  const from = secondsToFrames(start);
+  // Something drawn in no time (a table's header fill) is just there.
+  if (secondsToFrames(start + draw) <= from) return frame >= from ? 1 : 0;
   return interpolate(
     frame,
     [secondsToFrames(start), secondsToFrames(start + draw)],

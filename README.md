@@ -61,7 +61,7 @@ For a narrated video, generate its narration and word timings first (see [Narrat
 A scene file's `format` picks one of two kinds of video:
 
 - **`"all"`** (default): short and simple. Scenes play one after another, each wiped before the next, written in the tall portrait frame. It renders in all four formats below.
-- **`"landscape"`**: a detailed explainer, made only in landscape. Every scene is drawn on **one big board** and nothing is wiped. The camera glides from scene to scene as the narration moves on, and the video ends by zooming out to show the whole board in one frame (about 4 s extra). Scenes fill a grid in reading order, about as many columns as rows. A scene can choose its cell with `"place": [column, row]` (0-based), and scenes with `keepPrevious` share the previous scene's area. Element positions work as before, in percent of that scene's area. The default cover is the final overview.
+- **`"landscape"`**: a detailed explainer, made only in landscape. Everything is drawn at half size with a finer, steadier pen, so one frame holds much more, and it adds tables and camera zooms (see the element table). Every scene is drawn on **one big board** and nothing is wiped. The camera glides from scene to scene as the narration moves on, and the video ends by zooming out to show the whole board in one frame (about 4 s extra). Scenes fill a grid in reading order, about as many columns as rows. A scene can choose its cell with `"place": [column, row]` (0-based), and scenes with `keepPrevious` share the previous scene's area. Element positions work as before, in percent of that scene's area. The default cover is the final overview.
 
 | Format | Size | Composition | For |
 |---|---|---|---|
@@ -182,6 +182,11 @@ The hand draws one thing at a time, so elements queue in file order: one never s
 | `arrow` | `from`, `to` (element ids), `head` ["end", or "both", "none"], `bend` (curves the middle sideways), `label` |
 | `line` | `x1`, `y1`, `x2`, `y2`, `bend` |
 | `ring` | `target` (element id), `padding` [4]. A hand-drawn ellipse around the target; red unless `color` is set |
+| `bubble` | `x`, `y`, `w` [40], `text` (wrapped to fit; `
+` breaks a line), `size` [4], `to` (an element id the tail points at). `draw` covers the box, tail and text |
+| `table` | Landscape videos only. `x`, `y`, `w` [80] (grows if the text needs it), `rows` (array of rows, each an array of cells), `title`, `header` [true], `headerFill` [light purple], `size` [4], `columns` (relative widths), `rowGap` [0.3]. The grid is drawn in `draw` seconds, then each row is written when its first cell is said. Rows and cells can be targets: `"inv.2"` (row 2) and `"inv.2.3"` (row 2, column 4), counting from 0 |
+
+**Scene extras.** `chapter`: a small heading in the top-right corner, kept until a later scene changes it (`""` clears it). `camera` (landscape videos): a list of moves, each `{ "focus": ["id", "table.1"], "at": "word" }` to zoom in on those elements, or `{ "focus": "all" }` to go back to the whole scene. A move happens at `start` (seconds), at the word in `at`, or when the first element it names starts drawing. `zoom` limits how close it goes [2.5].
 
 **Fills.** `fill` is any CSS colour; `fillStyle` is `"solid"` (default), `"hachure"`, `"cross-hatch"`, `"zigzag"` or `"dots"`. The fill fades in after the outline is drawn.
 
@@ -258,7 +263,7 @@ The `version` field lets the engine reject or upgrade old files when the format 
 - **Version 1** (M2). Videos with `title`, `format`, `fps` and scenes with `duration`, `narration`, `keepPrevious`. Elements: box, circle, ellipse, diamond, triangle, icon, text, list, arrow, line, ring; `fill` and `fillStyle` on closed shapes; arrow `head`.
 - **Version 1, M3 additions** (all optional; older files are still valid). Videos: `voiceover`, `voice`, `captions`. Scenes: `pause`; `duration` optional with a voiceover. Elements: `start` optional, `at`; lists: `itemGap`. Elements now queue instead of being rejected when they overlap.
 - **Version 1, M4 additions** (optional). Videos: `cover`. Scenes: `layouts`.
-- **Version 1, board videos.** `format` is now `"all"` (default; was `"portrait"`) or `"landscape"` (one big board with a camera). Scenes: `place`.
+- **Version 1, board videos.** `format` is now `"all"` (default; was `"portrait"`) or `"landscape"` (one big board with a camera, detailed style). Scenes: `place`, `camera`, `chapter`. Elements: `table` (landscape), `bubble`.
 
 ## Roadmap
 

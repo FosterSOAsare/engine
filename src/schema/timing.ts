@@ -98,7 +98,7 @@ export const listItemTimes = (
 
 // A table's rows are written after its grid, at about this many seconds per
 // letter, each waiting until its first cell is said.
-const TABLE_SECONDS_PER_LETTER = 0.045;
+const TABLE_SECONDS_PER_LETTER = 0.03;
 
 export const tableRowTimes = (
   rows: string[][],
