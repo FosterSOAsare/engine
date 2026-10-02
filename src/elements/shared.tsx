@@ -107,9 +107,16 @@ export const useFrameUnits = () => {
 };
 
 // The element's progress from 0 (not started) to 1 (finished).
+// A "pop" video has no drawing: everything is complete the moment it
+// starts (and pops in, see PopIn in SceneVideo.tsx).
+const PopStyleContext = createContext(false);
+export const PopStyle = PopStyleContext.Provider;
+
 export const useDrawProgress = ({ start, draw }: Timing) => {
   const frame = useCurrentFrame();
+  const pop = useContext(PopStyleContext);
   const from = secondsToFrames(start);
+  if (pop) return frame >= from ? 1 : 0;
   // Something drawn in no time (a table's header fill) is just there.
   if (secondsToFrames(start + draw) <= from) return frame >= from ? 1 : 0;
   return interpolate(

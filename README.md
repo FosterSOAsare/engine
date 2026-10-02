@@ -158,7 +158,7 @@ If the file has a problem, the Studio shows a list of what is wrong and where (f
 
 **Units.** Positions (`x`, `y`) are percent of the frame, 0 to 100, measured to the element's centre. Sizes (`w`, `h`, `size`) are percent of the frame's shorter side, so shapes keep their proportions in every format. Times are seconds.
 
-**Video.** `version` (1), `title`, `format` (`"all"`, the default: simple, every format; or `"landscape"`: one big board with a moving camera; see [Formats](#formats)), `fps` (30 only for now), `voiceover` (narrate every scene; default `false`), `voice` (a Piper voice; default `en_US-bryce-medium`), `captions` (word-by-word captions on narrated videos; default `true`), `cover` (the moment for cover images: a scene id or seconds; see [Posting](#posting)), `scenes`.
+**Video.** `version` (1), `title`, `format` (`"all"`, the default: simple, every format; or `"landscape"`: one big board with a moving camera; see [Formats](#formats)), `fps` (30 only for now), `style` (`"handwritten"`, the default: a hand draws everything; or `"pop"`: no hand, each item pops into place when its time comes while the voice explains it), `voiceover` (narrate every scene; default `false`), `voice` (a Piper voice; default `en_US-bryce-medium`), `captions` (word-by-word captions on narrated videos; default `true`), `cover` (the moment for cover images: a scene id or seconds; see [Posting](#posting)), `scenes`.
 
 **Scene.** One idea and one narration line. `id`, `duration` (seconds), `narration`, `pause` (silence after the narration; default 0.5 s), `keepPrevious` (keep the previous scene's drawing instead of wiping the board; default `false`), `elements`, `layouts` (positions for other formats, in `"all"` videos), `place` (its grid cell, in landscape videos; see [Formats](#formats)). Scenes play one after another; at the end of each, the board is wiped unless the next scene keeps it. In a narrated video `duration` is optional: a scene lasts as long as its narration plus the pause, or its `duration` if that is longer, and stretches if its drawings need more time.
 
@@ -264,6 +264,7 @@ The `version` field lets the engine reject or upgrade old files when the format 
 - **Version 1** (M2). Videos with `title`, `format`, `fps` and scenes with `duration`, `narration`, `keepPrevious`. Elements: box, circle, ellipse, diamond, triangle, icon, text, list, arrow, line, ring; `fill` and `fillStyle` on closed shapes; arrow `head`.
 - **Version 1, M3 additions** (all optional; older files are still valid). Videos: `voiceover`, `voice`, `captions`. Scenes: `pause`; `duration` optional with a voiceover. Elements: `start` optional, `at`; lists: `itemGap`. Elements now queue instead of being rejected when they overlap.
 - **Version 1, M4 additions** (optional). Videos: `cover`. Scenes: `layouts`.
+- **Version 1, video styles.** Videos: `style` (`"handwritten"` or `"pop"`).
 - **Version 1, board videos.** `format` is now `"all"` (default; was `"portrait"`) or `"landscape"` (one big board with a camera, detailed style). Scenes: `place`, `camera`, `chapter`. Elements: `table` (landscape), `bubble`.
 
 ## Roadmap

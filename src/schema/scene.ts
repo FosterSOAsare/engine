@@ -301,6 +301,10 @@ export const videoSchema = z.strictObject({
   // scene on one big board with the camera moving between them, made only
   // in landscape.
   format: z.enum(VIDEO_FORMATS).default("all"),
+  // How things appear: "handwritten" (default) has a hand drawing every
+  // line; "pop" has no hand, and each item pops into place when its time
+  // comes while the voice explains it.
+  style: z.enum(["handwritten", "pop"]).default("handwritten"),
   // Narrate every scene's line with text-to-speech (npm run voice -- <id>).
   // Each scene then lasts as long as its audio plus its pause.
   voiceover: z.boolean().default(false),

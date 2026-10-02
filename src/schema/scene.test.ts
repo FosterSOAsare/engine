@@ -68,6 +68,7 @@ describe("videoSchema", () => {
     });
     expect(video.fps).toBe(30);
     expect(video.format).toBe("all");
+    expect(video.style).toBe("handwritten");
     expect(video.scenes[0].keepPrevious).toBe(false);
     expect(video.scenes[0].elements[0]).toMatchObject({ w: 50, h: 22 });
   });

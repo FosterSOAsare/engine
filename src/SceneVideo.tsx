@@ -4,6 +4,7 @@ import {
   Audio,
   interpolate,
   Sequence,
+  spring,
   staticFile,
   useCurrentFrame,
   useVideoConfig,
@@ -19,7 +20,7 @@ import { Hand } from "./elements/Hand";
 import { Image } from "./elements/Image";
 import { Shape } from "./elements/Shape";
 import { Text } from "./elements/Text";
-import { BOARD, BoardSize } from "./elements/shared";
+import { BOARD, BoardSize, PopStyle } from "./elements/shared";
 import {
   AREA,
   boardAt,
@@ -105,9 +106,51 @@ const Errors: React.FC<{ errors: string[] }> = ({ errors }) => (
   </AbsoluteFill>
 );
 
+// In a "pop" video each drawing grows into place from its centre (percent
+// of the board) when it starts, instead of being drawn.
+const POP_SECONDS = 0.35;
+const PopIn: React.FC<{
+  start: number;
+  x: number;
+  y: number;
+  children: React.ReactNode;
+}> = ({ start, x, y, children }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const grow = spring({
+    frame: frame - secondsToFrames(start),
+    fps,
+    durationInFrames: Math.round(POP_SECONDS * fps),
+    config: { damping: 12, stiffness: 180 },
+  });
+  return (
+    <AbsoluteFill
+      style={{
+        transform: `scale(${0.6 + 0.4 * grow})`,
+        transformOrigin: `${x}% ${y}%`,
+        opacity: Math.min(1, grow * 1.5),
+      }}
+    >
+      {children}
+    </AbsoluteFill>
+  );
+};
+
+// Where a drawing pops from: its centre, in percent of the board.
+const centreOf = (drawing: PlannedBoard["drawings"][number]) =>
+  drawing.type === "arrow"
+    ? {
+        x: (drawing.props.from.x + drawing.props.to.x) / 2,
+        y: (drawing.props.from.y + drawing.props.to.y) / 2,
+      }
+    : { x: drawing.props.x, y: drawing.props.y };
+
 // One board: its drawings, then a wipe across it at the end unless the
 // next scene keeps it.
-const BoardView: React.FC<{ board: PlannedBoard }> = ({ board }) => {
+const BoardView: React.FC<{ board: PlannedBoard; pop?: boolean }> = ({
+  board,
+  pop = false,
+}) => {
   const frame = useCurrentFrame();
   const endFrame = secondsToFrames(board.end);
   const wiped = board.wipes
@@ -122,21 +165,30 @@ const BoardView: React.FC<{ board: PlannedBoard }> = ({ board }) => {
   return (
     <AbsoluteFill>
       {board.drawings.map((drawing, i) => {
-        switch (drawing.type) {
-          case "shape":
-            return <Shape key={i} {...drawing.props} />;
-          case "text":
-            return <Text key={i} {...drawing.props} />;
-          case "image":
-            return <Image key={i} {...drawing.props} />;
-          case "arrow":
-            return (
-              <AbsoluteFill key={i}>
-                <Arrow {...drawing.props} />
-                {drawing.label ? <Text {...drawing.label} /> : null}
-              </AbsoluteFill>
-            );
-        }
+        const shown = (() => {
+          switch (drawing.type) {
+            case "shape":
+              return <Shape {...drawing.props} />;
+            case "text":
+              return <Text {...drawing.props} />;
+            case "image":
+              return <Image {...drawing.props} />;
+            case "arrow":
+              return (
+                <AbsoluteFill>
+                  <Arrow {...drawing.props} />
+                  {drawing.label ? <Text {...drawing.label} /> : null}
+                </AbsoluteFill>
+              );
+          }
+        })();
+        return pop ? (
+          <PopIn key={i} start={drawing.props.start} {...centreOf(drawing)}>
+            {shown}
+          </PopIn>
+        ) : (
+          <AbsoluteFill key={i}>{shown}</AbsoluteFill>
+        );
       })}
       {wiped > 0 ? (
         <div
@@ -239,6 +291,7 @@ export const SceneVideo: React.FC<SceneVideoProps> = ({
       ]
     : [];
   if (!result.ok) return <Errors errors={result.errors} />;
+  const pop = result.video.style === "pop";
   const narration =
     result.video.voiceover && !cover
       ? sceneTimes(result.video).map(({ scene, start, end }) => (
@@ -294,7 +347,9 @@ export const SceneVideo: React.FC<SceneVideoProps> = ({
                 }}
               >
                 <BoardSize value={AREA}>
-                  <BoardView board={board} />
+                  <PopStyle value={pop}>
+                    <BoardView board={board} pop={pop} />
+                  </PopStyle>
                 </BoardSize>
               </div>
             ) : null;
@@ -302,11 +357,13 @@ export const SceneVideo: React.FC<SceneVideoProps> = ({
         </div>
         {!cover ? (
           <>
-            <Hand
-              tracks={canvas.tracks[boardAt(canvas, frame / FPS)].map((track) =>
-                placeTrack(track, camera),
-              )}
-            />
+            {pop ? null : (
+              <Hand
+                tracks={canvas.tracks[boardAt(canvas, frame / FPS)].map(
+                  (track) => placeTrack(track, camera),
+                )}
+              />
+            )}
             <Captions pages={pages} />
           </>
         ) : null}
@@ -342,7 +399,9 @@ export const SceneVideo: React.FC<SceneVideoProps> = ({
       }}
     >
       <BoardSize value={stage.frame}>
-        <BoardView board={stage.board} />
+        <PopStyle value={pop}>
+          <BoardView board={stage.board} pop={pop} />
+        </PopStyle>
       </BoardSize>
     </div>
   ) : null;
@@ -352,7 +411,7 @@ export const SceneVideo: React.FC<SceneVideoProps> = ({
       {boardView}
       {!cover ? (
         <>
-          <Hand tracks={tracks} />
+          {pop ? null : <Hand tracks={tracks} />}
           <Captions pages={pages} />
         </>
       ) : null}
