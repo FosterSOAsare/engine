@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import m1Demo from "../../videos/m1-demo/scene.json";
+import normalization from "../../videos/normalization/scene.json";
 import { videoSchema, type VideoInput } from "./scene";
 
 // The draft from the development plan.
@@ -51,7 +51,7 @@ describe("videoSchema", () => {
   });
 
   it("accepts the M1 demo scene file", () => {
-    expect(videoSchema.safeParse(m1Demo).success).toBe(true);
+    expect(videoSchema.safeParse(normalization).success).toBe(true);
   });
 
   it("fills in defaults", () => {

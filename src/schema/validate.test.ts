@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import m1Demo from "../../videos/m1-demo/scene.json";
+import normalization from "../../videos/normalization/scene.json";
 import { VIDEOS } from "../videos";
 import type { VideoInput } from "./scene";
 import { validateVideo } from "./validate";
@@ -35,8 +35,8 @@ const arrow = (from: string, to: string, start: number): Element => ({
 const errorsOf = (input: unknown) => validateVideo(input).errors;
 
 describe("validateVideo", () => {
-  it("accepts the M1 demo", () => {
-    expect(validateVideo(m1Demo).ok).toBe(true);
+  it("accepts the normalization video", () => {
+    expect(validateVideo(normalization).ok).toBe(true);
   });
 
   it.each(VIDEOS)("accepts the $id video", ({ scene }) => {
