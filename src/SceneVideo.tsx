@@ -6,7 +6,6 @@ import {
   Sequence,
   staticFile,
   useCurrentFrame,
-  useVideoConfig,
 } from "remotion";
 import { sceneTimes, WIPE_SECONDS } from "./animation/timeline";
 import { Captions } from "./captions/Captions";
@@ -18,9 +17,10 @@ import { Hand } from "./elements/Hand";
 import { Image } from "./elements/Image";
 import { Shape } from "./elements/Shape";
 import { Text } from "./elements/Text";
-import { BOARD } from "./elements/shared";
-import { secondsToFrames } from "./layout/formats";
-import { handTracks, planVideo, type PlannedBoard } from "./layout/plan";
+import { BOARD, BoardSize } from "./elements/shared";
+import { placeTrack, stagesFor } from "./layout/fit";
+import { secondsToFrames, type FormatName } from "./layout/formats";
+import { handTracks, type PlannedBoard } from "./layout/plan";
 import type { HeardWords } from "./schema/timing";
 import { validateVideo, type AudioLengths } from "./schema/validate";
 import { Watermark } from "./Watermark";
@@ -39,6 +39,13 @@ export type SceneVideoProps = {
   // npm run render -- <id> --no-captions
   captions?: boolean;
   assets?: CompiledAssets; // the designs the video uses (see Root.tsx)
+  // The format to show it in, if not the one the scene file is written for
+  // (one composition per format, see Root.tsx).
+  format?: FormatName;
+  // For a cover image: no hand, captions or sound. The composition then
+  // ends at the cover moment (see Root.tsx) and its last frame is the cover
+  // (npm run cover).
+  cover?: boolean;
 };
 
 // npm run voice records a fingerprint of each scene's narration in
@@ -139,22 +146,30 @@ export const SceneVideo: React.FC<SceneVideoProps> = ({
   versions,
   captions,
   assets,
+  format,
+  cover,
 }) => {
   const frame = useCurrentFrame();
-  const { width, height } = useVideoConfig();
 
   const result = useMemo(
     () => validateVideo(video, audio, heard),
     [video, audio, heard],
   );
-  const plan = useMemo(
+  // Each board laid out for the format shown (layout/fit.ts), and the
+  // hand's path placed with it.
+  const stages = useMemo(
     () =>
-      result.ok ? planVideo(result.video, { width, height }, assets ?? {}) : [],
-    [result, width, height, assets],
+      result.ok
+        ? stagesFor(result.video, format ?? result.video.format, assets ?? {})
+        : [],
+    [result, format, assets],
   );
   const tracks = useMemo(
-    () => handTracks(plan, { width, height }),
-    [plan, width, height],
+    () =>
+      stages.flatMap(({ board, frame, placement }) =>
+        handTracks([board], frame).map((track) => placeTrack(track, placement)),
+      ),
+    [stages],
   );
   // Captions for narrated videos, from each scene's timed words.
   const pages = useMemo(() => {
@@ -192,19 +207,42 @@ export const SceneVideo: React.FC<SceneVideoProps> = ({
   }
 
   // Only the board on screen right now is drawn.
-  const board = plan.find(
-    (b) => frame >= secondsToFrames(b.start) && frame < secondsToFrames(b.end),
+  const stage = stages.find(
+    ({ board }) =>
+      frame >= secondsToFrames(board.start) &&
+      frame < secondsToFrames(board.end),
   );
+  const boardView = stage ? (
+    <div
+      style={{
+        position: "absolute",
+        left: stage.placement.x,
+        top: stage.placement.y,
+        width: stage.frame.width,
+        height: stage.frame.height,
+        transform: `scale(${stage.placement.scale})`,
+        transformOrigin: "0 0",
+      }}
+    >
+      <BoardSize value={stage.frame}>
+        <BoardView board={stage.board} />
+      </BoardSize>
+    </div>
+  ) : null;
 
   return (
     <AbsoluteFill style={{ background: BOARD }}>
-      {board ? <BoardView board={board} /> : null}
-      <Hand tracks={tracks} />
-      <Captions pages={pages} />
+      {boardView}
+      {!cover ? (
+        <>
+          <Hand tracks={tracks} />
+          <Captions pages={pages} />
+        </>
+      ) : null}
       {result.video.watermark !== false ? (
         <Watermark text={result.video.watermark ?? WATERMARK} />
       ) : null}
-      {result.video.voiceover
+      {result.video.voiceover && !cover
         ? sceneTimes(result.video).map(({ scene, start, end }) => (
             <Sequence
               key={scene.id}

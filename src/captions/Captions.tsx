@@ -6,6 +6,7 @@ import {
   useVideoConfig,
 } from "remotion";
 import { INK } from "../elements/shared";
+import { formatOfSize } from "../layout/formats";
 import type { CaptionPage } from "./pages";
 
 // Word-by-word captions: one short page at a time in the lower part of the
@@ -28,13 +29,12 @@ export const Captions: React.FC<{ pages: CaptionPage[] }> = ({ pages }) => {
   const page = pages.find((p) => now >= p.start && now < p.end);
   if (!page) return null;
 
-  // Portrait captions sit higher, clear of the buttons and description
-  // TikTok, Reels and Shorts lay over the bottom of the video; landscape
-  // ones close to the bottom edge.
-  const portrait = height > width;
+  // Each format sets the caption size and height (layout/formats.ts):
+  // portrait captions sit higher, clear of the buttons and description
+  // TikTok, Reels and Shorts lay over the bottom of the video.
+  const { size, fromBottom } = formatOfSize(width, height).captions;
   const unit = Math.min(width, height) / 100;
-  const fontSize = (portrait ? 6.4 : 4.4) * unit;
-  const fromBottom = portrait ? 10 : 1.5; // percent of the height
+  const fontSize = size * unit;
 
   const pageFrame = frame - Math.round(page.start * fps);
   const scale = interpolate(pageFrame, [0, POP_FRAMES], [0.9, 1], {

@@ -1,3 +1,4 @@
+import { FPS } from "../layout/formats";
 import type { Scene, Video } from "../schema/scene";
 
 // When each scene plays, in seconds from the start of the video. Scenes
@@ -56,4 +57,24 @@ export const boards = (video: Video): Board[] => {
     board.wipes = i < result.length - 1;
   });
   return result;
+};
+
+// The moment shown on cover images, in seconds: the video's "cover" (a
+// scene id or seconds), by default the end of the first scene. A scene's
+// end is just before its board is wiped, with everything drawn.
+export const coverTime = (video: Video): number => {
+  const length = videoLength(video);
+  const lastFrame = Math.max(0, length - 1 / FPS);
+  if (typeof video.cover === "number") return Math.min(video.cover, lastFrame);
+  const times = sceneTimes(video);
+  const index = Math.max(
+    0,
+    times.findIndex(({ scene }) => scene.id === (video.cover ?? video.scenes[0].id)),
+  );
+  const next = video.scenes[index + 1];
+  const wiped = next !== undefined && !next.keepPrevious;
+  return Math.max(
+    0,
+    Math.min(lastFrame, times[index].end - (wiped ? WIPE_SECONDS : 0) - 2 / FPS),
+  );
 };

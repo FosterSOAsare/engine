@@ -21,14 +21,23 @@
       "id": "restaurant",
       "narration": "Think of a restaurant. You don't walk into the kitchen yourself. You tell the waiter what you want, and the waiter brings it back.",
       "elements": [
-        { "type": "text", "text": "THINK OF A RESTAURANT", "x": 26, "y": 5, "size": 3.6, "color": "#888888", "draw": 0.6, "at": "restaurant" },
+        { "type": "text", "id": "title", "text": "THINK OF A RESTAURANT", "x": 26, "y": 5, "size": 3.6, "color": "#888888", "draw": 0.6, "at": "restaurant" },
         { "type": "image", "id": "you", "name": "peeps/standing/12", "label": "you", "x": 17, "y": 50, "w": 21, "draw": 1.6, "at": "you" },
         { "type": "icon", "id": "kitchen", "name": "chef-hat", "label": "kitchen", "x": 82, "y": 32, "size": 22, "draw": 0.7, "at": "kitchen" },
         { "type": "image", "id": "waiter", "name": "peeps/standing/6", "label": "waiter", "x": 52, "y": 50, "w": 21, "draw": 1.6, "at": "waiter" },
         { "type": "arrow", "from": "you", "to": "waiter", "label": "order", "color": "#1e6fd9", "draw": 0.4, "at": "want" },
         { "type": "arrow", "from": "waiter", "to": "kitchen", "color": "#1e6fd9", "draw": 0.4 },
-        { "type": "arrow", "from": "kitchen", "to": "you", "bend": -10, "label": "your food", "color": "#2a9d4b", "draw": 0.7, "at": "back" }
-      ]
+        { "type": "arrow", "id": "food", "from": "kitchen", "to": "you", "bend": -10, "label": "your food", "color": "#2a9d4b", "draw": 0.7, "at": "back" }
+      ],
+      "layouts": {
+        "landscape": {
+          "title": { "x": 14, "y": 8 },
+          "you": { "x": 16, "y": 40, "w": 17 },
+          "waiter": { "x": 50, "y": 60, "w": 15 },
+          "kitchen": { "x": 84, "y": 34, "size": 18 },
+          "food": { "bend": 4 }
+        }
+      }
     },
     {
       "id": "mapping",

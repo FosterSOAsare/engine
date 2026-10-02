@@ -47,6 +47,8 @@ This starts Remotion Studio and opens it in your browser, usually at http://loca
 npm run render -- dns          # one video   -> out/dns.mp4
 npm run render -- dns os       # several
 npm run render -- all          # every video
+npm run render -- dns-square   # another format -> out/dns-square.mp4
+npm run render -- dns --all-formats # all four formats, one file each
 npm run render -- dns --no-captions # without captions, whatever the scene file says
 npm run render -- dns --compress    # also a small copy for posting -> out/dns.small.mp4
 npm run render -- dns --scale=0.5   # other options go on to Remotion
@@ -54,12 +56,61 @@ npm run render -- dns --scale=0.5   # other options go on to Remotion
 
 For a narrated video, generate its narration and word timings first (see [Narration and captions](#narration-and-captions)).
 
+## Formats
+
+Every video renders in four formats. A scene file is written for one of them (its `format`); in Studio each video is a folder with one composition per format.
+
+| Format | Size | Composition | For |
+|---|---|---|---|
+| `portrait` | 1080×1920 (9:16) | `<id>-portrait` | TikTok, Reels, Shorts |
+| `feed` | 1080×1350 (4:5) | `<id>-feed` | LinkedIn and Instagram feed |
+| `square` | 1080×1080 (1:1) | `<id>-square` | Feeds |
+| `landscape` | 1920×1080 (16:9) | `<id>-landscape` | YouTube, LinkedIn video |
+
+In the format it is written for, a video's composition is just `<id>`. In the others, each board keeps the shape it was written for and is scaled to fit that format's safe area: clear of the captions and, in portrait, of the buttons and description the apps lay over the video. It is never scaled up, so text stays as large as written or smaller.
+
+When a scene doesn't work scaled (a portrait column in a wide frame, say), give it a layout for that format: new positions and sizes for its elements, by id. That scene is then laid out directly in that frame.
+
+```json
+"layouts": {
+  "landscape": {
+    "you":     { "x": 16, "y": 40, "w": 17 },
+    "kitchen": { "x": 84, "y": 34, "size": 18 },
+    "food":    { "bend": 4 }
+  }
+}
+```
+
+Allowed fields are the element's own position and size fields: `x`, `y`, `w`, `h`, `size`, `bend`, `x1`, `y1`, `x2`, `y2`, `spacing`, `align`. Elements not listed keep their percentages, now of the new frame. Safe areas and caption sizes are in `src/layout/formats.ts`.
+
+## Posting
+
+```console
+npm run render -- api --all-formats --compress   # every format, plus small copies
+npm run cover -- api                             # a cover image per format -> out/api.cover.jpg, out/api-square.cover.jpg, ...
+npm run cover -- api-square                      # one format
+```
+
+**Covers** show the video's `cover` moment: a scene id (the end of that scene, fully drawn) or seconds from the start; by default the end of the first scene. No hand, no captions.
+
+**Length limits** (as of 2025; platforms change them, so check before relying on these). `npm run compress` prints each video's length and the platforms it is too long for in its format. File size is never the problem: compressed videos are a few MB, far below every platform's limit.
+
+| Platform | Longest video | Formats |
+|---|---|---|
+| YouTube Shorts | 3 min | portrait, square |
+| Instagram Reels | 3 min | portrait |
+| TikTok | 10 min | portrait |
+| LinkedIn | 10 min in the app, 15 min on the web | any |
+| X (free accounts) | 2 min 20 s | any |
+| YouTube | 15 min until the account is verified | landscape |
+
 ## Commands
 
 | Command | What it does |
 |---|---|
 | `npm run dev` | Start Remotion Studio for live preview |
 | `npm run render -- <id>` | Render a video to `out/<id>.mp4` (`all` for every video) |
+| `npm run cover -- <id>` | Cover images in every format to `out/<id>.cover.jpg` (`<id>-<format>` for one) |
 | `npm run compress -- <id>` | Shrink `out/<id>.mp4` to `out/<id>.small.mp4` for posting (`all`, `--quality=28`: lower is sharper and bigger) |
 | `npm run render:test` | Render the M0 test composition to `out/test.mp4` |
 | `npm run voice -- <id>` | Read every scene's narration aloud into `public/videos/<id>/` |
@@ -103,9 +154,9 @@ If the file has a problem, the Studio shows a list of what is wrong and where (f
 
 **Units.** Positions (`x`, `y`) are percent of the frame, 0 to 100, measured to the element's centre. Sizes (`w`, `h`, `size`) are percent of the frame's shorter side, so shapes keep their proportions in every format. Times are seconds.
 
-**Video.** `version` (1), `title`, `format` (`"portrait"` 1080×1920 or `"landscape"` 1920×1080; default portrait), `fps` (30 only for now), `voiceover` (narrate every scene; default `false`), `voice` (a Piper voice; default `en_US-bryce-medium`), `captions` (word-by-word captions on narrated videos; default `true`), `scenes`.
+**Video.** `version` (1), `title`, `format` (the format it is written for: `"portrait"`, `"feed"`, `"square"` or `"landscape"`; default portrait; see [Formats](#formats)), `fps` (30 only for now), `voiceover` (narrate every scene; default `false`), `voice` (a Piper voice; default `en_US-bryce-medium`), `captions` (word-by-word captions on narrated videos; default `true`), `cover` (the moment for cover images: a scene id or seconds; see [Posting](#posting)), `scenes`.
 
-**Scene.** One idea and one narration line. `id`, `duration` (seconds), `narration`, `pause` (silence after the narration; default 0.5 s), `keepPrevious` (keep the previous scene's drawing instead of wiping the board; default `false`), `elements`. Scenes play one after another; at the end of each, the board is wiped unless the next scene keeps it. In a narrated video `duration` is optional: a scene lasts as long as its narration plus the pause, or its `duration` if that is longer, and stretches if its drawings need more time.
+**Scene.** One idea and one narration line. `id`, `duration` (seconds), `narration`, `pause` (silence after the narration; default 0.5 s), `keepPrevious` (keep the previous scene's drawing instead of wiping the board; default `false`), `elements`, `layouts` (positions for other formats; see [Formats](#formats)). Scenes play one after another; at the end of each, the board is wiped unless the next scene keeps it. In a narrated video `duration` is optional: a scene lasts as long as its narration plus the pause, or its `duration` if that is longer, and stretches if its drawings need more time.
 
 **Every element** has `type` and `draw` (seconds the drawing takes), and optionally `id` (to connect arrows and rings to it), `color` (any CSS colour), `seed` (fixes the sketchy wobble; derived from the id when left out) and a time to start:
 
@@ -203,6 +254,7 @@ The `version` field lets the engine reject or upgrade old files when the format 
 
 - **Version 1** (M2). Videos with `title`, `format`, `fps` and scenes with `duration`, `narration`, `keepPrevious`. Elements: box, circle, ellipse, diamond, triangle, icon, text, list, arrow, line, ring; `fill` and `fillStyle` on closed shapes; arrow `head`.
 - **Version 1, M3 additions** (all optional; older files are still valid). Videos: `voiceover`, `voice`, `captions`. Scenes: `pause`; `duration` optional with a voiceover. Elements: `start` optional, `at`; lists: `itemGap`. Elements now queue instead of being rejected when they overlap.
+- **Version 1, M4 additions** (optional). Formats `feed` and `square`. Videos: `cover`. Scenes: `layouts`.
 
 ## Roadmap
 

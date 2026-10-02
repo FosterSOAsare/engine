@@ -186,6 +186,35 @@ export const elementSchema = z.discriminatedUnion("type", [
   image,
 ]);
 
+// New positions and sizes for an element in one format (see "layouts").
+export const LAYOUT_FIELDS = [
+  "x",
+  "y",
+  "w",
+  "h",
+  "size",
+  "bend",
+  "x1",
+  "y1",
+  "x2",
+  "y2",
+  "spacing",
+] as const;
+export const layoutSchema = z.strictObject({
+  x: z.number().optional(),
+  y: z.number().optional(),
+  w: positive.optional(),
+  h: positive.optional(),
+  size: positive.optional(),
+  bend: z.number().optional(),
+  x1: z.number().optional(),
+  y1: z.number().optional(),
+  x2: z.number().optional(),
+  y2: z.number().optional(),
+  spacing: positive.optional(),
+  align: z.enum(["center", "left"]).optional(),
+});
+
 export const sceneSchema = z.strictObject({
   id: z.string().min(1),
   // Seconds. Optional in a video with a voiceover: the scene then lasts as
@@ -197,12 +226,21 @@ export const sceneSchema = z.strictObject({
   // Keep the previous scene's drawing instead of wiping the board.
   keepPrevious: z.boolean().default(false),
   elements: z.array(elementSchema),
+  // The scene laid out again for other formats: per format, new positions
+  // for elements by id, e.g. a row in landscape instead of a column. In
+  // those formats the scene is laid out directly in that frame; elsewhere
+  // it is scaled to fit (layout/fit.ts).
+  layouts: z
+    .partialRecord(z.enum(FORMAT_NAMES), z.record(z.string(), layoutSchema))
+    .optional(),
 });
 
 export const videoSchema = z.strictObject({
   version: z.literal(1),
   title: z.string().min(1),
-  // Frame shape: "portrait" (9:16) or "landscape" (16:9).
+  // The frame shape the file is written for: "portrait" (9:16), "feed"
+  // (4:5), "square" (1:1) or "landscape" (16:9). Every video can still be
+  // rendered in all of them.
   format: z.enum(FORMAT_NAMES).default("portrait"),
   // Narrate every scene's line with text-to-speech (npm run voice -- <id>).
   // Each scene then lasts as long as its audio plus its pause.
@@ -213,6 +251,10 @@ export const videoSchema = z.strictObject({
   // The handle in the bottom-right corner: the default from src/brand.ts,
   // other text, or false for none.
   watermark: z.union([z.string().min(1), z.literal(false)]).optional(),
+  // The moment used for cover images (npm run cover): a scene id (the end
+  // of that scene, fully drawn) or seconds from the start. Default: the end
+  // of the first scene.
+  cover: z.union([z.string().min(1), z.number().min(0)]).optional(),
   fps: z.number().int().positive().default(30),
   scenes: z.array(sceneSchema).min(1),
 });

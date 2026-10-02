@@ -13,6 +13,7 @@
 import { spawnSync } from "node:child_process";
 import { existsSync, readdirSync, statSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+import { formatOf } from "./videos.mjs";
 
 const outDir = fileURLToPath(new URL("../out/", import.meta.url));
 const DEFAULT_QUALITY = 28;
@@ -47,6 +48,38 @@ if (missing.length > 0) {
   process.exit(2);
 }
 
+// Longest video each platform takes, in seconds, and the formats posted
+// there (as of 2025; platforms change these, so check before relying on
+// them). File sizes aren't listed: compressed videos are far below every
+// platform's limit.
+const LIMITS = [
+  { platform: "YouTube Shorts", seconds: 180, formats: ["portrait", "square"] },
+  { platform: "Instagram Reels", seconds: 180, formats: ["portrait"] },
+  { platform: "TikTok", seconds: 600, formats: ["portrait"] },
+  { platform: "LinkedIn (mobile app)", seconds: 600, formats: ["feed", "square", "landscape", "portrait"] },
+  { platform: "X (free accounts)", seconds: 140, formats: ["feed", "square", "landscape", "portrait"] },
+];
+
+const durationOf = (file) => {
+  const { stdout } = spawnSync(
+    "npx",
+    ["remotion", "ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", file],
+    { encoding: "utf8", shell: process.platform === "win32" },
+  );
+  return Number.parseFloat(stdout);
+};
+
+const minutes = (seconds) =>
+  `${Math.floor(seconds / 60)}:${String(Math.round(seconds % 60)).padStart(2, "0")}`;
+
+// Platforms this video is too long for, in its format.
+const tooLongFor = (id, seconds) => {
+  const format = formatOf(id);
+  return LIMITS.filter(
+    (limit) => (!format || limit.formats.includes(format)) && seconds > limit.seconds,
+  );
+};
+
 const mb = (file) => (statSync(file).size / 1024 / 1024).toFixed(1);
 
 for (const id of ids) {
@@ -68,4 +101,14 @@ for (const id of ids) {
   );
   if (status !== 0) process.exit(status ?? 1);
   console.log(`${id}: ${mb(input)} MB -> ${mb(output)} MB  (out/${id}.small.mp4)`);
+  const seconds = durationOf(output);
+  if (Number.isFinite(seconds)) {
+    const over = tooLongFor(id, seconds);
+    console.log(
+      over.length === 0
+        ? `  ${minutes(seconds)} long: fits every platform for its format`
+        : `  ${minutes(seconds)} long: too long for ` +
+            over.map((l) => `${l.platform} (max ${minutes(l.seconds)})`).join(", "),
+    );
+  }
 }

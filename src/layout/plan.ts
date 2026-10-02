@@ -27,6 +27,7 @@ export type Drawing =
   | { type: "image"; props: ImageProps };
 
 export type PlannedBoard = {
+  sceneIds: string[]; // the scenes drawn on it
   start: number; // seconds
   end: number;
   wipes: boolean; // erased at its end
@@ -363,6 +364,7 @@ export const planVideo = (
     }
 
     return {
+      sceneIds: board.scenes.map(({ scene }) => scene.id),
       start: board.start,
       end: board.end,
       wipes: board.wipes,

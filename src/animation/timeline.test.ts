@@ -1,6 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { videoSchema, type VideoInput } from "../schema/scene";
-import { boards, sceneTimes, videoLength } from "./timeline";
+import {
+  boards,
+  coverTime,
+  sceneTimes,
+  videoLength,
+  WIPE_SECONDS,
+} from "./timeline";
 
 const video = (scenes: { duration: number; keepPrevious?: boolean }[]) =>
   videoSchema.parse({
@@ -55,5 +61,27 @@ describe("timeline", () => {
       "s1",
       "s2",
     ]);
+  });
+});
+
+describe("coverTime", () => {
+  const frame = 1 / 30;
+
+  it("defaults to the end of the first scene, before its wipe", () => {
+    const v = video([{ duration: 4 }, { duration: 6 }]);
+    expect(coverTime(v)).toBeCloseTo(4 - WIPE_SECONDS - 2 * frame);
+  });
+
+  it("uses a named scene; a kept board isn't wiped", () => {
+    const v = video([{ duration: 4 }, { duration: 6, keepPrevious: false }]);
+    expect(coverTime({ ...v, cover: "s2" })).toBeCloseTo(10 - 2 * frame);
+    const kept = video([{ duration: 4 }, { duration: 6, keepPrevious: true }]);
+    expect(coverTime(kept)).toBeCloseTo(4 - 2 * frame);
+  });
+
+  it("takes seconds, within the video", () => {
+    const v = video([{ duration: 4 }]);
+    expect(coverTime({ ...v, cover: 2.5 })).toBe(2.5);
+    expect(coverTime({ ...v, cover: 99 })).toBeCloseTo(4 - frame);
   });
 });

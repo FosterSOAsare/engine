@@ -11,6 +11,7 @@ import { labelFor, Text, textTrack } from "./Text";
 import {
   FILL_FADE_SECONDS,
   unitOf,
+  useBoardSize,
   useDrawProgress,
   type FrameSize,
   type Timing,
@@ -116,7 +117,8 @@ export const imageTracks = (
 
 export const Image: React.FC<ImageProps> = (props) => {
   const frame = useCurrentFrame();
-  const { fps, width, height } = useVideoConfig();
+  const { fps } = useVideoConfig();
+  const { width, height } = useBoardSize();
   const id = useId().replace(/:/g, "");
   const t = useDrawProgress(props);
   const { asset } = props;

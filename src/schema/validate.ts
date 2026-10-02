@@ -1,6 +1,11 @@
 import type { z } from "zod";
 import { FPS } from "../layout/formats";
-import { videoSchema, type SceneElement, type Video } from "./scene";
+import {
+  elementSchema,
+  videoSchema,
+  type SceneElement,
+  type Video,
+} from "./scene";
 import {
   busyFor,
   resolveTiming,
@@ -31,6 +36,14 @@ const ARROW_TARGETS = new Set([
   "icon",
   "image",
 ]);
+
+// The fields each element type has, for checking "layouts".
+const FIELDS: Record<string, Set<string>> = Object.fromEntries(
+  elementSchema.options.map((option) => [
+    option.shape.type.value,
+    new Set(Object.keys(option.shape)),
+  ]),
+);
 
 // Elements a ring can go around: anything with a visible extent.
 const RING_TARGETS = new Set([...ARROW_TARGETS, "text"]);
@@ -153,7 +166,37 @@ const crossCheck = (video: Video): string[] => {
         }
       }
     });
+
+    // Layouts for other formats move this scene's own elements, by id.
+    for (const [format, moves] of Object.entries(scene.layouts ?? {})) {
+      const at = `${sceneName}, layouts.${format}`;
+      if (format === video.format) {
+        errors.push(
+          `${at}: the file is written for ${format}; change the elements themselves`,
+        );
+        continue;
+      }
+      for (const [id, move] of Object.entries(moves ?? {})) {
+        const element = scene.elements.find((e) => e.id === id);
+        if (!element) {
+          errors.push(`${at}: no element with id "${id}" in this scene`);
+          continue;
+        }
+        for (const field of Object.keys(move)) {
+          if (!FIELDS[element.type]?.has(field)) {
+            errors.push(`${at}.${id}: a ${element.type} has no "${field}"`);
+          }
+        }
+      }
+    }
   });
+
+  if (
+    typeof video.cover === "string" &&
+    !video.scenes.some((scene) => scene.id === video.cover)
+  ) {
+    errors.push(`file: "cover" names no scene "${video.cover}"`);
+  }
 
   return errors;
 };
