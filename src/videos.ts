@@ -1,3 +1,4 @@
+import api from "../videos/api/scene.json";
 import check from "../videos/check/scene.json";
 import designs from "../videos/designs/scene.json";
 import dns from "../videos/dns/scene.json";
@@ -14,6 +15,7 @@ import showcase from "../videos/showcase/scene.json";
 // same id, rendered with: npx remotion render <id> out/<id>.mp4
 // Add a video by adding its folder under videos/ and a line here.
 export const VIDEOS: { id: string; scene: unknown }[] = [
+  { id: "api", scene: api },
   { id: "https", scene: https },
   { id: "passwords", scene: passwords },
   { id: "latency", scene: latency },
