@@ -41,8 +41,9 @@ export const scenesLength = (video: Video) =>
 // A landscape video ends on its whole board: after the last scene the
 // camera zooms out (layout/canvas.ts) and holds the overview.
 export const OVERVIEW_MOVE_SECONDS = 1.5;
-// Between boards the camera glides for this long, centred on the change.
-export const CAMERA_MOVE_SECONDS = 1;
+// Between boards the screen fades to the empty board for this long, the
+// camera jumps to the next board, and it fades back in for as long.
+export const CUT_FADE_SECONDS = 0.25;
 export const OVERVIEW_HOLD_SECONDS = 2.5;
 
 // The whole video, in seconds.
@@ -93,10 +94,11 @@ export const coverTime = (video: Video): number => {
   const next = video.scenes[index + 1];
   const wiped =
     next !== undefined && !next.keepPrevious && video.format !== "landscape";
-  // Before the wipe, or in a landscape video before the camera moves on.
+  // Before the wipe, or in a landscape video before the fade to the next
+  // board.
   const leaves =
     video.format === "landscape" && next !== undefined && !next.keepPrevious
-      ? CAMERA_MOVE_SECONDS / 2
+      ? CUT_FADE_SECONDS
       : 0;
   return Math.max(
     0,

@@ -1,6 +1,6 @@
 import type { HandTrack } from "../animation/hand";
 import {
-  CAMERA_MOVE_SECONDS,
+  CUT_FADE_SECONDS,
   OVERVIEW_MOVE_SECONDS,
   scenesLength,
   sceneTimes,
@@ -16,9 +16,10 @@ import { handTracks, planVideo, type PlannedBoard } from "./plan";
 
 // Landscape videos are drawn on one big board. Each board (a scene, plus
 // the scenes that keep it) gets its own screen-sized area in a grid; nothing
-// is wiped. The camera shows one area at a time, zooms in on what a scene's
-// "camera" names, glides to the next area as the narration moves on, and at
-// the end zooms out to show everything at once.
+// is wiped. The camera shows one area at a time and zooms in on what a
+// scene's "camera" names. Between boards the screen fades out, the camera
+// jumps to the next area and it fades back in (nothing slides past). At the
+// end the camera zooms out to show everything at once.
 
 // Each area is one screen, drawn in the detailed style: everything at half
 // size with a finer pen, so a frame holds much more.
@@ -31,6 +32,7 @@ export const AREA = {
 const GAP = 0.12; // between areas, as a share of an area's height
 const OVERVIEW_MARGIN = 0.04; // room around the board in the final overview
 const FOCUS_MOVE_SECONDS = 0.8; // zooming in on something, or back out
+const JUMP_SECONDS = 1e-6; // to the next board: at once
 const FOCUS_ZOOM = 2.5; // the most the camera zooms in, unless a move says
 const FOCUS_ROOM = 1.35; // what it zooms to fills 1/1.35 of the screen
 
@@ -48,7 +50,7 @@ export type Canvas = {
   areas: Area[]; // one per board
   width: number; // the whole board, in pixels
   height: number;
-  tracks: HandTrack[]; // the hand's path, in board pixels
+  tracks: HandTrack[][]; // the hand's path per board, in board pixels
   moves: Move[]; // the camera, in time order
 };
 
@@ -165,7 +167,7 @@ export const canvasFor = (
     width: AREA.width,
     height: AREA.height,
   }));
-  const tracks = boards.flatMap((board, i) =>
+  const tracks = boards.map((board, i) =>
     handTracks([board], AREA).map((track) =>
       placeTrack(track, { x: areas[i].left, y: areas[i].top, scale: 1 }),
     ),
@@ -175,8 +177,9 @@ export const canvasFor = (
     height: Math.max(...areas.map((a) => a.top + a.height)),
   };
 
-  // The camera: each scene's own moves, a glide to the next board around
-  // each change of board, and the overview once the narration is over.
+  // The camera: each scene's own moves, a jump to the next board at each
+  // change of board (hidden by the fade), and the overview once the
+  // narration is over.
   const times = sceneTimes(video);
   const moves: Move[] = [];
   boards.forEach((board, i) => {
@@ -202,8 +205,8 @@ export const canvasFor = (
     }
     if (i < boards.length - 1) {
       moves.push({
-        at: board.end - CAMERA_MOVE_SECONDS / 2,
-        duration: CAMERA_MOVE_SECONDS,
+        at: board.end,
+        duration: JUMP_SECONDS,
         to: areaView(areas[i + 1]),
       });
     }
@@ -278,4 +281,22 @@ export const onScreen = (area: Area, p: Placement, frame: FrameSize) => {
   return (
     r.right > 0 && r.bottom > 0 && r.left < frame.width && r.top < frame.height
   );
+};
+
+// How much the empty board covers the screen at `seconds` (0 to 1): it
+// fades in just before each change of board and out just after.
+export const cutCover = (canvas: Canvas, seconds: number) =>
+  Math.max(
+    0,
+    ...canvas.boards
+      .slice(0, -1)
+      .map((board) => 1 - Math.abs(seconds - board.end) / CUT_FADE_SECONDS),
+  );
+
+// The board being drawn at `seconds`: the hand only follows this board's
+// strokes, so it leaves at the end of a board and comes back on the next
+// instead of travelling across the cut.
+export const boardAt = (canvas: Canvas, seconds: number) => {
+  const index = canvas.boards.findIndex((board) => seconds < board.end);
+  return index === -1 ? canvas.boards.length - 1 : index;
 };

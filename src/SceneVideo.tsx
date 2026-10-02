@@ -22,8 +22,10 @@ import { Text } from "./elements/Text";
 import { BOARD, BoardSize } from "./elements/shared";
 import {
   AREA,
+  boardAt,
   cameraPlacement,
   canvasFor,
+  cutCover,
   onScreen,
   viewAt,
 } from "./layout/canvas";
@@ -301,11 +303,17 @@ export const SceneVideo: React.FC<SceneVideoProps> = ({
         {!cover ? (
           <>
             <Hand
-              tracks={canvas.tracks.map((track) => placeTrack(track, camera))}
+              tracks={canvas.tracks[boardAt(canvas, frame / FPS)].map((track) =>
+                placeTrack(track, camera),
+              )}
             />
             <Captions pages={pages} />
           </>
         ) : null}
+        {/* The fade between boards covers the board and the hand. */}
+        <AbsoluteFill
+          style={{ background: BOARD, opacity: cutCover(canvas, frame / FPS) }}
+        />
         <Chapter spans={chapters} />
         {result.video.watermark !== false ? (
           <Watermark text={result.video.watermark ?? WATERMARK} />
