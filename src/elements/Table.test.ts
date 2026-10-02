@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { AREA } from "../layout/canvas";
+import { AREA, DETAIL } from "../layout/canvas";
 import { planVideo } from "../layout/plan";
 import { validateVideo } from "../schema/validate";
 import { tableLayout, tablePart } from "./Table";
@@ -33,7 +33,7 @@ const video = (elements: unknown[], format = "landscape") => ({
 describe("tableLayout", () => {
   it("centres the grid and sizes columns by their longest text", () => {
     const layout = tableLayout({ ...table(), title: undefined }, AREA);
-    const unit = 10.8 * 0.5;
+    const unit = 10.8 * DETAIL;
     expect(layout.width).toBeCloseTo(80 * unit);
     expect(layout.left + layout.width / 2).toBeCloseTo(960);
     expect(layout.top + layout.height / 2).toBeCloseTo(540);

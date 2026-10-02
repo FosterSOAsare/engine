@@ -21,9 +21,9 @@ import { handTracks, planVideo, type PlannedBoard } from "./plan";
 // jumps to the next area and it fades back in (nothing slides past). At the
 // end the camera zooms out to show everything at once.
 
-// Each area is one screen, drawn in the detailed style: everything at half
+// Each area is one screen, drawn in the detailed style: everything at three-quarter
 // size with a finer pen, so a frame holds much more.
-export const DETAIL = 0.5;
+export const DETAIL = 0.75;
 export const AREA = {
   width: FORMATS.landscape.width,
   height: FORMATS.landscape.height,
