@@ -211,6 +211,8 @@ An `image`'s `"name"` is the path of its file under `public/assets/` without `.s
 Narration is text-to-speech, read offline by [Piper](https://github.com/OHF-Voice/piper1-gpl). The default voice, `en_US-bryce-medium`, is public domain. Other voices are listed at [piper-voices](https://huggingface.co/rhasspy/piper-voices); check a voice's `MODEL_CARD` licence before publishing with it, as several are for non-commercial use only. Install extra voices with `npm run voice:setup -- <voice>`.
 
 1. `npm run voice -- <id>` writes one WAV per scene to `public/videos/<id>/`. Only scenes whose line or voice changed are regenerated.
+
+   Pauses follow the punctuation: each line is voiced in pieces split at punctuation (`scripts/narrate.py`) and joined with a set silence, 0.15 s after a comma, 0.3 s after a colon, semicolon or spaced dash, 0.35 s after a full stop, question or exclamation mark. Write `[pause]` in a line for a deliberate 0.5 s beat (it never shows in the captions). "5,570" and "0.5" are not split. After changing how a video sounds, run `npm run voice -- <id> --force` and then `npm run captions -- <id>`.
 2. `npm run captions -- <id>` runs whisper.cpp on each scene and saves when every word is spoken to `public/videos/<id>/captions.json`. The engine matches those words to the narration lines, so captions are spelled like the script even where whisper mishears ("DNS" as "the NS").
 
 Run both again after changing a narration line. Both outputs are rebuilt from the scene file, so they are not committed.

@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { alignWords, findWord, type TimedWord } from "./align";
+import {
+  alignWords,
+  findWord,
+  narrationWords,
+  type TimedWord,
+} from "./align";
 
 const heard = (...words: [string, number, number][]): TimedWord[] =>
   words.map(([text, start, end]) => ({ text, start, end }));
@@ -89,5 +94,11 @@ describe("findWord", () => {
 
   it("returns null for words that aren't said", () => {
     expect(findWord(words, "router")).toBeNull();
+  });
+});
+
+describe("[pause]", () => {
+  it("is not a word", () => {
+    expect(narrationWords("one, [pause] two")).toEqual(["one,", "two"]);
   });
 });

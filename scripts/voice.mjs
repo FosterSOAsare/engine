@@ -7,7 +7,10 @@
 //   npm run voice -- all               every video with "voiceover": true
 //   npm run voice -- dns --force       regenerate even unchanged scenes
 //
-// A scene is only regenerated when its narration or the voice changed
+// Each line is voiced in pieces with a set pause at every comma, colon,
+// dash and full stop (scripts/narrate.py); "[pause]" in the text adds a
+// longer one. A scene is only regenerated when its narration or the voice
+// changed
 // (recorded in public/videos/<id>/voice.json). The voice is the video's
 // "voice" field, or DEFAULT_VOICE. Run `npm run voice:setup` once first.
 
@@ -80,18 +83,14 @@ for (const id of ids) {
       console.log(`  ${scene.id}: no narration, skipped`);
       continue;
     }
+    // scripts/narrate.py voices the line in pieces split at punctuation,
+    // with a set pause at each comma, colon and full stop.
     const result = spawnSync(
       fileURLToPath(python),
       [
-        "-m",
-        "piper",
-        "--data-dir",
-        fileURLToPath(voices),
-        "-m",
-        voice,
-        "-f",
+        fileURLToPath(new URL("scripts/narrate.py", root)),
+        fileURLToPath(new URL(`${voice}.onnx`, voices)),
         fileURLToPath(wav),
-        "--",
         text,
       ],
       { encoding: "utf8" },

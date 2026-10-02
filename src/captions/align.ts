@@ -11,8 +11,13 @@ export type TimedWord = { text: string; start: number; end: number };
 export const normalize = (word: string) =>
   word.toLowerCase().replace(/[^\p{L}\p{N}]/gu, "");
 
+// "[pause]" in a narration line is a pause for the voice
+// (scripts/narrate.py), not a word.
 export const narrationWords = (narration: string) =>
-  narration.split(/\s+/).filter((word) => normalize(word).length > 0);
+  narration
+    .replace(/\[pause\]/gi, " ")
+    .split(/\s+/)
+    .filter((word) => normalize(word).length > 0);
 
 // Matches two word lists in order (edit distance): equal words match,
 // different words in the same place are substitutions, the rest are
