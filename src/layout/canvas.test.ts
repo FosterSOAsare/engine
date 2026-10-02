@@ -8,6 +8,7 @@ import {
   videoLength,
 } from "../animation/timeline";
 import { videoSchema, type VideoInput } from "../schema/scene";
+import { validateVideo } from "../schema/validate";
 import { AREA, cameraPlacement, canvasFor, gridCells, onScreen, viewAt } from "./canvas";
 
 const FRAME = AREA;
@@ -69,21 +70,21 @@ describe("viewAt", () => {
   const end = scenesLength(video);
 
   it("shows each board's area while it is drawn", () => {
-    expect(viewAt(canvas, 1, end, FRAME)).toEqual({ cx: 960, cy: 540, zoom: 1 });
-    const second = viewAt(canvas, 6, end, FRAME);
+    expect(viewAt(canvas, 1)).toEqual({ cx: 960, cy: 540, zoom: 1 });
+    const second = viewAt(canvas, 6);
     expect(second.cx).toBeCloseTo(canvas.areas[1].left + 960);
     expect(second.zoom).toBe(1);
   });
 
   it("glides between areas around the change, pulling back a little", () => {
-    const middle = viewAt(canvas, 4, end, FRAME);
+    const middle = viewAt(canvas, 4);
     expect(middle.cx).toBeCloseTo((960 + canvas.areas[1].left + 960) / 2);
     expect(middle.zoom).toBeLessThan(1);
-    expect(viewAt(canvas, 4 - CAMERA_MOVE_SECONDS / 2 - 0.01, end, FRAME).cx).toBe(960);
+    expect(viewAt(canvas, 4 - CAMERA_MOVE_SECONDS / 2 - 0.01).cx).toBe(960);
   });
 
   it("ends on the whole board, inside the frame", () => {
-    const overview = viewAt(canvas, end + OVERVIEW_MOVE_SECONDS, end, FRAME);
+    const overview = viewAt(canvas, end + OVERVIEW_MOVE_SECONDS);
     const p = cameraPlacement(overview, FRAME);
     expect(p.x).toBeGreaterThan(0);
     expect(canvas.width * p.scale + p.x).toBeLessThan(FRAME.width);
@@ -101,5 +102,65 @@ describe("landscape timing", () => {
     expect(coverTime({ ...video, cover: "s1" })).toBeCloseTo(
       4 - CAMERA_MOVE_SECONDS / 2 - 2 / 30,
     );
+  });
+});
+
+describe("camera focus", () => {
+  const withCamera = (camera: unknown) =>
+    validateVideo({
+      version: 1,
+      title: "Test",
+      format: "landscape",
+      scenes: [
+        {
+          id: "main",
+          duration: 10,
+          narration: "",
+          camera,
+          elements: [
+            { type: "box", id: "a", x: 20, y: 30, w: 20, h: 10, start: 0, draw: 1 },
+            {
+              type: "table",
+              id: "t",
+              x: 60,
+              y: 60,
+              rows: [["A", "B"], ["1", "2"]],
+              start: 2,
+              draw: 1,
+            },
+          ],
+        },
+      ],
+    });
+
+  it("zooms in on what it names, then back out to the scene", () => {
+    const result = withCamera([
+      { focus: ["t.1"] },
+      { focus: "all", start: 6 },
+    ]);
+    expect(result.errors).toEqual([]);
+    const canvas = canvasFor(result.video!);
+    expect(viewAt(canvas, 1).zoom).toBe(1);
+    // Starts when the table starts (2 s) and takes 0.8 s.
+    const close = viewAt(canvas, 3);
+    expect(close.zoom).toBeGreaterThan(1.5);
+    const row = canvas.boards[0].outlines.get("t.1")!;
+    expect(close.cx).toBeCloseTo(row.cx);
+    expect(close.cy).toBeCloseTo(row.cy);
+    expect(viewAt(canvas, 7)).toEqual({ cx: 960, cy: 540, zoom: 1 });
+  });
+
+  it("never zooms past its limit", () => {
+    const result = withCamera([{ focus: ["t.1.0"], zoom: 1.5 }]);
+    expect(viewAt(canvasFor(result.video!), 5).zoom).toBe(1.5);
+  });
+
+  it("is checked: known ids, landscape only", () => {
+    expect(withCamera([{ focus: ["nope"] }]).errors).toEqual([
+      'scene "main", camera move 1: "focus" names unknown id "nope"',
+    ]);
+    expect(withCamera([{ focus: ["a"], at: "banana" }]).errors).toEqual([
+      'scene "main", camera move 1: the narration never says "banana"',
+    ]);
   });
 });

@@ -8,11 +8,7 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-import {
-  scenesLength,
-  sceneTimes,
-  WIPE_SECONDS,
-} from "./animation/timeline";
+import { sceneTimes, WIPE_SECONDS } from "./animation/timeline";
 import { Captions } from "./captions/Captions";
 import { captionPages } from "./captions/pages";
 import type { CompiledAssets } from "./assets/compiled";
@@ -254,7 +250,7 @@ export const SceneVideo: React.FC<SceneVideoProps> = ({
     // The camera at this moment; boards it can't see aren't drawn.
     const size = { width, height };
     const camera = cameraPlacement(
-      viewAt(canvas, frame / FPS, scenesLength(result.video), size),
+      viewAt(canvas, frame / FPS),
       size,
     );
     return (

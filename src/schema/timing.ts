@@ -125,7 +125,13 @@ export type TimedElement = SceneElement & {
 export type TimedScene = Omit<Scene, "elements"> & {
   elements: TimedElement[];
   words: TimedWord[] | null;
+  // When each camera move happens, seconds into the scene (landscape).
+  cameraTimes: number[];
 };
+
+// A camera move back to "all" with no time of its own comes this long after
+// what the previous move looked at is finished.
+const CAMERA_LINGER = 1;
 
 export const resolveTiming = (
   video: Video,
@@ -231,12 +237,44 @@ export const resolveTiming = (
       return placed;
     });
 
+    // 3. Camera moves: at their time, their word, or when the first thing
+    // they look at starts drawing. A move back to "all" without a time
+    // follows the previous move's elements once they are drawn.
+    const placedById = (id: string) =>
+      elements.find((element) => element.id === id.split(".")[0]);
+    let previousFocus: TimedElement | undefined;
+    let previousTime = 0;
+    const cameraTimes = (scene.camera ?? []).map((move, k) => {
+      let time: number | undefined = move.start;
+      if (time === undefined && move.at !== undefined) {
+        const said = findWord(words ?? alignWords(scene.narration, []), move.at);
+        if (!said) {
+          errors.push(
+            `${name}, camera move ${k + 1}: the narration never says "${move.at}"`,
+          );
+        }
+        time = words ? said?.start : undefined;
+      }
+      const focused =
+        move.focus === "all" ? undefined : placedById(move.focus[0]);
+      if (time === undefined) {
+        time = focused
+          ? (focused.start ?? 0)
+          : previousFocus
+            ? (previousFocus.start ?? 0) + busyFor(previousFocus) + CAMERA_LINGER
+            : previousTime;
+      }
+      previousFocus = focused;
+      previousTime = time;
+      return time;
+    });
+
     // A narrated scene stretches to fit its drawings.
     const duration =
       video.voiceover && scene.duration !== undefined
         ? Math.max(scene.duration, previousEnd + END_PAUSE)
         : scene.duration;
-    return { ...scene, elements, duration, words };
+    return { ...scene, elements, duration, words, cameraTimes };
   });
 
   return { video: { ...video, scenes }, errors };

@@ -198,6 +198,21 @@ const crossCheck = (video: Video): string[] => {
       }
     });
 
+    // The camera looks at things on this board.
+    (scene.camera ?? []).forEach((move, k) => {
+      const at = `${sceneName}, camera move ${k + 1}`;
+      if (video.format !== "landscape") {
+        errors.push(`${at}: the camera is for landscape videos (one big board)`);
+        return;
+      }
+      if (move.focus === "all") return;
+      for (const id of move.focus) {
+        if (!targetOf(board, id)) {
+          errors.push(`${at}: "focus" names unknown id "${id}"`);
+        }
+      }
+    });
+
     if (scene.place && video.format !== "landscape") {
       errors.push(
         `${sceneName}: "place" is for landscape videos, which put every scene on one board`,

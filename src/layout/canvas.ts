@@ -2,18 +2,23 @@ import type { HandTrack } from "../animation/hand";
 import {
   CAMERA_MOVE_SECONDS,
   OVERVIEW_MOVE_SECONDS,
+  scenesLength,
+  sceneTimes,
 } from "../animation/timeline";
 import type { CompiledAssets } from "../assets/compiled";
 import type { FrameSize } from "../elements/shared";
 import type { Video } from "../schema/scene";
+import type { TimedScene } from "../schema/timing";
+import type { Outline } from "./edges";
 import { placeTrack, type Placement, type Rect } from "./fit";
 import { FORMATS } from "./formats";
 import { handTracks, planVideo, type PlannedBoard } from "./plan";
 
 // Landscape videos are drawn on one big board. Each board (a scene, plus
 // the scenes that keep it) gets its own screen-sized area in a grid; nothing
-// is wiped. The camera shows one area at a time, glides to the next as the
-// narration moves on, and at the end zooms out to show everything at once.
+// is wiped. The camera shows one area at a time, zooms in on what a scene's
+// "camera" names, glides to the next area as the narration moves on, and at
+// the end zooms out to show everything at once.
 
 // Each area is one screen, drawn in the detailed style: everything at half
 // size with a finer pen, so a frame holds much more.
@@ -25,8 +30,18 @@ export const AREA = {
 };
 const GAP = 0.12; // between areas, as a share of an area's height
 const OVERVIEW_MARGIN = 0.04; // room around the board in the final overview
+const FOCUS_MOVE_SECONDS = 0.8; // zooming in on something, or back out
+const FOCUS_ZOOM = 2.5; // the most the camera zooms in, unless a move says
+const FOCUS_ROOM = 1.35; // what it zooms to fills 1/1.35 of the screen
 
 export type Area = { left: number; top: number; width: number; height: number };
+
+// What the camera looks at: a point on the board and how far it is zoomed
+// (1 = an area fills the screen).
+export type View = { cx: number; cy: number; zoom: number };
+
+// The camera goes to `to`, starting at `at` (seconds) and taking `duration`.
+type Move = { at: number; duration: number; to: View };
 
 export type Canvas = {
   boards: PlannedBoard[];
@@ -34,6 +49,7 @@ export type Canvas = {
   width: number; // the whole board, in pixels
   height: number;
   tracks: HandTrack[]; // the hand's path, in board pixels
+  moves: Move[]; // the camera, in time order
 };
 
 // Grid cells for every board: a scene's "place" if it has one, otherwise
@@ -60,6 +76,73 @@ export const gridCells = (
   });
 };
 
+const areaView = (area: Area): View => ({
+  cx: area.left + area.width / 2,
+  cy: area.top + area.height / 2,
+  zoom: 1,
+});
+
+// The smallest rectangle around some outlines, in an area's pixels.
+const around = (outlines: Outline[]): Rect | null => {
+  if (outlines.length === 0) return null;
+  const rects = outlines.map((o) => {
+    if (o.kind === "polygon") {
+      const xs = o.corners.map((c) => o.cx + c.x);
+      const ys = o.corners.map((c) => o.cy + c.y);
+      return {
+        left: Math.min(...xs),
+        right: Math.max(...xs),
+        top: Math.min(...ys),
+        bottom: Math.max(...ys),
+      };
+    }
+    return {
+      left: o.cx - o.halfW,
+      right: o.cx + o.halfW,
+      top: o.cy - o.halfH,
+      bottom: o.cy + o.halfH,
+    };
+  });
+  return {
+    left: Math.min(...rects.map((r) => r.left)),
+    right: Math.max(...rects.map((r) => r.right)),
+    top: Math.min(...rects.map((r) => r.top)),
+    bottom: Math.max(...rects.map((r) => r.bottom)),
+  };
+};
+
+// Close enough on a rectangle (in an area's pixels) that it fills most of
+// the screen, but no closer than `most`.
+const focusView = (rect: Rect, area: Area, most: number): View => {
+  const width = Math.max(1, rect.right - rect.left);
+  const height = Math.max(1, rect.bottom - rect.top);
+  return {
+    cx: area.left + (rect.left + rect.right) / 2,
+    cy: area.top + (rect.top + rect.bottom) / 2,
+    zoom: Math.max(
+      0.4,
+      Math.min(
+        most,
+        AREA.width / (width * FOCUS_ROOM),
+        AREA.height / (height * FOCUS_ROOM),
+      ),
+    ),
+  };
+};
+
+const overviewView = (size: { width: number; height: number }): View => {
+  const margin = OVERVIEW_MARGIN * Math.max(size.width, size.height);
+  return {
+    cx: size.width / 2,
+    cy: size.height / 2,
+    zoom: Math.min(
+      1,
+      AREA.width / (size.width + 2 * margin),
+      AREA.height / (size.height + 2 * margin),
+    ),
+  };
+};
+
 export const canvasFor = (video: Video, assets: CompiledAssets = {}): Canvas => {
   // Nothing is wiped: every board stays on the big board.
   const boards = planVideo(video, AREA, assets).map((board) => ({
@@ -81,36 +164,51 @@ export const canvasFor = (video: Video, assets: CompiledAssets = {}): Canvas => 
       placeTrack(track, { x: areas[i].left, y: areas[i].top, scale: 1 }),
     ),
   );
-  return {
-    boards,
-    areas,
+  const size = {
     width: Math.max(...areas.map((a) => a.left + a.width)),
     height: Math.max(...areas.map((a) => a.top + a.height)),
-    tracks,
   };
-};
 
-// What the camera looks at: a point on the board and how far it is zoomed
-// (1 = an area fills the screen).
-type View = { cx: number; cy: number; zoom: number };
+  // The camera: each scene's own moves, a glide to the next board around
+  // each change of board, and the overview once the narration is over.
+  const times = sceneTimes(video);
+  const moves: Move[] = [];
+  boards.forEach((board, i) => {
+    for (const id of board.sceneIds) {
+      const index = video.scenes.findIndex((scene) => scene.id === id);
+      const scene = video.scenes[index] as Video["scenes"][number] &
+        Partial<Pick<TimedScene, "cameraTimes">>;
+      (scene.camera ?? []).forEach((move, k) => {
+        const at = times[index].start + (scene.cameraTimes?.[k] ?? move.start ?? 0);
+        const rect =
+          move.focus === "all"
+            ? null
+            : around(move.focus.flatMap((id) => board.outlines.get(id) ?? []));
+        moves.push({
+          at,
+          duration: FOCUS_MOVE_SECONDS,
+          to: rect
+            ? focusView(rect, areas[i], move.zoom ?? FOCUS_ZOOM)
+            : areaView(areas[i]),
+        });
+      });
+    }
+    if (i < boards.length - 1) {
+      moves.push({
+        at: board.end - CAMERA_MOVE_SECONDS / 2,
+        duration: CAMERA_MOVE_SECONDS,
+        to: areaView(areas[i + 1]),
+      });
+    }
+  });
+  moves.push({
+    at: scenesLength(video),
+    duration: OVERVIEW_MOVE_SECONDS,
+    to: overviewView(size),
+  });
+  moves.sort((a, b) => a.at - b.at);
 
-const areaView = (area: Area): View => ({
-  cx: area.left + area.width / 2,
-  cy: area.top + area.height / 2,
-  zoom: 1,
-});
-
-const overviewView = (canvas: Canvas, frame: FrameSize): View => {
-  const margin = OVERVIEW_MARGIN * Math.max(canvas.width, canvas.height);
-  return {
-    cx: canvas.width / 2,
-    cy: canvas.height / 2,
-    zoom: Math.min(
-      1,
-      frame.width / (canvas.width + 2 * margin),
-      frame.height / (canvas.height + 2 * margin),
-    ),
-  };
+  return { boards, areas, ...size, tracks, moves };
 };
 
 const ease = (t: number) => {
@@ -121,52 +219,36 @@ const ease = (t: number) => {
 // Between two views: the centre glides, the zoom changes evenly in steps
 // (so zooming out and in feel the same), and a long glide pulls back a
 // little in the middle so the board doesn't rush past.
-const between = (a: View, b: View, t: number, areaWidth: number): View => {
+const between = (a: View, b: View, t: number): View => {
   const e = ease(t);
-  const distance = Math.hypot(b.cx - a.cx, b.cy - a.cy) / areaWidth;
+  const distance = Math.hypot(b.cx - a.cx, b.cy - a.cy) / AREA.width;
   const pullBack = 1 + 0.35 * Math.min(distance, 2) * Math.sin(Math.PI * e);
   return {
     cx: a.cx + (b.cx - a.cx) * e,
     cy: a.cy + (b.cy - a.cy) * e,
-    zoom: Math.exp(Math.log(a.zoom) + (Math.log(b.zoom) - Math.log(a.zoom)) * e) /
+    zoom:
+      Math.exp(Math.log(a.zoom) + (Math.log(b.zoom) - Math.log(a.zoom)) * e) /
       pullBack,
   };
 };
 
-// Where the camera is at `seconds`: on the current board's area, gliding
-// to the next one around each change of board, and after the last board
-// (at `end`, when the narration is over) zooming out to the whole board.
-export const viewAt = (
-  canvas: Canvas,
-  seconds: number,
-  end: number,
-  frame: FrameSize,
-): View => {
-  const { boards, areas } = canvas;
-  if (boards.length === 0) return overviewView(canvas, frame);
-  const last = boards.length - 1;
-  if (seconds >= end) {
-    return between(
-      areaView(areas[last]),
-      overviewView(canvas, frame),
-      (seconds - end) / OVERVIEW_MOVE_SECONDS,
-      AREA.width,
-    );
+// Where the camera is at `seconds`: it starts on the first area and makes
+// each move in turn; a move that starts before the last one is finished
+// takes over from wherever the camera is.
+export const viewAt = (canvas: Canvas, seconds: number): View => {
+  let view = canvas.areas.length > 0
+    ? areaView(canvas.areas[0])
+    : overviewView(canvas);
+  for (let i = 0; i < canvas.moves.length; i++) {
+    const move = canvas.moves[i];
+    if (seconds < move.at) break;
+    const next = canvas.moves[i + 1];
+    // Where this move has got to when the next one begins (or now).
+    const until = Math.min(seconds, next && next.at < seconds ? next.at : seconds);
+    const t = (until - move.at) / move.duration;
+    view = t >= 1 ? move.to : between(view, move.to, t);
   }
-  for (let i = 0; i < last; i++) {
-    const change = boards[i].end;
-    const from = change - CAMERA_MOVE_SECONDS / 2;
-    if (seconds < from) return areaView(areas[i]);
-    if (seconds < from + CAMERA_MOVE_SECONDS) {
-      return between(
-        areaView(areas[i]),
-        areaView(areas[i + 1]),
-        (seconds - from) / CAMERA_MOVE_SECONDS,
-        AREA.width,
-      );
-    }
-  }
-  return areaView(areas[last]);
+  return view;
 };
 
 // The view as a placement: frame pixels = board pixels * scale + offset.

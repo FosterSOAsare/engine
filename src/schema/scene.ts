@@ -251,6 +251,21 @@ export const sceneSchema = z.strictObject({
   // Landscape videos: where the scene sits on the board, as [column, row]
   // of the grid (0-based). Default: the next free cell in reading order.
   place: z.tuple([z.number().int().min(0), z.number().int().min(0)]).optional(),
+  // Landscape videos: where the camera looks during the scene. Each move
+  // zooms to the elements it names (ids, or a table's "<id>.<row>" and
+  // "<id>.<row>.<column>"), or back to the whole scene with "all". It
+  // happens at "start" (seconds into the scene), at a narration word
+  // ("at"), or else when the first element it names starts drawing.
+  camera: z
+    .array(
+      z.strictObject({
+        focus: z.union([z.literal("all"), z.array(z.string().min(1)).min(1)]),
+        start: seconds.optional(),
+        at: z.string().min(1).optional(),
+        zoom: positive.optional(), // the most it zooms in; default 2.5
+      }),
+    )
+    .optional(),
   // The scene laid out again for other formats: per format, new positions
   // for elements by id, e.g. a row in landscape instead of a column. In
   // those formats the scene is laid out directly in that frame; elsewhere
