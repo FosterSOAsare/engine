@@ -251,6 +251,10 @@ export const videoSchema = z.strictObject({
   // The handle in the bottom-right corner: the default from src/brand.ts,
   // other text, or false for none.
   watermark: z.union([z.string().min(1), z.literal(false)]).optional(),
+  // The moment used for cover images (npm run cover): a scene id (the end
+  // of that scene, fully drawn) or seconds from the start. Default: the end
+  // of the first scene.
+  cover: z.union([z.string().min(1), z.number().min(0)]).optional(),
   fps: z.number().int().positive().default(30),
   scenes: z.array(sceneSchema).min(1),
 });

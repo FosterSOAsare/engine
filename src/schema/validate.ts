@@ -191,6 +191,13 @@ const crossCheck = (video: Video): string[] => {
     }
   });
 
+  if (
+    typeof video.cover === "string" &&
+    !video.scenes.some((scene) => scene.id === video.cover)
+  ) {
+    errors.push(`file: "cover" names no scene "${video.cover}"`);
+  }
+
   return errors;
 };
 

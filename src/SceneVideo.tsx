@@ -42,6 +42,10 @@ export type SceneVideoProps = {
   // The format to show it in, if not the one the scene file is written for
   // (one composition per format, see Root.tsx).
   format?: FormatName;
+  // For a cover image: no hand, captions or sound. The composition then
+  // ends at the cover moment (see Root.tsx) and its last frame is the cover
+  // (npm run cover).
+  cover?: boolean;
 };
 
 // npm run voice records a fingerprint of each scene's narration in
@@ -143,6 +147,7 @@ export const SceneVideo: React.FC<SceneVideoProps> = ({
   captions,
   assets,
   format,
+  cover,
 }) => {
   const frame = useCurrentFrame();
 
@@ -207,32 +212,37 @@ export const SceneVideo: React.FC<SceneVideoProps> = ({
       frame >= secondsToFrames(board.start) &&
       frame < secondsToFrames(board.end),
   );
+  const boardView = stage ? (
+    <div
+      style={{
+        position: "absolute",
+        left: stage.placement.x,
+        top: stage.placement.y,
+        width: stage.frame.width,
+        height: stage.frame.height,
+        transform: `scale(${stage.placement.scale})`,
+        transformOrigin: "0 0",
+      }}
+    >
+      <BoardSize value={stage.frame}>
+        <BoardView board={stage.board} />
+      </BoardSize>
+    </div>
+  ) : null;
 
   return (
     <AbsoluteFill style={{ background: BOARD }}>
-      {stage ? (
-        <div
-          style={{
-            position: "absolute",
-            left: stage.placement.x,
-            top: stage.placement.y,
-            width: stage.frame.width,
-            height: stage.frame.height,
-            transform: `scale(${stage.placement.scale})`,
-            transformOrigin: "0 0",
-          }}
-        >
-          <BoardSize value={stage.frame}>
-            <BoardView board={stage.board} />
-          </BoardSize>
-        </div>
+      {boardView}
+      {!cover ? (
+        <>
+          <Hand tracks={tracks} />
+          <Captions pages={pages} />
+        </>
       ) : null}
-      <Hand tracks={tracks} />
-      <Captions pages={pages} />
       {result.video.watermark !== false ? (
         <Watermark text={result.video.watermark ?? WATERMARK} />
       ) : null}
-      {result.video.voiceover
+      {result.video.voiceover && !cover
         ? sceneTimes(result.video).map(({ scene, start, end }) => (
             <Sequence
               key={scene.id}

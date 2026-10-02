@@ -240,3 +240,13 @@ describe("layouts", () => {
     expect(errorsOf(withLayouts({ square: { a: { colour: "red" } } }))).not.toEqual([]);
   });
 });
+
+describe("cover", () => {
+  it("must name a scene of the video", () => {
+    expect(errorsOf({ ...video([box("a", 0)]), cover: "main" })).toEqual([]);
+    expect(errorsOf({ ...video([box("a", 0)]), cover: 3 })).toEqual([]);
+    expect(errorsOf({ ...video([box("a", 0)]), cover: "nope" })).toEqual([
+      'file: "cover" names no scene "nope"',
+    ]);
+  });
+});

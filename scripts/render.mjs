@@ -15,33 +15,8 @@
 // for, and as <id>-<format> in the others (see src/Root.tsx).
 
 import { spawnSync } from "node:child_process";
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
-
-const read = (path) => readFileSync(new URL(path, import.meta.url), "utf8");
-
-// Every video, with the format its scene file is written for.
-const videosFile = read("../src/videos.ts");
-const imports = Object.fromEntries(
-  [...videosFile.matchAll(/import (\w+) from "\.\.\/(videos\/[^"]+)"/g)].map(
-    ([, name, path]) => [name, path],
-  ),
-);
-const videos = [...videosFile.matchAll(/id: "([^"]+)", scene: (\w+)/g)].map(
-  ([, id, name]) => ({
-    id,
-    written: JSON.parse(read(`../${imports[name]}`)).format ?? "portrait",
-  }),
-);
-const formats = [
-  ...read("../src/layout/formats.ts").matchAll(/^ {2}(\w+): \{\r?\n {4}width/gm),
-].map(([, name]) => name);
-
-const variants = ({ id, written }) =>
-  formats.filter((format) => format !== written).map((f) => `${id}-${f}`);
-const known = videos.flatMap((video) => [video.id, ...variants(video)]);
-const help =
-  `Videos: ${videos.map((video) => video.id).join(", ")}\n` +
-  `Other formats: <id>-<format>, formats ${formats.join(", ")}`;
+import { mkdirSync, writeFileSync } from "node:fs";
+import { expand, help, known } from "./videos.mjs";
 
 const args = process.argv.slice(2);
 const noCaptions = args.includes("--no-captions");
@@ -67,13 +42,7 @@ if (asked.length === 0) {
   process.exit(2);
 }
 
-let ids = asked.includes("all") ? videos.map((video) => video.id) : asked;
-if (allFormats) {
-  ids = ids.flatMap((id) => {
-    const video = videos.find((v) => v.id === id);
-    return video ? [id, ...variants(video)] : [id];
-  });
-}
+const ids = expand(asked, allFormats);
 const unknown = ids.filter((id) => !known.includes(id));
 if (unknown.length > 0) {
   console.error(`Unknown video: ${unknown.join(", ")}\n${help}`);

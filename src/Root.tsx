@@ -11,7 +11,7 @@ import {
 import { TestCard } from "./TestCard";
 import type { CompiledAsset, CompiledAssets } from "./assets/compiled";
 import { fetchWavDuration } from "./audio/wav";
-import { videoLength } from "./animation/timeline";
+import { coverTime, videoLength } from "./animation/timeline";
 import {
   FORMAT_NAMES,
   FORMATS,
@@ -104,10 +104,12 @@ const sceneVideoMetadata = async ({ props }: { props: SceneVideoProps }) => {
   const { width, height } =
     FORMATS[props.format ?? video?.format ?? "portrait"];
   return {
-    durationInFrames: Math.max(
-      1,
-      secondsToFrames(video ? videoLength(video) : 5),
-    ),
+    // For a cover the video stops at the cover moment: its last frame is
+    // the cover (npm run cover renders it).
+    durationInFrames:
+      props.cover && video
+        ? secondsToFrames(coverTime(video)) + 1
+        : Math.max(1, secondsToFrames(video ? videoLength(video) : 5)),
     width,
     height,
     props: { ...props, audio, heard, versions, assets },
