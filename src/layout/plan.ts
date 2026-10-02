@@ -5,10 +5,15 @@ import type { CompiledAssets } from "../assets/compiled";
 import { arrowTracks, type ArrowProps } from "../elements/Arrow";
 import { imageBox, imageTracks, type ImageProps } from "../elements/Image";
 import { shapeTracks, type ShapeProps } from "../elements/Shape";
+import { CELL_PADDING, tableLayout, tablePart } from "../elements/Table";
 import { textTrack, textWidth, type TextProps } from "../elements/Text";
 import { unitOf, type FrameSize } from "../elements/shared";
 import type { SceneElement, Video } from "../schema/scene";
-import { listItemTimes, type TimedElement } from "../schema/timing";
+import {
+  listItemTimes,
+  tableRowTimes,
+  type TimedElement,
+} from "../schema/timing";
 import { connect, type Outline } from "./edges";
 
 // Turns a parsed scene file into what is drawn: element props with
@@ -28,6 +33,9 @@ export type Drawing =
 
 export type PlannedBoard = {
   sceneIds: string[]; // the scenes drawn on it
+  // Every element with an id (and every table row and cell), in pixels:
+  // where the camera looks when it focuses on them.
+  outlines: Map<string, Outline>;
   start: number; // seconds
   end: number;
   wipes: boolean; // erased at its end
@@ -68,6 +76,16 @@ const outlineOf = (element: SceneElement, frame: FrameSize): Outline | null => {
         cy,
         halfW: textWidth(element.text, fontSize) / 2,
         halfH: fontSize * 0.6,
+      };
+    }
+    case "table": {
+      const layout = tableLayout(element, frame);
+      return {
+        kind: "rect",
+        cx: layout.left + layout.width / 2,
+        cy: layout.top + layout.height / 2,
+        halfW: layout.width / 2,
+        halfH: layout.height / 2,
       };
     }
     case "image": {
@@ -312,6 +330,8 @@ const drawingsOf = (
         },
       ];
     }
+    case "table":
+      return tableDrawings(element, common, frame);
     case "ring": {
       const target = outlines.get(element.target);
       if (!target) return [];
@@ -333,6 +353,179 @@ const drawingsOf = (
   }
 };
 
+type Box = { left: number; top: number; width: number; height: number };
+
+const rectOutline = (r: Box): Outline => ({
+  kind: "rect",
+  cx: r.left + r.width / 2,
+  cy: r.top + r.height / 2,
+  halfW: r.width / 2,
+  halfH: r.height / 2,
+});
+
+type TableElement = Extract<SceneElement, { type: "table" }>;
+
+// A table's rows and cells, by "<id>.<row>" and "<id>.<row>.<column>".
+const tableOutlines = (
+  element: TableElement,
+  id: string,
+  frame: FrameSize,
+): [string, Outline][] => {
+  const layout = tableLayout(element, frame);
+  return element.rows.flatMap((_, r) => [
+    [`${id}.${r}`, rectOutline(tablePart(layout, element.rows, [r])!)],
+    ...layout.columnWidths.map((_w, c): [string, Outline] => [
+      `${id}.${r}.${c}`,
+      rectOutline(tablePart(layout, element.rows, [r, c])!),
+    ]),
+  ]);
+};
+
+// A table as drawings: the title, the grid (a box, then the lines between
+// rows and columns, sharing the time by length), the header's fill, then
+// each row's cells left to right at the row's time.
+const TITLE_SHARE = 0.25; // of the grid's draw time, for the title
+const BOX_SHARE = 0.4; // of what's left, for the outer box
+
+const tableDrawings = (
+  element: TableElement,
+  common: { start: number; draw: number; color?: string; seed: number },
+  frame: FrameSize,
+): Drawing[] => {
+  const unit = unitOf(frame);
+  const layout = tableLayout(element, frame);
+  const timed = element as TimedElement;
+  const gridDraw = timed.gridDraw ?? element.draw;
+  // Row times are relative to the scene; this is where the table starts.
+  const sceneOffset = common.start - (element.start ?? 0);
+  const rowTimes = timed.itemTimes
+    ? timed.itemTimes.map((t) => ({
+        start: t.start + sceneOffset,
+        draw: t.draw,
+      }))
+    : tableRowTimes(element.rows, common.start + gridDraw, element.rowGap, null);
+  const px = (x: number) => (x / frame.width) * 100;
+  const py = (y: number) => (y / frame.height) * 100;
+  const drawings: Drawing[] = [];
+  const gridEnd = common.start + gridDraw;
+  let at = common.start;
+
+  if (layout.title && element.title) {
+    const draw = gridDraw * TITLE_SHARE;
+    drawings.push({
+      type: "text",
+      props: {
+        start: at,
+        draw,
+        color: common.color,
+        x: px(layout.left + layout.width / 2),
+        y: py(layout.title.y),
+        size: layout.title.fontSize / unit,
+        text: element.title,
+      },
+    });
+    at += draw;
+  }
+
+  // The header's fill goes first, so it sits under the lines and text.
+  if (element.header && element.rows.length > 1) {
+    drawings.push({
+      type: "shape",
+      props: {
+        kind: "box",
+        outline: false,
+        x: px(layout.left + layout.width / 2),
+        y: py(layout.top + layout.rowHeight / 2),
+        w: layout.width / unit,
+        h: layout.rowHeight / unit,
+        fill: element.headerFill,
+        start: gridEnd,
+        draw: 0,
+        seed: common.seed,
+      },
+    });
+  }
+
+  const lines = [
+    ...element.rows.slice(1).map((_, i) => {
+      const y = layout.top + (i + 1) * layout.rowHeight;
+      return {
+        from: { x: layout.left, y },
+        to: { x: layout.left + layout.width, y },
+      };
+    }),
+    ...layout.columnLefts.slice(1).map((x) => ({
+      from: { x, y: layout.top },
+      to: { x, y: layout.top + layout.height },
+    })),
+  ];
+  const boxDraw = (gridEnd - at) * (lines.length > 0 ? BOX_SHARE : 1);
+  drawings.push({
+    type: "shape",
+    props: {
+      kind: "box",
+      x: px(layout.left + layout.width / 2),
+      y: py(layout.top + layout.height / 2),
+      w: layout.width / unit,
+      h: layout.height / unit,
+      color: common.color,
+      start: at,
+      draw: boxDraw,
+      seed: common.seed,
+    },
+  });
+  at += boxDraw;
+  const linesTime = gridEnd - at;
+  const lengths = lines.map((l) =>
+    Math.hypot(l.to.x - l.from.x, l.to.y - l.from.y),
+  );
+  const totalLength = lengths.reduce((sum, l) => sum + l, 0) || 1;
+  lines.forEach((line, i) => {
+    const draw = linesTime * (lengths[i] / totalLength);
+    drawings.push({
+      type: "arrow",
+      props: {
+        from: { x: px(line.from.x), y: py(line.from.y) },
+        to: { x: px(line.to.x), y: py(line.to.y) },
+        head: "none",
+        color: common.color,
+        start: at,
+        draw,
+        seed: common.seed + i + 1,
+      },
+      label: null,
+    });
+    at += draw;
+  });
+
+  // The cells, left to right, sharing their row's time by length.
+  const padding = CELL_PADDING * layout.fontSize;
+  element.rows.forEach((row, r) => {
+    const time = rowTimes[r];
+    const letters = row.reduce((sum, cell) => sum + cell.length, 0) || 1;
+    let cellStart = time.start;
+    row.forEach((cell, c) => {
+      if (!cell || c >= layout.columnLefts.length) return;
+      const draw = time.draw * (cell.length / letters);
+      drawings.push({
+        type: "text",
+        props: {
+          start: cellStart,
+          draw,
+          color: common.color,
+          x: px(layout.columnLefts[c] + padding),
+          y: py(layout.top + (r + 0.5) * layout.rowHeight),
+          size: element.size,
+          text: cell,
+          align: "left",
+        },
+      });
+      cellStart += draw;
+    });
+  });
+  return drawings;
+};
+
 export const planVideo = (
   video: Video,
   frame: FrameSize,
@@ -349,6 +542,11 @@ export const planVideo = (
       for (const element of scene.elements) {
         const outline = element.id ? outlineOf(element, frame) : null;
         if (element.id && outline) outlines.set(element.id, outline);
+        if (element.id && element.type === "table") {
+          for (const [id, part] of tableOutlines(element, element.id, frame)) {
+            outlines.set(id, part);
+          }
+        }
       }
 
       scene.elements.forEach((element, index) => {
@@ -364,6 +562,7 @@ export const planVideo = (
 
     return {
       sceneIds: board.scenes.map(({ scene }) => scene.id),
+      outlines,
       start: board.start,
       end: board.end,
       wipes: board.wipes,

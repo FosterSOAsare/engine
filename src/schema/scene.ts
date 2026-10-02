@@ -171,6 +171,27 @@ const image = z.strictObject({
   colors: z.record(z.string(), z.string().min(1)).optional(),
 });
 
+// A hand-drawn table (landscape videos): the grid is drawn in "draw"
+// seconds, then the rows are written one by one, each when its first cell
+// is said. Rows and cells can be pointed at by rings, arrows and the camera
+// as "<id>.<row>" and "<id>.<row>.<column>" (0 is the header row and the
+// first column).
+const table = z.strictObject({
+  type: z.literal("table"),
+  ...common,
+  x: percent, // centre
+  y: percent,
+  w: positive.default(80), // width
+  rows: z.array(z.array(z.string())).min(1),
+  title: z.string().min(1).optional(), // written above the table
+  header: z.boolean().default(true), // the first row is a header
+  headerFill: z.string().min(1).default("#ead7f0"),
+  size: positive.default(4), // font size
+  // Relative column widths; default: from the longest text in each column.
+  columns: z.array(positive).optional(),
+  rowGap: seconds.default(0.3), // pause between rows
+});
+
 export const elementSchema = z.discriminatedUnion("type", [
   box,
   circle,
@@ -184,6 +205,7 @@ export const elementSchema = z.discriminatedUnion("type", [
   ring,
   icon,
   image,
+  table,
 ]);
 
 // New positions and sizes for an element in one format (see "layouts").

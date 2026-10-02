@@ -32,6 +32,7 @@ const namesOf = (element: SceneElement): string[] => {
   if (element.type === "text") names.push(element.text);
   if (element.type === "icon") names.push(element.name.replace(/-/g, " "));
   if (element.type === "list") names.push(element.items[0]);
+  if (element.type === "table" && element.title) names.push(element.title);
   if (element.type === "image") {
     // "tech/laptop" is said as "laptop"; numbered designs have no name.
     const last = element.name.split("/").pop() ?? "";
@@ -74,6 +75,7 @@ export const listItemTimes = (
   draw: number,
   gap: number,
   words: TimedWord[] | null,
+  names: string[] = items, // what to listen for, per item
 ): ItemTime[] => {
   const lengths = items.map((item) => Math.max(item.length, 1));
   const total = lengths.reduce((sum, l) => sum + l, 0);
@@ -85,14 +87,41 @@ export const listItemTimes = (
   return items.map((item, i) => {
     const itemDraw = Math.max((writing * lengths[i]) / total, MIN_ITEM_DRAW);
     let itemStart = i === 0 ? start : previousEnd + gap;
-    const said = words ? wordFor([item], words)?.start : undefined;
+    const said = words ? wordFor([names[i]], words)?.start : undefined;
     if (said !== undefined && said > itemStart) itemStart = said;
     previousEnd = itemStart + itemDraw;
     return { start: itemStart, draw: itemDraw };
   });
 };
 
-export type TimedElement = SceneElement & { itemTimes?: ItemTime[] };
+// A table's rows are written after its grid, at about this many seconds per
+// letter, each waiting until its first cell is said.
+const TABLE_SECONDS_PER_LETTER = 0.045;
+
+export const tableRowTimes = (
+  rows: string[][],
+  from: number,
+  gap: number,
+  words: TimedWord[] | null,
+) => {
+  const texts = rows.map((row) => row.filter(Boolean).join(" ") || " ");
+  const letters = texts.reduce((sum, text) => sum + text.length, 0);
+  return listItemTimes(
+    texts,
+    from,
+    letters * TABLE_SECONDS_PER_LETTER + gap * (rows.length - 1),
+    gap,
+    words,
+    rows.map((row) => row.find(Boolean) ?? ""),
+  );
+};
+
+// "itemTimes": when each list item or table row is written. "gridDraw": how
+// long a table's grid takes (its "draw" then covers the whole table).
+export type TimedElement = SceneElement & {
+  itemTimes?: ItemTime[];
+  gridDraw?: number;
+};
 export type TimedScene = Omit<Scene, "elements"> & {
   elements: TimedElement[];
   words: TimedWord[] | null;
@@ -162,6 +191,25 @@ export const resolveTiming = (
           ...element,
           start,
           draw: last.start + last.draw - start,
+          itemTimes,
+        };
+        previousEnd = start + placed.draw;
+        return placed;
+      }
+      if (element.type === "table") {
+        // The grid, then the rows at their own pace.
+        const itemTimes = tableRowTimes(
+          element.rows,
+          start + element.draw,
+          element.rowGap,
+          words,
+        );
+        const last = itemTimes[itemTimes.length - 1];
+        const placed = {
+          ...element,
+          start,
+          draw: last.start + last.draw - start,
+          gridDraw: element.draw,
           itemTimes,
         };
         previousEnd = start + placed.draw;

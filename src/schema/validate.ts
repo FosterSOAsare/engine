@@ -35,7 +35,32 @@ const ARROW_TARGETS = new Set([
   "triangle",
   "icon",
   "image",
+  "table",
 ]);
+
+// What an id points to on the board: an element, or a table's row
+// ("<id>.<row>") or cell ("<id>.<row>.<column>"), which count as the table.
+export const targetOf = (
+  board: Map<string, SceneElement>,
+  id: string,
+): SceneElement | undefined => {
+  const direct = board.get(id);
+  if (direct) return direct;
+  const [base, ...parts] = id.split(".");
+  const table = board.get(base);
+  if (table?.type !== "table" || parts.length < 1 || parts.length > 2) {
+    return undefined;
+  }
+  const [row, column] = parts.map(Number);
+  const columns = Math.max(...table.rows.map((r) => r.length));
+  const fits = (n: number, max: number) => Number.isInteger(n) && n >= 0 && n < max;
+  if (!fits(row, table.rows.length)) return undefined;
+  if (parts.length === 2 && !fits(column, columns)) return undefined;
+  return table;
+};
+
+// Element types only landscape videos have: they need the detailed board.
+const LANDSCAPE_ONLY = new Set(["table"]);
 
 // The fields each element type has, for checking "layouts".
 const FIELDS: Record<string, Set<string>> = Object.fromEntries(
@@ -119,6 +144,12 @@ const crossCheck = (video: Video): string[] => {
     scene.elements.forEach((element, index) => {
       const where = `${sceneName}, ${describeElement(index, element.type)}`;
 
+      if (LANDSCAPE_ONLY.has(element.type) && video.format !== "landscape") {
+        errors.push(
+          `${where}: ${element.type}s are for landscape videos (detailed boards)`,
+        );
+      }
+
       if (element.id !== undefined) {
         if (board.has(element.id)) {
           errors.push(`${where}: id "${element.id}" is already used`);
@@ -143,7 +174,7 @@ const crossCheck = (video: Video): string[] => {
       if (element.type === "arrow") {
         for (const end of ["from", "to"] as const) {
           const id = element[end];
-          const target = board.get(id);
+          const target = targetOf(board, id);
           if (!target) {
             errors.push(`${where}: "${end}" points to unknown id "${id}"`);
           } else if (!ARROW_TARGETS.has(target.type)) {
@@ -154,7 +185,7 @@ const crossCheck = (video: Video): string[] => {
         }
       }
       if (element.type === "ring") {
-        const target = board.get(element.target);
+        const target = targetOf(board, element.target);
         if (!target) {
           errors.push(
             `${where}: "target" points to unknown id "${element.target}"`,

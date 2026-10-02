@@ -45,6 +45,9 @@ export type ShapeProps = Timing &
     seed: number;
     icon?: IconName; // for kind "icon"
     label?: string;
+    // false: only the fill, fading in at start + draw, with no outline for
+    // the hand to draw (a table's header background).
+    outline?: boolean;
   };
 
 type Outline = Pick<ShapeProps, "kind" | "x" | "y" | "w" | "h" | "icon">;
@@ -138,7 +141,9 @@ export const shapeTracks = (
 ): HandTrack[] => {
   const label = shapeLabel(props, frame);
   return [
-    strokeTrack(shapeSketch(props, frame).strokes, props.start, props.draw),
+    ...(props.outline === false
+      ? []
+      : [strokeTrack(shapeSketch(props, frame).strokes, props.start, props.draw)]),
     ...(label ? [textTrack(label, frame)] : []),
   ];
 };
@@ -167,7 +172,9 @@ export const Shape: React.FC<ShapeProps> = (props) => {
           from={props.start + props.draw}
         />
       ) : null}
-      <StrokePaths strokes={sketch.strokes} t={t} color={props.color} />
+      {props.outline === false ? null : (
+        <StrokePaths strokes={sketch.strokes} t={t} color={props.color} />
+      )}
       {label ? <Text {...label} /> : null}
     </>
   );
