@@ -13,6 +13,7 @@ import {
   toSketch,
   unitOf,
   useDrawProgress,
+  usePopStyle,
   useFrameUnits,
   type Colored,
   type Filled,
@@ -151,6 +152,7 @@ export const shapeTracks = (
 export const Shape: React.FC<ShapeProps> = (props) => {
   const { width, height, detail } = useFrameUnits();
   const t = useDrawProgress(props);
+  const pop = usePopStyle();
   const { kind, x, y, w, h, icon, seed, fill, fillStyle } = props;
 
   const sketch = useMemo(
@@ -169,7 +171,7 @@ export const Shape: React.FC<ShapeProps> = (props) => {
         <FillPaths
           fills={sketch.fills}
           fill={fill}
-          from={props.start + props.draw}
+          from={pop ? props.start : props.start + props.draw}
         />
       ) : null}
       {props.outline === false ? null : (

@@ -111,6 +111,7 @@ export const useFrameUnits = () => {
 // starts (and pops in, see PopIn in SceneVideo.tsx).
 const PopStyleContext = createContext(false);
 export const PopStyle = PopStyleContext.Provider;
+export const usePopStyle = () => useContext(PopStyleContext);
 
 export const useDrawProgress = ({ start, draw }: Timing) => {
   const frame = useCurrentFrame();
@@ -157,7 +158,8 @@ export const toStrokes = (
   drawables: Drawable[],
 ): Stroke[] => toSketch(generator, drawables).strokes;
 
-// The fill, fading in over FILL_FADE_SECONDS from `from` (seconds).
+// The fill, fading in over FILL_FADE_SECONDS from `from` (seconds). In a
+// "pop" video it is simply there from `from`, with its outline.
 export const FillPaths: React.FC<{
   fills: FillPath[];
   fill: string;
@@ -166,12 +168,17 @@ export const FillPaths: React.FC<{
   const frame = useCurrentFrame();
   const board = useBoardSize();
   const { width, height } = board;
-  const opacity = interpolate(
-    frame,
-    [secondsToFrames(from), secondsToFrames(from + FILL_FADE_SECONDS)],
-    [0, 1],
-    { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
-  );
+  const pop = usePopStyle();
+  const opacity = pop
+    ? frame >= secondsToFrames(from)
+      ? 1
+      : 0
+    : interpolate(
+        frame,
+        [secondsToFrames(from), secondsToFrames(from + FILL_FADE_SECONDS)],
+        [0, 1],
+        { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
+      );
   if (opacity === 0 || fills.length === 0) return null;
 
   return (

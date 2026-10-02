@@ -13,6 +13,7 @@ import {
   unitOf,
   useBoardSize,
   useDrawProgress,
+  usePopStyle,
   type FrameSize,
   type Timing,
 } from "./shared";
@@ -121,6 +122,7 @@ export const Image: React.FC<ImageProps> = (props) => {
   const board = useBoardSize();
   const id = useId().replace(/:/g, "");
   const t = useDrawProgress(props);
+  const pop = usePopStyle();
   const { asset } = props;
   if (!asset || frame < secondsToFrames(props.start)) {
     return null;
@@ -130,9 +132,10 @@ export const Image: React.FC<ImageProps> = (props) => {
   const label = imageLabel(props, board);
   const done = props.start + props.draw;
 
-  // Colours fade in after the drawing (with "draw") or with everything.
+  // Colours fade in after the drawing (with "draw") or with everything; a
+  // "pop" video shows them at once.
   const fillOpacity =
-    props.reveal === "draw"
+    props.reveal === "draw" && !pop
       ? interpolate(
           frame,
           [secondsToFrames(done), secondsToFrames(done + FILL_FADE_SECONDS)],
