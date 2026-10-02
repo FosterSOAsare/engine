@@ -652,12 +652,15 @@ const tableDrawings = (
   return drawings;
 };
 
+// `frame` is the frame every board is laid out in, or one per board (the
+// cells of a landscape video's screens).
 export const planVideo = (
   video: Video,
-  frame: FrameSize,
+  frameOf: FrameSize | ((board: number) => FrameSize),
   assets: CompiledAssets = {},
 ): PlannedBoard[] =>
-  timelineBoards(video).map((board) => {
+  timelineBoards(video).map((board, boardIndex) => {
+    const frame = typeof frameOf === "function" ? frameOf(boardIndex) : frameOf;
     const drawings: Drawing[] = [];
     // Outlines of everything on this board so far, by id, for arrows and
     // rings. Filled in per scene before drawing, since an arrow may point

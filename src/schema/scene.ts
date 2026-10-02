@@ -263,9 +263,15 @@ export const sceneSchema = z.strictObject({
   // Keep the previous scene's drawing instead of wiping the board.
   keepPrevious: z.boolean().default(false),
   elements: z.array(elementSchema),
-  // Landscape videos: where the scene sits on the board, as [column, row]
-  // of the grid (0-based). Default: the next free cell in reading order.
+  // Landscape videos. "place": where its screen sits on the big board, as
+  // [column, row] (0-based); default: the next in reading order. "span":
+  // how many of the screen's grid cells it takes, [columns, rows]
+  // (default [1, 1]). "slot": which cell, [column, row]; default: the next
+  // free one. "newScreen": start a fresh screen even if this one has room.
   place: z.tuple([z.number().int().min(0), z.number().int().min(0)]).optional(),
+  span: z.tuple([z.number().int().min(1), z.number().int().min(1)]).optional(),
+  slot: z.tuple([z.number().int().min(0), z.number().int().min(0)]).optional(),
+  newScreen: z.boolean().optional(),
   // Landscape videos: where the camera looks during the scene. Each move
   // zooms to the elements it names (ids, or a table's "<id>.<row>" and
   // "<id>.<row>.<column>"), or back to the whole scene with "all". It
@@ -310,6 +316,10 @@ export const videoSchema = z.strictObject({
   // The handle in the bottom-right corner: the default from src/brand.ts,
   // other text, or false for none.
   watermark: z.union([z.string().min(1), z.literal(false)]).optional(),
+  // Landscape videos: each screen is split into this grid of cells,
+  // [columns, rows], and every scene fills the next free cell (default
+  // [1, 1]: a screen per scene).
+  grid: z.tuple([z.number().int().min(1), z.number().int().min(1)]).optional(),
   // The moment used for cover images (npm run cover): a scene id (the end
   // of that scene, fully drawn) or seconds from the start. Default: the end
   // of the first scene.
