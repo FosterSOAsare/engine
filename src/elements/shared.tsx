@@ -24,11 +24,12 @@ export const INK = "#222222";
 export const BOARD = "#faf8f3"; // the whiteboard background
 export const STROKE_WIDTH = 8;
 
-// The pen on a board: its thickness in pixels and Rough.js's wobble. A
-// detailed board (landscape videos) uses a finer, steadier pen.
-export const penOf = ({ detail = 1 }: FrameSize) => ({
-  width: STROKE_WIDTH * detail,
-  roughness: detail < 1 ? 0.7 : 1.2,
+// The pen on a board: its thickness in pixels and Rough.js's wobble.
+// Landscape boards (which set a detail) draw with a steadier hand, so
+// tables and long lines stay neat.
+export const penOf = ({ detail }: FrameSize) => ({
+  width: STROKE_WIDTH * (detail ?? 1),
+  roughness: detail !== undefined ? 0.7 : 1.2,
 });
 
 export const roughStyle = (seed: number, frame: FrameSize): Options => ({

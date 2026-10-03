@@ -249,7 +249,10 @@ export const resolveTiming = (
     const cameraTimes = (scene.camera ?? []).map((move, k) => {
       let time: number | undefined = move.start;
       if (time === undefined && move.at !== undefined) {
-        const said = findWord(words ?? alignWords(scene.narration, []), move.at);
+        const said = findWord(
+          words ?? alignWords(scene.narration, []),
+          move.at,
+        );
         if (!said) {
           errors.push(
             `${name}, camera move ${k + 1}: the narration never says "${move.at}"`,
@@ -263,7 +266,9 @@ export const resolveTiming = (
         time = focused
           ? (focused.start ?? 0)
           : previousFocus
-            ? (previousFocus.start ?? 0) + busyFor(previousFocus) + CAMERA_LINGER
+            ? (previousFocus.start ?? 0) +
+              busyFor(previousFocus) +
+              CAMERA_LINGER
             : previousTime;
       }
       previousFocus = focused;

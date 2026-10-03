@@ -2,8 +2,6 @@ import { describe, expect, it } from "vitest";
 import {
   CUT_FADE_SECONDS,
   coverTime,
-  OVERVIEW_HOLD_SECONDS,
-  OVERVIEW_MOVE_SECONDS,
   scenesLength,
   videoLength,
 } from "../animation/timeline";
@@ -115,21 +113,19 @@ describe("viewAt", () => {
     expect(boardAt(canvas, 99)).toBe(1);
   });
 
-  it("ends on the whole board, inside the frame", () => {
-    const overview = viewAt(canvas, end + OVERVIEW_MOVE_SECONDS);
-    const p = cameraPlacement(overview, FRAME);
-    expect(p.x).toBeGreaterThan(0);
-    expect(canvas.width * p.scale + p.x).toBeLessThan(FRAME.width);
-    expect(canvas.areas.every((area) => onScreen(area, p, FRAME))).toBe(true);
+  it("ends on the last area, never zooming out to the whole board", () => {
+    const last = viewAt(canvas, end - 0.01);
+    expect(viewAt(canvas, end + 2)).toEqual(last);
+    const p = cameraPlacement(last, FRAME);
+    expect(onScreen(canvas.areas[0], p, FRAME)).toBe(false);
   });
 });
 
 describe("landscape timing", () => {
-  it("adds the overview to the length and uses it as the cover", () => {
+  it("ends with the last scene and covers the first scene", () => {
     const video = landscape([{ duration: 4 }, { duration: 4 }]);
-    const extra = OVERVIEW_MOVE_SECONDS + OVERVIEW_HOLD_SECONDS;
-    expect(videoLength(video)).toBeCloseTo(8 + extra);
-    expect(coverTime(video)).toBeCloseTo(8 + extra - 1 / 30);
+    expect(videoLength(video)).toBeCloseTo(8);
+    expect(coverTime(video)).toBeCloseTo(4 - CUT_FADE_SECONDS - 2 / 30);
     // A named scene: before the camera moves on.
     expect(coverTime({ ...video, cover: "s1" })).toBeCloseTo(
       4 - CUT_FADE_SECONDS - 2 / 30,

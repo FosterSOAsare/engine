@@ -29,8 +29,26 @@ const twoBoxes = (layouts?: VideoInput["scenes"][number]["layouts"]) => {
         narration: "",
         layouts,
         elements: [
-          { type: "box", id: "a", x: 30, y: 40, w: 20, h: 10, start: 0, draw: 1 },
-          { type: "box", id: "b", x: 70, y: 40, w: 20, h: 10, start: 1, draw: 1 },
+          {
+            type: "box",
+            id: "a",
+            x: 30,
+            y: 40,
+            w: 20,
+            h: 10,
+            start: 0,
+            draw: 1,
+          },
+          {
+            type: "box",
+            id: "b",
+            x: 70,
+            y: 40,
+            w: 20,
+            h: 10,
+            start: 1,
+            draw: 1,
+          },
         ],
       },
     ],
@@ -91,14 +109,21 @@ describe("stagesFor", () => {
       const [stage] = stagesFor(twoBoxes(), format);
       expect(stage.frame).toBe(PORTRAIT);
       const bounds = boardBounds(stage.board, PORTRAIT)!;
-      const topLeft = placePoint({ x: bounds.left, y: bounds.top }, stage.placement);
+      const topLeft = placePoint(
+        { x: bounds.left, y: bounds.top },
+        stage.placement,
+      );
       const bottomRight = placePoint(
         { x: bounds.right, y: bounds.bottom },
         stage.placement,
       );
       const { safe } = target;
-      expect(topLeft.x).toBeGreaterThanOrEqual((safe.left / 100) * target.width - 1e-6);
-      expect(topLeft.y).toBeGreaterThanOrEqual((safe.top / 100) * target.height - 1e-6);
+      expect(topLeft.x).toBeGreaterThanOrEqual(
+        (safe.left / 100) * target.width - 1e-6,
+      );
+      expect(topLeft.y).toBeGreaterThanOrEqual(
+        (safe.top / 100) * target.height - 1e-6,
+      );
       expect(bottomRight.x).toBeLessThanOrEqual(
         target.width * (1 - safe.right / 100) + 1e-6,
       );
@@ -109,7 +134,9 @@ describe("stagesFor", () => {
   });
 
   it("lays out a scene with a layout directly in that format", () => {
-    const video = twoBoxes({ square: { a: { x: 50, y: 30 }, b: { x: 50, y: 70 } } });
+    const video = twoBoxes({
+      square: { a: { x: 50, y: 30 }, b: { x: 50, y: 70 } },
+    });
     const [square] = stagesFor(video, "square");
     expect(square.frame).toBe(SQUARE);
     expect(square.placement).toBe(IDENTITY);
@@ -140,7 +167,10 @@ describe("stagesFor", () => {
 
 describe("withLayouts", () => {
   it("moves only the named elements of scenes with a layout", () => {
-    const { video, laidOut } = withLayouts(twoBoxes({ landscape: { b: { y: 60 } } }), "landscape");
+    const { video, laidOut } = withLayouts(
+      twoBoxes({ landscape: { b: { y: 60 } } }),
+      "landscape",
+    );
     expect([...laidOut]).toEqual(["main"]);
     const [a, b] = video.scenes[0].elements;
     expect(a).toMatchObject({ x: 30, y: 40 });

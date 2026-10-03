@@ -9,15 +9,16 @@
 //
 // Each line is voiced in pieces with a set pause at every comma, colon,
 // dash and full stop (scripts/narrate.py); "[pause]" in the text adds a
-// longer one. A scene is only regenerated when its narration or the voice
-// changed
-// (recorded in public/videos/<id>/voice.json). The voice is the video's
-// "voice" field, or DEFAULT_VOICE. Run `npm run voice:setup` once first.
+// longer one. A scene is only regenerated when its narration, the voice or
+// the speed changed (recorded in public/videos/<id>/voice.json). The voice
+// is the video's "voice" field, or DEFAULT_VOICE; its "speed" (default 1)
+// reads it faster or slower. Run `npm run voice:setup` once first.
 
 import { spawnSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
+import { applyType } from "../src/videoTypes.mjs";
 
 const DEFAULT_VOICE = "en_US-bryce-medium";
 const root = new URL("../", import.meta.url);
@@ -34,8 +35,11 @@ const known = [
     /id: "([^"]+)"/g,
   ),
 ].map((match) => match[1]);
+// With its type's settings and closing scenes (src/videoTypes.mjs).
 const readScene = (id) =>
-  JSON.parse(readFileSync(new URL(`videos/${id}/scene.json`, root), "utf8"));
+  applyType(
+    JSON.parse(readFileSync(new URL(`videos/${id}/scene.json`, root), "utf8")),
+  );
 
 const args = process.argv.slice(2);
 const force = args.includes("--force");
@@ -57,6 +61,7 @@ for (const id of ids) {
 for (const id of ids) {
   const video = readScene(id);
   const voice = video.voice ?? DEFAULT_VOICE;
+  const speed = video.speed ?? 1;
   if (!existsSync(new URL(`${voice}.onnx`, voices))) {
     console.error(
       `Voice ${voice} is not downloaded. Run: npm run voice:setup -- ${voice}`,
@@ -70,11 +75,15 @@ for (const id of ids) {
     ? JSON.parse(readFileSync(manifestFile, "utf8"))
     : {};
 
-  console.log(`\n${id} (voice ${voice})`);
+  console.log(`\n${id} (voice ${voice}, speed ${speed})`);
   for (const scene of video.scenes) {
     const text = scene.narration.trim();
     const wav = new URL(`${scene.id}.wav`, outDir);
-    const hash = createHash("sha1").update(`${voice}\n${text}`).digest("hex");
+    // At speed 1 the hash is the same as before, so existing narration
+    // stays "unchanged".
+    const key =
+      speed === 1 ? `${voice}\n${text}` : `${voice}\n${speed}\n${text}`;
+    const hash = createHash("sha1").update(key).digest("hex");
     if (!force && manifest[scene.id] === hash && existsSync(wav)) {
       console.log(`  ${scene.id}: unchanged`);
       continue;
@@ -92,6 +101,7 @@ for (const id of ids) {
         fileURLToPath(new URL(`${voice}.onnx`, voices)),
         fileURLToPath(wav),
         text,
+        String(speed),
       ],
       { encoding: "utf8" },
     );

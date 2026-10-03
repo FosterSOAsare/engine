@@ -21,6 +21,7 @@ import {
 } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { toCaptions, transcribe } from "@remotion/install-whisper-cpp";
+import { applyType } from "../src/videoTypes.mjs";
 
 const WHISPER_VERSION = "1.5.5";
 const WHISPER_MODEL = "base.en";
@@ -36,8 +37,9 @@ if (!existsSync(path(`.tools/whisper/ggml-${WHISPER_MODEL}.bin`))) {
 const known = [
   ...readFileSync(path("src/videos.ts"), "utf8").matchAll(/id: "([^"]+)"/g),
 ].map((match) => match[1]);
+// With its type's settings and closing scenes (src/videoTypes.mjs).
 const readScene = (id) =>
-  JSON.parse(readFileSync(path(`videos/${id}/scene.json`), "utf8"));
+  applyType(JSON.parse(readFileSync(path(`videos/${id}/scene.json`), "utf8")));
 
 const args = process.argv.slice(2);
 const force = args.includes("--force");

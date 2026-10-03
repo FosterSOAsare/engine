@@ -53,7 +53,8 @@ export const targetOf = (
   }
   const [row, column] = parts.map(Number);
   const columns = Math.max(...table.rows.map((r) => r.length));
-  const fits = (n: number, max: number) => Number.isInteger(n) && n >= 0 && n < max;
+  const fits = (n: number, max: number) =>
+    Number.isInteger(n) && n >= 0 && n < max;
   if (!fits(row, table.rows.length)) return undefined;
   if (parts.length === 2 && !fits(column, columns)) return undefined;
   return table;
@@ -206,7 +207,9 @@ const crossCheck = (video: Video): string[] => {
       if (!target) {
         errors.push(`${where}: "to" points to unknown id "${element.to}"`);
       } else if (!RING_TARGETS.has(target.type)) {
-        errors.push(`${where}: "to" points to a ${target.type}; bubbles point at shapes, icons, designs and text`);
+        errors.push(
+          `${where}: "to" points to a ${target.type}; bubbles point at shapes, icons, designs and text`,
+        );
       }
     });
 
@@ -214,7 +217,9 @@ const crossCheck = (video: Video): string[] => {
     (scene.camera ?? []).forEach((move, k) => {
       const at = `${sceneName}, camera move ${k + 1}`;
       if (video.format !== "landscape") {
-        errors.push(`${at}: the camera is for landscape videos (one big board)`);
+        errors.push(
+          `${at}: the camera is for landscape videos (one big board)`,
+        );
         return;
       }
       if (move.focus === "all") return;

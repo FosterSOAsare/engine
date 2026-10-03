@@ -182,9 +182,9 @@ const BoardView: React.FC<{ board: PlannedBoard; pop?: boolean }> = ({
               );
           }
         })();
-        return pop ? (
+        return pop || drawing.pops ? (
           <PopIn key={i} start={drawing.props.start} {...centreOf(drawing)}>
-            {shown}
+            <PopStyle value>{shown}</PopStyle>
           </PopIn>
         ) : (
           <AbsoluteFill key={i}>{shown}</AbsoluteFill>
@@ -292,6 +292,8 @@ export const SceneVideo: React.FC<SceneVideoProps> = ({
     : [];
   if (!result.ok) return <Errors errors={result.errors} />;
   const pop = result.video.style === "pop";
+  // In a "mixed" video pictures pop in (planVideo marks them) while the
+  // hand writes everything else.
   const narration =
     result.video.voiceover && !cover
       ? sceneTimes(result.video).map(({ scene, start, end }) => (

@@ -46,7 +46,8 @@
     "predev": "node scripts/assets.mjs",
     "compress": "node scripts/compress.mjs",
     "cover": "node scripts/cover.mjs",
-    "images": "node scripts/images.mjs"
+    "images": "node scripts/images.mjs",
+    "check": "tsx scripts/check.ts"
   },
   "sideEffects": [
     "*.css"

@@ -54,7 +54,12 @@ const centred = (
 ): Rect => {
   const cx = (x / 100) * frame.width;
   const cy = (y / 100) * frame.height;
-  return { left: cx - halfW, right: cx + halfW, top: cy - halfH, bottom: cy + halfH };
+  return {
+    left: cx - halfW,
+    right: cx + halfW,
+    top: cy - halfH,
+    bottom: cy + halfH,
+  };
 };
 
 const union = (rects: Rect[]): Rect | null =>
@@ -96,8 +101,14 @@ export const drawingRects = (drawing: Drawing, frame: FrameSize): Rect[] => {
     }
     case "arrow": {
       const { from, to, bend = 0 } = drawing.props;
-      const a = { x: (from.x / 100) * frame.width, y: (from.y / 100) * frame.height };
-      const b = { x: (to.x / 100) * frame.width, y: (to.y / 100) * frame.height };
+      const a = {
+        x: (from.x / 100) * frame.width,
+        y: (from.y / 100) * frame.height,
+      };
+      const b = {
+        x: (to.x / 100) * frame.width,
+        y: (to.y / 100) * frame.height,
+      };
       const length = Math.hypot(b.x - a.x, b.y - a.y) || 1;
       // The curve passes halfway to its control point.
       const mid = {
@@ -149,7 +160,12 @@ export const fitBoard = (
     right: target.width - (safe.right / 100) * target.width,
     bottom: target.height - (safe.bottom / 100) * target.height,
   };
-  const content = bounds ?? { left: 0, top: 0, right: board.width, bottom: board.height };
+  const content = bounds ?? {
+    left: 0,
+    top: 0,
+    right: board.width,
+    bottom: board.height,
+  };
   const width = Math.max(1, content.right - content.left);
   const height = Math.max(1, content.bottom - content.top);
   const scale = Math.min(
@@ -159,8 +175,12 @@ export const fitBoard = (
   );
   return {
     scale,
-    x: (area.left + area.right) / 2 - ((content.left + content.right) / 2) * scale,
-    y: (area.top + area.bottom) / 2 - ((content.top + content.bottom) / 2) * scale,
+    x:
+      (area.left + area.right) / 2 -
+      ((content.left + content.right) / 2) * scale,
+    y:
+      (area.top + area.bottom) / 2 -
+      ((content.top + content.bottom) / 2) * scale,
   };
 };
 
@@ -224,7 +244,11 @@ export const stagesFor = (
   const written = FORMATS[writtenFormat(video.format)];
   const plan = planVideo(video, written, assets);
   if (target === writtenFormat(video.format)) {
-    return plan.map((board) => ({ board, frame: written, placement: IDENTITY }));
+    return plan.map((board) => ({
+      board,
+      frame: written,
+      placement: IDENTITY,
+    }));
   }
   const frame = FORMATS[target];
   const { video: moved, laidOut } = withLayouts(video, target);
@@ -235,7 +259,12 @@ export const stagesFor = (
       : {
           board,
           frame: written,
-          placement: fitBoard(boardBounds(board, written), written, frame, frame.safe),
+          placement: fitBoard(
+            boardBounds(board, written),
+            written,
+            frame,
+            frame.safe,
+          ),
         },
   );
 };

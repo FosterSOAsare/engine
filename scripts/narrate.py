@@ -1,6 +1,6 @@
 """Reads one narration line aloud with Piper, pausing at punctuation.
 
-    python narrate.py <voice.onnx> <out.wav> <text>
+    python narrate.py <voice.onnx> <out.wav> <text> [speed]
 
 Piper leaves pauses to the voice model, which often reads straight through
 commas, colons and even full stops. Instead the line is split at
@@ -14,6 +14,8 @@ with a set silence:
     [pause] in the text           PAUSES["marker"]
 
 "5,570" and "0.5" are not split (no space after the mark).
+"speed" (default 1) speeds up the voice and shortens the pauses alike:
+1.15 is 15% faster.
 Called by scripts/voice.mjs.
 """
 
@@ -21,7 +23,7 @@ import re
 import sys
 import wave
 
-from piper import PiperVoice
+from piper import PiperVoice, SynthesisConfig
 
 PAUSES = {"comma": 0.15, "clause": 0.3, "sentence": 0.35, "marker": 0.5}
 
@@ -54,13 +56,15 @@ def pieces(text):
 
 def main():
     model, out, text = sys.argv[1], sys.argv[2], sys.argv[3]
+    speed = float(sys.argv[4]) if len(sys.argv) > 4 else 1.0
     voice = PiperVoice.load(model)
+    config = SynthesisConfig(length_scale=1 / speed)
     rate = voice.config.sample_rate
     audio = bytearray()
     for piece, pause in pieces(text):
-        for chunk in voice.synthesize(piece):
+        for chunk in voice.synthesize(piece, syn_config=config):
             audio += chunk.audio_int16_bytes
-        audio += bytes(2 * int(rate * pause))  # 16-bit silence
+        audio += bytes(2 * int(rate * pause / speed))  # 16-bit silence
     with wave.open(out, "wb") as wav:
         wav.setnchannels(1)
         wav.setsampwidth(2)

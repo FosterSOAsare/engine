@@ -1,8 +1,6 @@
 import type { HandTrack } from "../animation/hand";
 import {
   CUT_FADE_SECONDS,
-  OVERVIEW_MOVE_SECONDS,
-  scenesLength,
   sceneTimes,
 } from "../animation/timeline";
 import type { CompiledAssets } from "../assets/compiled";
@@ -18,19 +16,19 @@ import { handTracks, planVideo, type PlannedBoard } from "./plan";
 // the scenes that keep it) gets its own screen-sized area in a grid; nothing
 // is wiped. The camera shows one area at a time and zooms in on what a
 // scene's "camera" names. Between boards the screen fades out, the camera
-// jumps to the next area and it fades back in (nothing slides past). At the
-// end the camera zooms out to show everything at once.
+// jumps to the next area and it fades back in (nothing slides past). The
+// video ends on the last area; the rest of the board is never shown.
 
-// Each area is one screen, drawn in the detailed style: everything at three-quarter
-// size with a finer pen, so a frame holds much more.
-export const DETAIL = 0.75;
+// Each area is one screen, drawn at full size: the same text, picture and
+// pen sizes as any other video.
+export const DETAIL = 1;
 export const AREA = {
   width: FORMATS.landscape.width,
   height: FORMATS.landscape.height,
   detail: DETAIL,
 };
 const GAP = 0.12; // between areas, as a share of an area's height
-const OVERVIEW_MARGIN = 0.04; // room around the board in the final overview
+const OVERVIEW_MARGIN = 0.04; // room around the board when it has no areas
 const FOCUS_MOVE_SECONDS = 0.8; // zooming in on something, or back out
 const JUMP_SECONDS = 1e-6; // to the next board: at once
 const FOCUS_ZOOM = 2.5; // the most the camera zooms in, unless a move says
@@ -177,9 +175,8 @@ export const canvasFor = (
     height: Math.max(...areas.map((a) => a.top + a.height)),
   };
 
-  // The camera: each scene's own moves, a jump to the next board at each
-  // change of board (hidden by the fade), and the overview once the
-  // narration is over.
+  // The camera: each scene's own moves, and a jump to the next board at
+  // each change of board (hidden by the fade).
   const times = sceneTimes(video);
   const moves: Move[] = [];
   boards.forEach((board, i) => {
@@ -210,11 +207,6 @@ export const canvasFor = (
         to: areaView(areas[i + 1]),
       });
     }
-  });
-  moves.push({
-    at: scenesLength(video),
-    duration: OVERVIEW_MOVE_SECONDS,
-    to: overviewView(size),
   });
   moves.sort((a, b) => a.at - b.at);
 

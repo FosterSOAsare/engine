@@ -220,7 +220,9 @@ describe("layouts", () => {
   });
 
   it("accepts new positions for the scene's own elements", () => {
-    expect(errorsOf(withLayouts({ landscape: { a: { x: 20, y: 50, w: 30 } } }))).toEqual([]);
+    expect(
+      errorsOf(withLayouts({ landscape: { a: { x: 20, y: 50, w: 30 } } })),
+    ).toEqual([]);
   });
 
   it("reports unknown ids, wrong fields and the file's own format", () => {
@@ -242,7 +244,9 @@ describe("layouts", () => {
 
   it("rejects unknown formats and fields", () => {
     expect(errorsOf(withLayouts({ tall: { a: { x: 5 } } }))).not.toEqual([]);
-    expect(errorsOf(withLayouts({ square: { a: { colour: "red" } } }))).not.toEqual([]);
+    expect(
+      errorsOf(withLayouts({ square: { a: { colour: "red" } } })),
+    ).not.toEqual([]);
   });
 });
 

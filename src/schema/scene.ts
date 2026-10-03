@@ -2,6 +2,7 @@ import { z } from "zod";
 import { ASSET_NAMES } from "../assets";
 import { ICON_NAMES } from "../elements/icons";
 import { FORMAT_NAMES, VIDEO_FORMATS } from "../layout/formats";
+import { VIDEO_TYPES } from "../videoTypes.mjs";
 
 // The scene file: one JSON file describes a whole video. Positions are in
 // percent of the frame (0 to 100), sizes in percent of the frame's shorter
@@ -296,19 +297,28 @@ export const sceneSchema = z.strictObject({
 export const videoSchema = z.strictObject({
   version: z.literal(1),
   title: z.string().min(1),
+  // The kind of video (src/videoTypes.mjs): fills in shared settings and
+  // closing scenes, e.g. "explainer". Expanded before parsing.
+  type: z.enum(Object.keys(VIDEO_TYPES) as [string, ...string[]]).optional(),
   // "all": a short, simple video, scene after scene, written in portrait
   // and made in every format. "landscape": a detailed explainer, every
   // scene on one big board with the camera moving between them, made only
   // in landscape.
   format: z.enum(VIDEO_FORMATS).default("all"),
-  // How things appear: "handwritten" (default) has a hand drawing every
-  // line; "pop" has no hand, and each item pops into place when its time
-  // comes while the voice explains it.
-  style: z.enum(["handwritten", "pop"]).default("handwritten"),
+  // How things appear: "handwritten" has a hand drawing every line; "pop"
+  // has no hand, and each item pops into place when its time comes while
+  // the voice explains it.
+  // "mixed": pictures and icons pop in, while texts, shapes, arrows and
+  // tables are handwritten. Default: mixed for landscape videos,
+  // handwritten for the others.
+  style: z.enum(["handwritten", "pop", "mixed"]).optional(),
   // Narrate every scene's line with text-to-speech (npm run voice -- <id>).
   // Each scene then lasts as long as its audio plus its pause.
   voiceover: z.boolean().default(false),
   voice: z.string().min(1).optional(), // a Piper voice; default bryce
+  // How fast the voice reads, pauses included: 1.15 is 15% faster. Run
+  // npm run voice and captions again after changing it.
+  speed: z.number().min(0.5).max(2).default(1),
   // Word-by-word captions of the narration (npm run captions).
   captions: z.boolean().default(true),
   // The handle in the bottom-right corner: the default from src/brand.ts,
@@ -328,3 +338,14 @@ export type VideoInput = z.input<typeof videoSchema>;
 export type Video = z.output<typeof videoSchema>;
 export type Scene = z.output<typeof sceneSchema>;
 export type SceneElement = z.output<typeof elementSchema>;
+
+export type VideoStyle = "handwritten" | "pop" | "mixed";
+
+// The style a video is drawn in: its own, or the default for its format.
+export const styleOf = (video: Pick<Video, "style" | "format">): VideoStyle =>
+  video.style ?? (video.format === "landscape" ? "mixed" : "handwritten");
+
+// Whether an element pops in instead of being drawn by the hand.
+export const popsIn = (style: VideoStyle, element: SceneElement) =>
+  style === "pop" ||
+  (style === "mixed" && (element.type === "image" || element.type === "icon"));

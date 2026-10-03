@@ -61,7 +61,7 @@ For a narrated video, generate its narration and word timings first (see [Narrat
 A scene file's `format` picks one of two kinds of video:
 
 - **`"all"`** (default): short and simple. Scenes play one after another, each wiped before the next, written in the tall portrait frame. It renders in all four formats below.
-- **`"landscape"`**: a detailed explainer, made only in landscape. Everything is drawn at three-quarter size with a finer, steadier pen, so a frame holds more while text and pictures stay easy to see, and it adds tables and camera zooms (see the element table). Every scene is drawn on **one big board** and nothing is wiped. Between scenes the screen fades briefly to the empty board and cuts to the next scene (nothing slides past), and the video ends by zooming out to show the whole board in one frame (about 4 s extra). Scenes fill a grid in reading order, about as many columns as rows. A scene can choose its cell with `"place": [column, row]` (0-based), and scenes with `keepPrevious` share the previous scene's area. Element positions work as before, in percent of that scene's area. The default cover is the final overview.
+- **`"landscape"`**: a detailed explainer, made only in landscape. Everything is drawn at three-quarter size with a finer, steadier pen, so a frame holds more while text and pictures stay easy to see, and it adds tables and camera zooms (see the element table). Every scene is drawn on **one big board** and nothing is wiped. Between scenes the screen fades briefly to the empty board and cuts to the next scene (nothing slides past),. The video ends on its last scene; the rest of the board is never shown. Scenes fill a grid in reading order, about as many columns as rows. A scene can choose its cell with `"place": [column, row]` (0-based), and scenes with `keepPrevious` share the previous scene's area. Element positions work as before, in percent of that scene's area. The default cover is the end of the first scene.
 
 | Format | Size | Composition | For |
 |---|---|---|---|
@@ -85,6 +85,20 @@ When a scene doesn't work scaled (a portrait column in a wide frame, say), give 
 ```
 
 Allowed fields are the element's own position and size fields: `x`, `y`, `w`, `h`, `size`, `bend`, `x1`, `y1`, `x2`, `y2`, `spacing`, `align`. Elements not listed keep their percentages, now of the new frame. Safe areas and caption sizes are in `src/layout/formats.ts`.
+
+## Video types
+
+A scene file's `type` fills in the settings and closing scenes shared by every video of that kind, so the file only holds what is its own. Its own fields win over the type's settings (`"speed": 1` reads at normal speed), and a scene with the same id as one of the type's closing scenes replaces it.
+
+| Type | Settings | Ends with |
+|---|---|---|
+| `explainer` | `format: "landscape"`, `style: "pop"`, `voiceover: true`, `captions: true`, `speed: 1.15` | `follow`: "Follow for more", the YouTube, LinkedIn, Instagram, TikTok and X logos, and like, share and bell icons |
+
+```json
+{ "version": 1, "title": "How cookies work", "type": "explainer", "scenes": [ ... ] }
+```
+
+Types are defined in `src/videoTypes.mjs`, which the engine and the voice, captions and render scripts all read. Add a type there: its `settings` and its `end` scenes.
 
 ## Posting
 
@@ -115,6 +129,7 @@ npm run cover -- api-square                      # one format
 | `npm run render -- <id>` | Render a video to `out/<id>.mp4` (`all` for every video) |
 | `npm run images -- <id>` | Only for downloaded Iconify icons (way 2 in [Pictures](#pictures-three-ways)): fetch the icons listed in `videos/<id>/images.json` from Iconify into `public/assets/<id>/` (scene files use `"name": "<id>/<name>"`), with licences and credits in `public/assets/<id>/CREDITS.md` |
 | `npm run cover -- <id>` | Cover images in every format to `out/<id>.cover.jpg` (`<id>-<format>` for one) |
+| `npm run check -- <id>` | Lists texts or pictures that overlap, and stretches longer than 4.5 s where the voice talks but nothing new appears (fill them with a built-in icon or a short handwritten note) |
 | `npm run compress -- <id>` | Shrink `out/<id>.mp4` to `out/<id>.small.mp4` for posting (`all`, `--quality=28`: lower is sharper and bigger) |
 | `npm run render:test` | Render the M0 test composition to `out/test.mp4` |
 | `npm run voice -- <id>` | Read every scene's narration aloud into `public/videos/<id>/` |
@@ -159,7 +174,7 @@ If the file has a problem, the Studio shows a list of what is wrong and where (f
 
 **Units.** Positions (`x`, `y`) are percent of the frame, 0 to 100, measured to the element's centre. Sizes (`w`, `h`, `size`) are percent of the frame's shorter side, so shapes keep their proportions in every format. Times are seconds.
 
-**Video.** `version` (1), `title`, `format` (`"all"`, the default: simple, every format; or `"landscape"`: one big board with a moving camera; see [Formats](#formats)), `fps` (30 only for now), `style` (`"handwritten"`, the default: a hand draws everything; or `"pop"`: no hand, each item pops into place when its time comes while the voice explains it), `voiceover` (narrate every scene; default `false`), `voice` (a Piper voice; default `en_US-bryce-medium`), `captions` (word-by-word captions on narrated videos; default `true`), `cover` (the moment for cover images: a scene id or seconds; see [Posting](#posting)), `scenes`.
+**Video.** `version` (1), `title`, `format` (`"all"`, the default: simple, every format; or `"landscape"`: one big board with a moving camera; see [Formats](#formats)), `fps` (30 only for now), `style` (`"handwritten"`: a hand draws everything; `"pop"`: no hand, each item pops into place when its time comes while the voice explains it; `"mixed"`: pictures and icons pop in while texts, shapes, arrows and tables are handwritten. Default: `"mixed"` for landscape videos, `"handwritten"` otherwise), `voiceover` (narrate every scene; default `false`), `voice` (a Piper voice; default `en_US-bryce-medium`), `speed` (how fast the voice reads, pauses included; default `1`, `1.15` is 15% faster; run `voice` and `captions` again after changing it), `captions` (word-by-word captions on narrated videos; default `true`), `cover` (the moment for cover images: a scene id or seconds; see [Posting](#posting)), `scenes`.
 
 **Scene.** One idea and one narration line. `id`, `duration` (seconds), `narration`, `pause` (silence after the narration; default 0.5 s), `keepPrevious` (keep the previous scene's drawing instead of wiping the board; default `false`), `elements`, `layouts` (positions for other formats, in `"all"` videos), `place` (its grid cell, in landscape videos; see [Formats](#formats)). Scenes play one after another; at the end of each, the board is wiped unless the next scene keeps it. In a narrated video `duration` is optional: a scene lasts as long as its narration plus the pause, or its `duration` if that is longer, and stretches if its drawings need more time.
 

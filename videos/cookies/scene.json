@@ -1,0 +1,545 @@
+{
+  "version": 1,
+  "title": "How cookies work: how websites remember you",
+  "type": "explainer",
+  "scenes": [
+    {
+      "id": "hook",
+      "narration": "You log in to a website, then close your laptop. Tomorrow you come back, and the site still knows you. No sign-in screen. No password. How does it remember? The answer is a small piece of text called a cookie.",
+      "elements": [
+        {
+          "type": "image",
+          "id": "laptop",
+          "name": "gen/cookies/laptop",
+          "x": 28,
+          "y": 50,
+          "w": 30,
+          "draw": 1.8,
+          "at": "laptop"
+        },
+        {
+          "type": "text",
+          "x": 28,
+          "y": 16,
+          "size": 6,
+          "text": "\"Welcome back!\"",
+          "color": "#1e6fd9",
+          "draw": 0.8,
+          "at": "knows"
+        },
+        {
+          "type": "text",
+          "x": 28,
+          "y": 84,
+          "size": 5,
+          "text": "no password needed",
+          "color": "#c0392b",
+          "draw": 0.8,
+          "at": "password"
+        },
+        {
+          "type": "icon",
+          "name": "question",
+          "x": 55,
+          "y": 46,
+          "size": 10,
+          "draw": 0.6,
+          "at": "remember"
+        },
+        {
+          "type": "image",
+          "id": "cookie",
+          "name": "gen/cookies/cookie",
+          "x": 80,
+          "y": 48,
+          "w": 22,
+          "label": "a cookie",
+          "draw": 1.4,
+          "at": "cookie"
+        }
+      ]
+    },
+    {
+      "id": "note",
+      "chapter": "What a cookie is",
+      "narration": "When you visit a website, it can ask your browser to save a short note. That note is the cookie. It is stored on your own device. It usually holds an ID number, not your name. Think of it like a coat-check ticket.",
+      "elements": [
+        {
+          "type": "text",
+          "x": 50,
+          "y": 9,
+          "size": 6.5,
+          "text": "What is a cookie?",
+          "draw": 0.8,
+          "start": 0.2
+        },
+        {
+          "type": "image",
+          "id": "browser",
+          "name": "gen/cookies/browser",
+          "x": 18,
+          "y": 46,
+          "w": 26,
+          "label": "your browser",
+          "draw": 1.4,
+          "at": "browser"
+        },
+        {
+          "type": "image",
+          "id": "note",
+          "name": "gen/cookies/cookie",
+          "x": 50,
+          "y": 46,
+          "w": 16,
+          "draw": 1,
+          "at": "note"
+        },
+        {
+          "type": "arrow",
+          "from": "browser",
+          "to": "note",
+          "label": "save this",
+          "color": "#1e6fd9",
+          "draw": 0.5
+        },
+        {
+          "type": "text",
+          "x": 50,
+          "y": 70,
+          "size": 4.5,
+          "text": "stored on your device",
+          "draw": 0.8,
+          "at": "device"
+        },
+        {
+          "type": "text",
+          "x": 50,
+          "y": 82,
+          "size": 5,
+          "text": "ID 4821, not your name",
+          "color": "#1e6fd9",
+          "draw": 0.8,
+          "at": "ID"
+        },
+        {
+          "type": "image",
+          "name": "gen/cookies/coat-check-ticket",
+          "x": 82,
+          "y": 46,
+          "w": 26,
+          "label": "like a coat-check ticket",
+          "draw": 1.4,
+          "at": "ticket"
+        }
+      ]
+    },
+    {
+      "id": "return",
+      "chapter": "What a cookie is",
+      "narration": "On your next visit, your browser hands the ticket back to the same site. The site reads the number and looks you up. Each site only gets back the cookies it set.",
+      "elements": [
+        {
+          "type": "text",
+          "x": 50,
+          "y": 9,
+          "size": 6.5,
+          "text": "The next visit",
+          "draw": 0.8,
+          "start": 0.2
+        },
+        {
+          "type": "icon",
+          "id": "you",
+          "name": "browser",
+          "x": 20,
+          "y": 42,
+          "size": 16,
+          "label": "your browser",
+          "draw": 0.8,
+          "at": "browser"
+        },
+        {
+          "type": "icon",
+          "id": "site",
+          "name": "server",
+          "x": 78,
+          "y": 42,
+          "size": 16,
+          "label": "the website",
+          "draw": 0.8,
+          "at": "site"
+        },
+        {
+          "type": "arrow",
+          "from": "you",
+          "to": "site",
+          "label": "ID 4821",
+          "color": "#1e6fd9",
+          "draw": 0.6
+        },
+        {
+          "type": "text",
+          "x": 78,
+          "y": 70,
+          "size": 5,
+          "text": "\"Ah, it's you!\"",
+          "color": "#2a9d4b",
+          "draw": 0.8,
+          "at": "looks"
+        },
+        {
+          "type": "text",
+          "x": 50,
+          "y": 86,
+          "size": 4.5,
+          "text": "each site only gets back its own cookies",
+          "draw": 1,
+          "at": "Each"
+        }
+      ]
+    },
+    {
+      "id": "uses",
+      "chapter": "What cookies are for",
+      "narration": "Cookies keep you logged in, so you don't retype your password on every page. They remember the items in your shopping cart while you keep browsing. They save your settings, like language or dark mode.",
+      "elements": [
+        {
+          "type": "text",
+          "x": 50,
+          "y": 9,
+          "size": 6.5,
+          "text": "What cookies are useful for",
+          "draw": 0.8,
+          "start": 0.2
+        },
+        {
+          "type": "image",
+          "name": "gen/cookies/logged-in",
+          "x": 18,
+          "y": 42,
+          "w": 26,
+          "label": "stay logged in",
+          "draw": 1.4,
+          "at": "logged"
+        },
+        {
+          "type": "image",
+          "id": "password",
+          "name": "gen/cookies/password",
+          "x": 18,
+          "y": 78,
+          "w": 16,
+          "draw": 1,
+          "at": "password"
+        },
+        {
+          "type": "text",
+          "x": 18,
+          "y": 93,
+          "size": 4,
+          "text": "no retyping",
+          "color": "#c0392b",
+          "draw": 0.5
+        },
+        {
+          "type": "image",
+          "name": "gen/cookies/shopping-cart",
+          "x": 50,
+          "y": 46,
+          "w": 26,
+          "label": "remember your cart",
+          "draw": 1.4,
+          "at": "shopping cart"
+        },
+        {
+          "type": "image",
+          "name": "gen/cookies/settings",
+          "x": 82,
+          "y": 46,
+          "w": 26,
+          "label": "save your settings",
+          "draw": 1.4,
+          "at": "settings"
+        }
+      ]
+    },
+    {
+      "id": "tracking",
+      "chapter": "The privacy question",
+      "narration": "Not every cookie comes from the site you are visiting. Many pages carry ads from an outside advertiser. That advertiser can set its own cookie, called a third-party cookie. When the same advertiser appears on many sites, it sees the same ID each time. It can follow your footprints from site to site and build a profile of your interests.",
+      "elements": [
+        {
+          "type": "text",
+          "x": 50,
+          "y": 9,
+          "size": 6.5,
+          "text": "Cookies from someone else",
+          "draw": 0.8,
+          "start": 0.2
+        },
+        {
+          "type": "text",
+          "x": 80,
+          "y": 24,
+          "size": 4.5,
+          "text": "not from the site you're on",
+          "color": "#c0392b",
+          "draw": 0.8,
+          "at": "visiting"
+        },
+        {
+          "type": "icon",
+          "name": "megaphone",
+          "x": 30,
+          "y": 24,
+          "size": 7,
+          "label": "ads",
+          "draw": 0.6,
+          "at": "ads"
+        },
+        {
+          "type": "image",
+          "id": "advertiser",
+          "name": "gen/cookies/advertiser",
+          "x": 14,
+          "y": 40,
+          "w": 20,
+          "label": "an advertiser",
+          "draw": 1.4,
+          "at": "advertiser"
+        },
+        {
+          "type": "arrow",
+          "from": "advertiser",
+          "to": "third-party",
+          "color": "#c0392b",
+          "draw": 0.5,
+          "at": "set"
+        },
+        {
+          "type": "image",
+          "id": "third-party",
+          "name": "gen/cookies/third-party-cookie",
+          "x": 14,
+          "y": 78,
+          "w": 16,
+          "label": "third-party cookie",
+          "draw": 1,
+          "at": "third-party"
+        },
+        {
+          "type": "icon",
+          "name": "app-window",
+          "x": 40,
+          "y": 34,
+          "size": 6,
+          "draw": 0.4,
+          "at": "appears"
+        },
+        {
+          "type": "icon",
+          "name": "app-window",
+          "x": 50,
+          "y": 34,
+          "size": 6,
+          "draw": 0.4
+        },
+        {
+          "type": "icon",
+          "name": "app-window",
+          "x": 60,
+          "y": 34,
+          "size": 6,
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "x": 50,
+          "y": 22,
+          "size": 4.5,
+          "text": "same ID on every site",
+          "color": "#1e6fd9",
+          "draw": 0.8,
+          "at": "ID"
+        },
+        {
+          "type": "image",
+          "id": "footprints",
+          "name": "gen/cookies/footprints",
+          "x": 50,
+          "y": 58,
+          "w": 34,
+          "draw": 1.8,
+          "at": "footprints"
+        },
+        {
+          "type": "text",
+          "x": 50,
+          "y": 86,
+          "size": 4.5,
+          "text": "followed from site to site",
+          "draw": 0.8,
+          "at": "site#3"
+        },
+        {
+          "type": "image",
+          "id": "profile",
+          "name": "gen/cookies/profile",
+          "x": 86,
+          "y": 52,
+          "w": 20,
+          "label": "a profile of you",
+          "draw": 1.2,
+          "at": "profile"
+        },
+        {
+          "type": "arrow",
+          "from": "footprints",
+          "to": "profile",
+          "color": "#c0392b",
+          "draw": 0.4
+        }
+      ]
+    },
+    {
+      "id": "choices",
+      "chapter": "The privacy question",
+      "narration": "That is why many sites now show a cookie banner asking for your consent. Some browsers limit third-party cookies by default. And you can delete cookies at any time.",
+      "elements": [
+        {
+          "type": "text",
+          "x": 50,
+          "y": 9,
+          "size": 6.5,
+          "text": "Your choices",
+          "draw": 0.8,
+          "start": 0.2
+        },
+        {
+          "type": "image",
+          "name": "gen/cookies/cookie-banner",
+          "x": 20,
+          "y": 48,
+          "w": 30,
+          "label": "asks for your consent",
+          "draw": 1.4,
+          "at": "cookie banner"
+        },
+        {
+          "type": "icon",
+          "name": "shield",
+          "x": 52,
+          "y": 44,
+          "size": 14,
+          "label": "some browsers limit them",
+          "color": "#2a9d4b",
+          "draw": 0.8,
+          "at": "limit"
+        },
+        {
+          "type": "image",
+          "name": "gen/cookies/delete",
+          "x": 82,
+          "y": 48,
+          "w": 24,
+          "label": "delete them any time",
+          "draw": 1.4,
+          "at": "delete"
+        }
+      ]
+    },
+    {
+      "id": "recap",
+      "chapter": "Recap",
+      "narration": "A cookie is a small piece of text a site stores in your browser. It lets the site recognize you, keep you logged in, and remember your cart. It can also let advertisers track you across sites. This week, open your browser settings and look at the cookies saved there. Delete the ones you don't recognize.",
+      "elements": [
+        {
+          "type": "text",
+          "x": 50,
+          "y": 9,
+          "size": 6.5,
+          "text": "Recap",
+          "draw": 0.6,
+          "start": 0.2
+        },
+        {
+          "type": "image",
+          "name": "gen/cookies/cookie",
+          "x": 14,
+          "y": 30,
+          "w": 12,
+          "draw": 0.8,
+          "at": "cookie"
+        },
+        {
+          "type": "text",
+          "x": 58,
+          "y": 30,
+          "size": 4.5,
+          "text": "a small piece of text in your browser",
+          "draw": 1,
+          "at": "text"
+        },
+        {
+          "type": "text",
+          "x": 58,
+          "y": 44,
+          "size": 4.5,
+          "text": "recognises you, keeps you logged in, remembers your cart",
+          "color": "#2a9d4b",
+          "draw": 1.2,
+          "at": "recognize"
+        },
+        {
+          "type": "icon",
+          "name": "log-in",
+          "x": 9,
+          "y": 46,
+          "size": 6,
+          "color": "#2a9d4b",
+          "draw": 0.4,
+          "at": "logged"
+        },
+        {
+          "type": "icon",
+          "name": "cart",
+          "x": 18,
+          "y": 46,
+          "size": 6,
+          "color": "#2a9d4b",
+          "draw": 0.4,
+          "at": "cart"
+        },
+        {
+          "type": "text",
+          "x": 58,
+          "y": 58,
+          "size": 4.5,
+          "text": "can also track you across sites",
+          "color": "#c0392b",
+          "draw": 1,
+          "at": "track"
+        },
+        {
+          "type": "icon",
+          "name": "gear",
+          "x": 14,
+          "y": 78,
+          "size": 10,
+          "draw": 0.6,
+          "at": "settings"
+        },
+        {
+          "type": "text",
+          "x": 56,
+          "y": 78,
+          "size": 5,
+          "text": "This week: check your cookies, delete the strangers",
+          "color": "#1e6fd9",
+          "draw": 1.2,
+          "at": "Delete"
+        }
+      ]
+    }
+  ]
+}

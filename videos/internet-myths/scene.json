@@ -1,0 +1,734 @@
+{
+  "version": 1,
+  "title": "Six things most people get wrong about the internet",
+  "format": "landscape",
+  "voiceover": true,
+  "voice": "en_US-bryce-medium",
+  "captions": true,
+  "scenes": [
+    {
+      "id": "hook",
+      "narration": "You use the internet every day. But a lot of what people believe about it is simply not true. Here are six common myths, and what really happens.",
+      "elements": [
+        {
+          "type": "text",
+          "x": 50,
+          "y": 12,
+          "size": 7,
+          "text": "What people get wrong about the internet",
+          "draw": 1.2,
+          "at": "internet"
+        },
+        {
+          "type": "image",
+          "name": "gen/internet-myths/myths",
+          "x": 50,
+          "y": 52,
+          "w": 46,
+          "draw": 2.5,
+          "at": "believe"
+        },
+        {
+          "type": "text",
+          "x": 50,
+          "y": 88,
+          "size": 6,
+          "text": "6 common myths",
+          "color": "#1e6fd9",
+          "draw": 0.8,
+          "at": "six"
+        }
+      ]
+    },
+    {
+      "id": "wifi",
+      "chapter": "Myth 1: Wi-Fi is the internet",
+      "narration": "Many people say the internet is down when their Wi-Fi drops. But Wi-Fi only covers the last few metres, from your router to your device. The router then connects to your provider, and your provider connects to the rest of the world. So when the Wi-Fi fails, the internet is usually fine. Only your link to it is broken.",
+      "elements": [
+        {
+          "type": "text",
+          "x": 50,
+          "y": 9,
+          "size": 6.5,
+          "text": "Myth 1: \"Wi-Fi is the internet\"",
+          "draw": 1,
+          "start": 0.2
+        },
+        {
+          "type": "image",
+          "id": "router",
+          "name": "gen/internet-myths/wi-fi",
+          "x": 37,
+          "y": 45,
+          "w": 20,
+          "label": "your router",
+          "draw": 1.2,
+          "at": "Wi-Fi"
+        },
+        {
+          "type": "icon",
+          "name": "wifi-off",
+          "x": 7,
+          "y": 22,
+          "size": 6,
+          "color": "#c0392b",
+          "draw": 0.5,
+          "at": "drops"
+        },
+        {
+          "type": "text",
+          "x": 30,
+          "y": 22,
+          "size": 5,
+          "text": "Wi-Fi = the last few metres",
+          "color": "#1e6fd9",
+          "draw": 1,
+          "at": "metres"
+        },
+        {
+          "type": "image",
+          "id": "device",
+          "name": "gen/internet-myths/device",
+          "x": 7,
+          "y": 45,
+          "w": 18,
+          "label": "your device",
+          "draw": 1,
+          "at": "device"
+        },
+        {
+          "type": "arrow",
+          "from": "router",
+          "to": "device",
+          "head": "both",
+          "label": "Wi-Fi",
+          "color": "#1e6fd9",
+          "draw": 0.5
+        },
+        {
+          "type": "image",
+          "id": "provider",
+          "name": "gen/internet-myths/provider",
+          "reveal": "pop",
+          "x": 61,
+          "y": 45,
+          "w": 20,
+          "label": "provider",
+          "draw": 0.5,
+          "at": "provider"
+        },
+        {
+          "type": "arrow",
+          "from": "router",
+          "to": "provider",
+          "draw": 0.4
+        },
+        {
+          "type": "image",
+          "id": "world",
+          "name": "gen/internet-myths/world",
+          "x": 88,
+          "y": 45,
+          "w": 20,
+          "label": "the internet",
+          "draw": 1.2,
+          "at": "world"
+        },
+        {
+          "type": "arrow",
+          "from": "provider",
+          "to": "world",
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "x": 74,
+          "y": 84,
+          "size": 5.5,
+          "text": "the internet is still fine",
+          "color": "#2a9d4b",
+          "draw": 0.8,
+          "at": "fine"
+        },
+        {
+          "type": "image",
+          "name": "gen/internet-myths/broken",
+          "x": 22,
+          "y": 80,
+          "w": 14,
+          "label": "only this link broke",
+          "draw": 1,
+          "at": "broken"
+        }
+      ]
+    },
+    {
+      "id": "sky",
+      "chapter": "Myth 2: the internet is in the sky",
+      "narration": "It feels wireless, so people imagine satellites carrying it. In fact, almost all traffic between continents travels through cables on the ocean floor. More than a million kilometres of them, each about as thick as a garden hose. Satellites carry only a small share.",
+      "elements": [
+        {
+          "type": "text",
+          "x": 50,
+          "y": 9,
+          "size": 6.5,
+          "text": "Myth 2: \"The internet is in the sky\"",
+          "draw": 1,
+          "start": 0.2
+        },
+        {
+          "type": "image",
+          "name": "gen/internet-myths/satellites",
+          "x": 15,
+          "y": 45,
+          "w": 22,
+          "draw": 1.4,
+          "at": "satellites"
+        },
+        {
+          "type": "text",
+          "x": 15,
+          "y": 26,
+          "size": 4.5,
+          "text": "what people imagine",
+          "color": "#6b6b6b",
+          "draw": 0.8,
+          "at": "carrying"
+        },
+        {
+          "type": "icon",
+          "name": "waves-horizontal",
+          "x": 38,
+          "y": 24,
+          "size": 6,
+          "color": "#1e6fd9",
+          "draw": 0.5,
+          "at": "fact"
+        },
+        {
+          "type": "text",
+          "x": 52,
+          "y": 84,
+          "size": 5,
+          "text": "almost all traffic between continents",
+          "draw": 1,
+          "at": "continents"
+        },
+        {
+          "type": "image",
+          "name": "gen/internet-myths/ocean-floor",
+          "x": 52,
+          "y": 47,
+          "w": 36,
+          "label": "cables on the sea bed",
+          "draw": 2,
+          "at": "ocean floor"
+        },
+        {
+          "type": "text",
+          "x": 86,
+          "y": 22,
+          "size": 5,
+          "text": "1.4 million km of cable",
+          "color": "#1e6fd9",
+          "draw": 0.8,
+          "at": "million"
+        },
+        {
+          "type": "image",
+          "name": "gen/internet-myths/garden-hose",
+          "x": 88,
+          "y": 50,
+          "w": 18,
+          "label": "this thick",
+          "draw": 1.2,
+          "at": "garden hose"
+        },
+        {
+          "type": "text",
+          "x": 15,
+          "y": 72,
+          "size": 5,
+          "text": "only a small share",
+          "color": "#c0392b",
+          "draw": 0.8,
+          "at": "share"
+        }
+      ]
+    },
+    {
+      "id": "web",
+      "chapter": "Myth 3: the internet and the web are the same",
+      "narration": "The internet is the network: the cables, routers and rules that move data. The web is just one service that runs on top of it: pages you open in a browser. Email, video calls, online games and the apps on your phone use the internet too, without the web.",
+      "elements": [
+        {
+          "type": "text",
+          "x": 50,
+          "y": 9,
+          "size": 6.5,
+          "text": "Myth 3: \"The internet and the web are the same\"",
+          "draw": 1.2,
+          "start": 0.2
+        },
+        {
+          "type": "image",
+          "name": "gen/internet-myths/network",
+          "reveal": "pop",
+          "x": 50,
+          "y": 73,
+          "w": 32,
+          "label": "the internet: the network underneath",
+          "draw": 0.5,
+          "at": "network"
+        },
+        {
+          "type": "icon",
+          "name": "cable",
+          "x": 8,
+          "y": 58,
+          "size": 8,
+          "label": "cables",
+          "draw": 0.6,
+          "at": "cables"
+        },
+        {
+          "type": "icon",
+          "name": "router",
+          "x": 21,
+          "y": 58,
+          "size": 8,
+          "label": "routers",
+          "draw": 0.6,
+          "at": "routers"
+        },
+        {
+          "type": "icon",
+          "name": "scroll-text",
+          "x": 34,
+          "y": 58,
+          "size": 8,
+          "label": "rules",
+          "draw": 0.6,
+          "at": "rules"
+        },
+        {
+          "type": "text",
+          "x": 83,
+          "y": 64,
+          "size": 4.5,
+          "text": "they move the data",
+          "draw": 0.8,
+          "at": "data"
+        },
+        {
+          "type": "icon",
+          "name": "layers",
+          "x": 83,
+          "y": 76,
+          "size": 7,
+          "color": "#1e6fd9",
+          "draw": 0.5,
+          "at": "service"
+        },
+        {
+          "type": "text",
+          "x": 83,
+          "y": 87,
+          "size": 4.5,
+          "text": "the web: one service on top",
+          "color": "#1e6fd9",
+          "draw": 1
+        },
+        {
+          "type": "image",
+          "name": "gen/internet-myths/browser",
+          "x": 17,
+          "y": 33,
+          "w": 18,
+          "label": "the web",
+          "draw": 1.2,
+          "at": "browser"
+        },
+        {
+          "type": "image",
+          "name": "gen/internet-myths/email",
+          "x": 39,
+          "y": 33,
+          "w": 16,
+          "label": "email",
+          "draw": 1,
+          "at": "Email"
+        },
+        {
+          "type": "image",
+          "name": "gen/internet-myths/video-calls",
+          "x": 61,
+          "y": 33,
+          "w": 18,
+          "label": "video calls",
+          "draw": 1,
+          "at": "video calls"
+        },
+        {
+          "type": "image",
+          "name": "gen/internet-myths/games",
+          "x": 83,
+          "y": 33,
+          "w": 16,
+          "label": "games",
+          "draw": 1,
+          "at": "games"
+        }
+      ]
+    },
+    {
+      "id": "cloud",
+      "chapter": "Myth 4: the cloud is somewhere above us",
+      "narration": "Your photos are not floating in the air. The cloud is simply someone else's computers, packed into huge buildings called data centres. When you save a file to the cloud, it goes to a real hard drive, in a real building, somewhere in the world.",
+      "elements": [
+        {
+          "type": "text",
+          "x": 50,
+          "y": 9,
+          "size": 6.5,
+          "text": "Myth 4: \"The cloud is somewhere above us\"",
+          "draw": 1,
+          "start": 0.2
+        },
+        {
+          "type": "image",
+          "id": "cloud",
+          "name": "gen/internet-myths/cloud",
+          "x": 17,
+          "y": 46,
+          "w": 26,
+          "label": "the cloud",
+          "draw": 1.4,
+          "at": "cloud"
+        },
+        {
+          "type": "text",
+          "x": 50,
+          "y": 86,
+          "size": 6,
+          "text": "the cloud = someone else's computers",
+          "color": "#1e6fd9",
+          "draw": 1.2,
+          "at": "someone"
+        },
+        {
+          "type": "image",
+          "id": "dc",
+          "name": "gen/internet-myths/data-centres",
+          "reveal": "pop",
+          "x": 51,
+          "y": 46,
+          "w": 30,
+          "label": "a data centre",
+          "draw": 0.5,
+          "at": "data centres"
+        },
+        {
+          "type": "arrow",
+          "from": "cloud",
+          "to": "dc",
+          "draw": 0.4
+        },
+        {
+          "type": "image",
+          "id": "hd",
+          "name": "gen/internet-myths/hard-drive",
+          "reveal": "pop",
+          "x": 84,
+          "y": 46,
+          "w": 20,
+          "label": "a real hard drive",
+          "draw": 0.5,
+          "at": "hard drive"
+        },
+        {
+          "type": "arrow",
+          "from": "dc",
+          "to": "hd",
+          "draw": 0.4
+        }
+      ]
+    },
+    {
+      "id": "incognito",
+      "chapter": "Myth 5: incognito makes me invisible",
+      "narration": "Private browsing only stops your own device from keeping your history. The websites you visit still see you. So does your internet provider, and your school or employer if you use their network.",
+      "elements": [
+        {
+          "type": "text",
+          "x": 50,
+          "y": 9,
+          "size": 6.5,
+          "text": "Myth 5: \"Incognito makes me invisible\"",
+          "draw": 1,
+          "start": 0.2
+        },
+        {
+          "type": "image",
+          "id": "you",
+          "name": "gen/internet-myths/private-browsing",
+          "x": 18,
+          "y": 52,
+          "w": 26,
+          "label": "you, incognito",
+          "draw": 1.4,
+          "at": "Private browsing"
+        },
+        {
+          "type": "icon",
+          "name": "eye-off",
+          "x": 6,
+          "y": 24,
+          "size": 6,
+          "color": "#2a9d4b",
+          "draw": 0.5,
+          "at": "stops"
+        },
+        {
+          "type": "text",
+          "x": 18,
+          "y": 24,
+          "size": 4.5,
+          "text": "your history: hidden",
+          "color": "#2a9d4b",
+          "draw": 0.8,
+          "at": "history"
+        },
+        {
+          "type": "image",
+          "id": "sites",
+          "name": "gen/internet-myths/websites",
+          "x": 52,
+          "y": 30,
+          "w": 17,
+          "label": "websites",
+          "draw": 1,
+          "at": "websites"
+        },
+        {
+          "type": "arrow",
+          "from": "sites",
+          "to": "you",
+          "label": "sees you",
+          "color": "#c0392b",
+          "draw": 0.4
+        },
+        {
+          "type": "image",
+          "id": "isp",
+          "name": "gen/internet-myths/provider",
+          "reveal": "pop",
+          "x": 70,
+          "y": 58,
+          "w": 17,
+          "label": "your provider",
+          "draw": 0.5,
+          "at": "provider"
+        },
+        {
+          "type": "arrow",
+          "from": "isp",
+          "to": "you",
+          "color": "#c0392b",
+          "draw": 0.4
+        },
+        {
+          "type": "image",
+          "id": "work",
+          "name": "gen/internet-myths/employer",
+          "x": 88,
+          "y": 30,
+          "w": 17,
+          "label": "school or work",
+          "draw": 1,
+          "at": "employer"
+        },
+        {
+          "type": "arrow",
+          "from": "work",
+          "to": "sites",
+          "color": "#c0392b",
+          "draw": 0.4
+        },
+        {
+          "type": "text",
+          "x": 50,
+          "y": 88,
+          "size": 6,
+          "text": "it hides your history, not you",
+          "color": "#c0392b",
+          "draw": 1
+        }
+      ]
+    },
+    {
+      "id": "delete",
+      "chapter": "Myth 6: if I delete it, it's gone",
+      "narration": "Deleting a post removes it from your screen, not from the world. Others may have saved it, shared it or taken a screenshot. And the service itself may keep backups for months. Before you post, assume it could last forever.",
+      "elements": [
+        {
+          "type": "text",
+          "x": 50,
+          "y": 9,
+          "size": 6.5,
+          "text": "Myth 6: \"If I delete it, it's gone\"",
+          "draw": 1,
+          "start": 0.2
+        },
+        {
+          "type": "image",
+          "name": "gen/internet-myths/deleting",
+          "x": 13,
+          "y": 50,
+          "w": 26,
+          "label": "deleted",
+          "draw": 1.2,
+          "at": "Deleting"
+        },
+        {
+          "type": "icon",
+          "name": "globe",
+          "x": 24,
+          "y": 24,
+          "size": 6,
+          "draw": 0.5,
+          "at": "world"
+        },
+        {
+          "type": "icon",
+          "name": "download",
+          "x": 31,
+          "y": 24,
+          "size": 6,
+          "color": "#1e6fd9",
+          "draw": 0.5,
+          "at": "saved"
+        },
+        {
+          "type": "icon",
+          "name": "share-2",
+          "x": 38,
+          "y": 24,
+          "size": 6,
+          "color": "#1e6fd9",
+          "draw": 0.5,
+          "at": "shared"
+        },
+        {
+          "type": "image",
+          "name": "gen/internet-myths/screenshot",
+          "x": 38,
+          "y": 50,
+          "w": 26,
+          "label": "screenshots",
+          "draw": 1.2,
+          "at": "screenshot"
+        },
+        {
+          "type": "image",
+          "name": "gen/internet-myths/backups",
+          "reveal": "pop",
+          "x": 63,
+          "y": 50,
+          "w": 26,
+          "label": "backups",
+          "draw": 0.5,
+          "at": "backups"
+        },
+        {
+          "type": "icon",
+          "name": "calendar",
+          "x": 62,
+          "y": 24,
+          "size": 6,
+          "color": "#6b6b6b",
+          "draw": 0.5,
+          "at": "months"
+        },
+        {
+          "type": "text",
+          "x": 74,
+          "y": 24,
+          "size": 4.5,
+          "text": "for months",
+          "color": "#6b6b6b",
+          "draw": 0.6
+        },
+        {
+          "type": "icon",
+          "name": "send",
+          "x": 87,
+          "y": 24,
+          "size": 6,
+          "color": "#c0392b",
+          "draw": 0.5,
+          "at": "post#2"
+        },
+        {
+          "type": "image",
+          "name": "gen/internet-myths/forever",
+          "x": 87,
+          "y": 50,
+          "w": 26,
+          "draw": 1.2,
+          "at": "forever"
+        },
+        {
+          "type": "text",
+          "x": 50,
+          "y": 86,
+          "size": 6,
+          "text": "assume it could last forever",
+          "color": "#c0392b",
+          "draw": 1
+        }
+      ]
+    },
+    {
+      "id": "recap",
+      "chapter": "Recap",
+      "narration": "So: Wi-Fi is only the last few metres. The internet runs under the sea, the web is just one part of it, and the cloud is someone else's computer. Incognito hides your history, not you, and deleted rarely means gone.",
+      "elements": [
+        {
+          "type": "text",
+          "x": 32,
+          "y": 12,
+          "size": 7,
+          "text": "What's really true",
+          "draw": 0.8,
+          "start": 0.2
+        },
+        {
+          "type": "list",
+          "x": 6,
+          "y": 28,
+          "size": 5.5,
+          "spacing": 1.8,
+          "items": [
+            "Wi-Fi is only the last few metres",
+            "the internet runs under the sea",
+            "the web is one part of it",
+            "the cloud is someone else's computer",
+            "incognito hides your history, not you",
+            "deleted rarely means gone"
+          ],
+          "draw": 5,
+          "at": "Wi-Fi"
+        },
+        {
+          "type": "image",
+          "name": "gen/internet-myths/myths",
+          "x": 82,
+          "y": 52,
+          "w": 28,
+          "draw": 1.4
+        }
+      ]
+    }
+  ]
+}

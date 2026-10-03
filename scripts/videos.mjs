@@ -3,6 +3,7 @@
 // as <id>-<format> in the others (see src/Root.tsx).
 
 import { readFileSync } from "node:fs";
+import { applyType } from "../src/videoTypes.mjs";
 
 const read = (path) => readFileSync(new URL(path, import.meta.url), "utf8");
 
@@ -19,7 +20,8 @@ const imports = Object.fromEntries(
 export const videos = [
   ...videosFile.matchAll(/id: "([^"]+)", scene: (\w+)/g),
 ].map(([, id, name]) => {
-  const format = JSON.parse(read(`../${imports[name]}`)).format ?? "all";
+  const format =
+    applyType(JSON.parse(read(`../${imports[name]}`))).format ?? "all";
   return {
     id,
     written: format === "landscape" ? "landscape" : "portrait",

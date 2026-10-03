@@ -14,7 +14,12 @@ import {
   type TextProps,
 } from "../elements/Text";
 import { unitOf, type FrameSize } from "../elements/shared";
-import type { SceneElement, Video } from "../schema/scene";
+import {
+  popsIn,
+  styleOf,
+  type SceneElement,
+  type Video,
+} from "../schema/scene";
 import {
   listItemTimes,
   tableRowTimes,
@@ -31,11 +36,17 @@ const ARROW_GAP = 3; // percent of the shorter side, between arrow and shape
 const ARROW_LABEL_SIZE = 6; // percent of the shorter side
 const RING_COLOR = "#c0392b"; // rings point things out, so red by default
 
-export type Drawing =
+export type Drawing = (
   | { type: "shape"; props: ShapeProps }
   | { type: "text"; props: TextProps }
   | { type: "arrow"; props: ArrowProps; label: TextProps | null }
-  | { type: "image"; props: ImageProps };
+  | { type: "image"; props: ImageProps }
+) & {
+  // The scene-file element it was drawn from (for the layout check).
+  source?: { scene: string; index: number; element: SceneElement };
+  // Pops into place, complete, instead of being drawn by the hand.
+  pops?: boolean;
+};
 
 export type PlannedBoard = {
   sceneIds: string[]; // the scenes drawn on it
@@ -658,6 +669,7 @@ export const planVideo = (
   assets: CompiledAssets = {},
 ): PlannedBoard[] =>
   timelineBoards(video).map((board) => {
+    const style = styleOf(video);
     const drawings: Drawing[] = [];
     // Outlines of everything on this board so far, by id, for arrows and
     // rings. Filled in per scene before drawing, since an arrow may point
@@ -682,7 +694,15 @@ export const planVideo = (
           color: element.color,
           seed: element.seed ?? seedFrom(element.id ?? `${scene.id}#${index}`),
         };
-        drawings.push(...drawingsOf(element, common, outlines, frame, assets));
+        drawings.push(
+          ...drawingsOf(element, common, outlines, frame, assets).map(
+            (drawing) => ({
+              ...drawing,
+              source: { scene: scene.id, index, element },
+              pops: popsIn(style, element),
+            }),
+          ),
+        );
       });
     }
 
@@ -703,6 +723,8 @@ export const handTracks = (
 ): HandTrack[] =>
   boards.flatMap((board) =>
     board.drawings.flatMap((drawing) => {
+      // The hand doesn't draw what pops in.
+      if (drawing.pops) return [];
       switch (drawing.type) {
         case "shape":
           return shapeTracks(drawing.props, frame);

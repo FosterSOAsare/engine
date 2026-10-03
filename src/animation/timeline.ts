@@ -38,20 +38,13 @@ export const sceneTimes = (video: Video): TimedScene[] => {
 export const scenesLength = (video: Video) =>
   video.scenes.reduce((sum, scene) => sum + (scene.duration ?? 0), 0);
 
-// A landscape video ends on its whole board: after the last scene the
-// camera zooms out (layout/canvas.ts) and holds the overview.
-export const OVERVIEW_MOVE_SECONDS = 1.5;
 // Between boards the screen fades to the empty board for this long, the
 // camera jumps to the next board, and it fades back in for as long.
 export const CUT_FADE_SECONDS = 0.25;
-export const OVERVIEW_HOLD_SECONDS = 2.5;
 
-// The whole video, in seconds.
-export const videoLength = (video: Video) =>
-  scenesLength(video) +
-  (video.format === "landscape"
-    ? OVERVIEW_MOVE_SECONDS + OVERVIEW_HOLD_SECONDS
-    : 0);
+// The whole video, in seconds. Every video ends on its last scene; a
+// landscape video doesn't zoom out to show the rest of its board.
+export const videoLength = (video: Video) => scenesLength(video);
 
 export const boards = (video: Video): Board[] => {
   const result: Board[] = [];
@@ -76,16 +69,12 @@ export const boards = (video: Video): Board[] => {
 };
 
 // The moment shown on cover images, in seconds: the video's "cover" (a
-// scene id or seconds). By default the end of the first scene, or for a
-// landscape video the overview of its whole board. A scene's end is just
-// before its board is wiped, with everything drawn.
+// scene id or seconds). By default the end of the first scene. A scene's
+// end is just before its board is wiped, with everything drawn.
 export const coverTime = (video: Video): number => {
   const length = videoLength(video);
   const lastFrame = Math.max(0, length - 1 / FPS);
   if (typeof video.cover === "number") return Math.min(video.cover, lastFrame);
-  if (video.cover === undefined && video.format === "landscape") {
-    return lastFrame;
-  }
   const times = sceneTimes(video);
   const index = Math.max(
     0,

@@ -1238,7 +1238,7 @@
     {
       "id": "recap",
       "chapter": "Recap",
-      "narration": "So, latency is the time a round trip takes. Distance, hops, handshakes and server time all add to it. Shorten the distance, cut the trips, and your app will feel instant. Follow for more.",
+      "narration": "So, latency is the time a round trip takes. Distance, hops, handshakes and server time all add to it. Shorten the distance, cut the trips, and your app will feel instant.",
       "elements": [
         {
           "type": "image",

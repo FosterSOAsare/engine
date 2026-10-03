@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import normalization from "../../videos/normalization/scene.json";
-import { videoSchema, type VideoInput } from "./scene";
+import { videoSchema, type VideoInput, styleOf } from "./scene";
 
 // The draft from the development plan.
 const draft: VideoInput = {
@@ -68,7 +68,8 @@ describe("videoSchema", () => {
     });
     expect(video.fps).toBe(30);
     expect(video.format).toBe("all");
-    expect(video.style).toBe("handwritten");
+    expect(styleOf(video)).toBe("handwritten");
+    expect(styleOf({ ...video, format: "landscape" })).toBe("mixed");
     expect(video.scenes[0].keepPrevious).toBe(false);
     expect(video.scenes[0].elements[0]).toMatchObject({ w: 50, h: 22 });
   });

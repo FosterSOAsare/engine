@@ -11,7 +11,12 @@ export const FPS = 30;
 
 // Margins in percent of the frame's width (left, right) and height (top,
 // bottom).
-export type Margins = { top: number; right: number; bottom: number; left: number };
+export type Margins = {
+  top: number;
+  right: number;
+  bottom: number;
+  left: number;
+};
 
 export type Format = {
   width: number;
