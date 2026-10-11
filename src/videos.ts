@@ -3,6 +3,7 @@ import latencyIllustrated from "../videos/latency-illustrated/scene.json";
 import normalization from "../videos/normalization/scene.json";
 import internetMyths from "../videos/internet-myths/scene.json";
 import cookies from "../videos/cookies/scene.json";
+import loadBalancing from "../videos/load-balancing/scene.json";
 import { applyType } from "./videoTypes.mjs";
 
 // Every scene file the Studio shows. Each becomes a composition with the
@@ -11,6 +12,7 @@ import { applyType } from "./videoTypes.mjs";
 // A scene file's "type" is filled in here (src/videoTypes.mjs).
 export const VIDEOS: { id: string; scene: unknown }[] = [
   { id: "cookies", scene: cookies },
+  { id: "load-balancing", scene: loadBalancing },
   { id: "internet-myths", scene: internetMyths },
   { id: "latency", scene: latency },
   { id: "latency-illustrated", scene: latencyIllustrated },

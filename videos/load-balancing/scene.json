@@ -1,0 +1,896 @@
+{
+  "version": 1,
+  "title": "Load balancing: how big websites handle huge crowds",
+  "type": "explainer",
+  "scenes": [
+    {
+      "id": "hook",
+      "narration": "A popular website can get thousands of visitors every second. No single server can answer them all. When too many people arrive at once, pages slow down, then fail. So how do big sites stay up? They use a load balancer.",
+      "elements": [
+        {
+          "type": "image",
+          "name": "gen/load-balancing/visitors",
+          "x": 30,
+          "y": 50,
+          "w": 36,
+          "draw": 1,
+          "at": "visitors"
+        },
+        {
+          "type": "text",
+          "x": 30,
+          "y": 14,
+          "size": 4.5,
+          "text": "thousands every second",
+          "draw": 0.8,
+          "at": "second",
+          "color": "#1e6fd9"
+        },
+        {
+          "type": "image",
+          "name": "gen/latency/server",
+          "x": 74,
+          "y": 46,
+          "w": 18,
+          "draw": 1,
+          "at": "server",
+          "label": "one server"
+        },
+        {
+          "type": "icon",
+          "name": "server-crash",
+          "x": 74,
+          "y": 80,
+          "size": 8,
+          "draw": 0.5,
+          "at": "fail",
+          "color": "#c0392b",
+          "label": "slow, then down"
+        },
+        {
+          "type": "icon",
+          "name": "question",
+          "x": 90,
+          "y": 20,
+          "size": 7,
+          "draw": 0.5,
+          "at": "how"
+        },
+        {
+          "type": "text",
+          "x": 74,
+          "y": 14,
+          "size": 5,
+          "text": "the fix: a load balancer",
+          "draw": 0.8,
+          "at": "load balancer",
+          "color": "#1e6fd9"
+        }
+      ]
+    },
+    {
+      "id": "front",
+      "chapter": "What a load balancer is",
+      "narration": "A load balancer sits in front of a group of servers. Every request reaches it first. It decides which server should answer. Think of a host at a busy restaurant, sending each guest to a free table.",
+      "elements": [
+        {
+          "type": "text",
+          "x": 50,
+          "y": 9,
+          "size": 6.5,
+          "text": "What is a load balancer?",
+          "draw": 0.8,
+          "start": 0.2
+        },
+        {
+          "type": "box",
+          "id": "lb",
+          "x": 45,
+          "y": 45,
+          "w": 22,
+          "h": 13,
+          "label": "Load balancer",
+          "fill": "#fbe7a1",
+          "draw": 0.8,
+          "at": "load balancer"
+        },
+        {
+          "type": "icon",
+          "name": "server",
+          "x": 82,
+          "y": 22,
+          "size": 9,
+          "draw": 0.5,
+          "at": "servers",
+          "id": "s1"
+        },
+        {
+          "type": "icon",
+          "name": "server",
+          "x": 82,
+          "y": 45,
+          "size": 9,
+          "draw": 0.5,
+          "id": "s2"
+        },
+        {
+          "type": "icon",
+          "name": "server",
+          "x": 82,
+          "y": 68,
+          "size": 9,
+          "draw": 0.5,
+          "id": "s3"
+        },
+        {
+          "type": "arrow",
+          "from": "lb",
+          "to": "s1",
+          "draw": 0.4
+        },
+        {
+          "type": "arrow",
+          "from": "lb",
+          "to": "s2",
+          "draw": 0.4
+        },
+        {
+          "type": "arrow",
+          "from": "lb",
+          "to": "s3",
+          "draw": 0.4
+        },
+        {
+          "type": "image",
+          "name": "load-balancing/users",
+          "x": 11,
+          "y": 45,
+          "w": 12,
+          "draw": 1,
+          "at": "request",
+          "id": "req",
+          "label": "requests"
+        },
+        {
+          "type": "arrow",
+          "from": "req",
+          "to": "lb",
+          "draw": 0.4,
+          "color": "#1e6fd9"
+        },
+        {
+          "type": "text",
+          "x": 45,
+          "y": 64,
+          "size": 4.5,
+          "text": "it picks the server",
+          "draw": 0.8,
+          "at": "decides",
+          "color": "#1e6fd9"
+        },
+        {
+          "type": "image",
+          "name": "load-balancing/host",
+          "x": 45,
+          "y": 84,
+          "w": 9,
+          "draw": 1,
+          "at": "host"
+        },
+        {
+          "type": "text",
+          "x": 70,
+          "y": 86,
+          "size": 4.5,
+          "text": "like a restaurant host",
+          "draw": 0.8,
+          "at": "restaurant"
+        }
+      ]
+    },
+    {
+      "id": "address",
+      "chapter": "What a load balancer is",
+      "narration": "To you, the website has one address. Behind it, there may be ten servers, or ten thousand. You never see which one answered.",
+      "elements": [
+        {
+          "type": "text",
+          "x": 50,
+          "y": 9,
+          "size": 6.5,
+          "text": "One address, many servers",
+          "draw": 0.8,
+          "start": 0.2
+        },
+        {
+          "type": "image",
+          "name": "load-balancing/door",
+          "x": 20,
+          "y": 46,
+          "w": 14,
+          "draw": 1,
+          "at": "address",
+          "label": "one address"
+        },
+        {
+          "type": "text",
+          "x": 66,
+          "y": 18,
+          "size": 5,
+          "text": "10 servers, or 10,000",
+          "draw": 0.8,
+          "at": "ten",
+          "color": "#1e6fd9"
+        },
+        {
+          "type": "image",
+          "name": "gen/internet-myths/data-centres",
+          "x": 66,
+          "y": 50,
+          "w": 38,
+          "draw": 1,
+          "at": "thousand"
+        },
+        {
+          "type": "text",
+          "x": 20,
+          "y": 80,
+          "size": 4.5,
+          "text": "you never see which one",
+          "draw": 0.8,
+          "at": "never",
+          "color": "#6b6b6b"
+        }
+      ]
+    },
+    {
+      "id": "round-robin",
+      "chapter": "How it chooses",
+      "narration": "The simplest rule is round robin. Request one goes to server one, request two to server two, and so on, then back to the start.",
+      "elements": [
+        {
+          "type": "text",
+          "x": 50,
+          "y": 9,
+          "size": 6.5,
+          "text": "Rule 1: round robin",
+          "draw": 0.8,
+          "start": 0.2
+        },
+        {
+          "type": "box",
+          "id": "lb",
+          "x": 22,
+          "y": 50,
+          "w": 22,
+          "h": 13,
+          "label": "Load balancer",
+          "fill": "#fbe7a1",
+          "draw": 0.8,
+          "at": "simplest"
+        },
+        {
+          "type": "image",
+          "name": "load-balancing/cards",
+          "x": 22,
+          "y": 80,
+          "w": 8,
+          "draw": 1,
+          "at": "round robin",
+          "label": "like dealing cards"
+        },
+        {
+          "type": "icon",
+          "name": "server",
+          "x": 76,
+          "y": 22,
+          "size": 9,
+          "draw": 0.5,
+          "at": "one#2",
+          "id": "a",
+          "label": "server 1"
+        },
+        {
+          "type": "arrow",
+          "from": "lb",
+          "to": "a",
+          "draw": 0.4,
+          "label": "1",
+          "color": "#1e6fd9"
+        },
+        {
+          "type": "icon",
+          "name": "server",
+          "x": 76,
+          "y": 50,
+          "size": 9,
+          "draw": 0.5,
+          "at": "two#2",
+          "id": "b",
+          "label": "server 2"
+        },
+        {
+          "type": "arrow",
+          "from": "lb",
+          "to": "b",
+          "draw": 0.4,
+          "label": "2",
+          "color": "#1e6fd9"
+        },
+        {
+          "type": "icon",
+          "name": "server",
+          "x": 76,
+          "y": 78,
+          "size": 9,
+          "draw": 0.5,
+          "at": "so",
+          "id": "c",
+          "label": "server 3"
+        },
+        {
+          "type": "arrow",
+          "from": "lb",
+          "to": "c",
+          "draw": 0.4,
+          "label": "3",
+          "color": "#1e6fd9"
+        },
+        {
+          "type": "icon",
+          "name": "refresh-cw",
+          "x": 50,
+          "y": 86,
+          "size": 6,
+          "draw": 0.5,
+          "at": "back",
+          "color": "#1e6fd9",
+          "label": "back to the start"
+        }
+      ]
+    },
+    {
+      "id": "least-connections",
+      "chapter": "How it chooses",
+      "narration": "A smarter rule is least connections. The next request goes to the server with the fewest open connections. That way, no server is stuck with a pile of slow jobs.",
+      "elements": [
+        {
+          "type": "text",
+          "x": 50,
+          "y": 9,
+          "size": 6.5,
+          "text": "Rule 2: least connections",
+          "draw": 0.8,
+          "start": 0.2
+        },
+        {
+          "type": "box",
+          "id": "lb",
+          "x": 22,
+          "y": 50,
+          "w": 22,
+          "h": 13,
+          "label": "Load balancer",
+          "fill": "#fbe7a1",
+          "draw": 0.8,
+          "at": "least connections"
+        },
+        {
+          "type": "icon",
+          "name": "server",
+          "x": 70,
+          "y": 22,
+          "size": 9,
+          "draw": 0.5,
+          "at": "server",
+          "id": "a"
+        },
+        {
+          "type": "text",
+          "x": 86,
+          "y": 22,
+          "size": 4.5,
+          "text": "12 open",
+          "draw": 0.8,
+          "color": "#6b6b6b"
+        },
+        {
+          "type": "icon",
+          "name": "server",
+          "x": 70,
+          "y": 50,
+          "size": 9,
+          "draw": 0.5,
+          "id": "b"
+        },
+        {
+          "type": "text",
+          "x": 86,
+          "y": 50,
+          "size": 4.5,
+          "text": "3 open",
+          "draw": 0.8,
+          "color": "#6b6b6b"
+        },
+        {
+          "type": "icon",
+          "name": "server",
+          "x": 70,
+          "y": 78,
+          "size": 9,
+          "draw": 0.5,
+          "id": "c"
+        },
+        {
+          "type": "text",
+          "x": 86,
+          "y": 78,
+          "size": 4.5,
+          "text": "9 open",
+          "draw": 0.8,
+          "color": "#6b6b6b"
+        },
+        {
+          "type": "arrow",
+          "from": "lb",
+          "to": "b",
+          "draw": 0.4,
+          "color": "#2a9d4b",
+          "at": "fewest"
+        },
+        {
+          "type": "ring",
+          "target": "b",
+          "color": "#2a9d4b",
+          "draw": 0.5
+        },
+        {
+          "type": "image",
+          "name": "load-balancing/checkout",
+          "x": 22,
+          "y": 80,
+          "w": 9,
+          "draw": 1,
+          "at": "stuck",
+          "label": "like the shortest checkout line"
+        }
+      ]
+    },
+    {
+      "id": "health",
+      "chapter": "How it chooses",
+      "narration": "The load balancer also runs health checks on each server, often every few seconds. If a server stops answering, it gets no more traffic. Visitors go to the healthy servers instead.",
+      "elements": [
+        {
+          "type": "text",
+          "x": 50,
+          "y": 9,
+          "size": 6.5,
+          "text": "Health checks",
+          "draw": 0.8,
+          "start": 0.2
+        },
+        {
+          "type": "box",
+          "id": "lb",
+          "x": 45,
+          "y": 50,
+          "w": 22,
+          "h": 13,
+          "label": "Load balancer",
+          "fill": "#fbe7a1",
+          "draw": 0.8,
+          "at": "load balancer"
+        },
+        {
+          "type": "image",
+          "name": "load-balancing/stethoscope",
+          "x": 14,
+          "y": 42,
+          "w": 13,
+          "draw": 1,
+          "at": "health checks"
+        },
+        {
+          "type": "icon",
+          "name": "heart-pulse",
+          "x": 14,
+          "y": 74,
+          "size": 7,
+          "draw": 0.5,
+          "at": "seconds",
+          "color": "#c0392b",
+          "label": "every few seconds"
+        },
+        {
+          "type": "icon",
+          "name": "server",
+          "x": 82,
+          "y": 22,
+          "size": 9,
+          "draw": 0.5,
+          "at": "each",
+          "id": "s1"
+        },
+        {
+          "type": "icon",
+          "name": "server",
+          "x": 82,
+          "y": 78,
+          "size": 9,
+          "draw": 0.5,
+          "id": "s3"
+        },
+        {
+          "type": "icon",
+          "name": "server-crash",
+          "x": 82,
+          "y": 50,
+          "size": 9,
+          "draw": 0.5,
+          "at": "stops",
+          "id": "bad",
+          "color": "#c0392b"
+        },
+        {
+          "type": "text",
+          "x": 82,
+          "y": 62,
+          "size": 4.5,
+          "text": "no more traffic",
+          "draw": 0.8,
+          "at": "traffic",
+          "color": "#c0392b"
+        },
+        {
+          "type": "arrow",
+          "from": "lb",
+          "to": "s1",
+          "draw": 0.4,
+          "color": "#2a9d4b",
+          "at": "healthy"
+        },
+        {
+          "type": "arrow",
+          "from": "lb",
+          "to": "s3",
+          "draw": 0.4,
+          "color": "#2a9d4b"
+        }
+      ]
+    },
+    {
+      "id": "autoscaling",
+      "chapter": "Why it matters",
+      "narration": "When traffic spikes, say during a big sale, more servers can be added. The load balancer starts sending them work right away. When the rush ends, the extra servers are removed. Cloud providers call this autoscaling.",
+      "elements": [
+        {
+          "type": "text",
+          "x": 50,
+          "y": 9,
+          "size": 6.5,
+          "text": "Growing on demand",
+          "draw": 0.8,
+          "start": 0.2
+        },
+        {
+          "type": "icon",
+          "name": "trending-up",
+          "x": 12,
+          "y": 74,
+          "size": 8,
+          "draw": 0.5,
+          "at": "spikes",
+          "color": "#c0392b",
+          "label": "traffic spikes"
+        },
+        {
+          "type": "image",
+          "name": "load-balancing/sale",
+          "x": 12,
+          "y": 42,
+          "w": 12,
+          "draw": 1,
+          "at": "big sale",
+          "label": "a big sale"
+        },
+        {
+          "type": "box",
+          "id": "lb",
+          "x": 40,
+          "y": 46,
+          "w": 22,
+          "h": 13,
+          "label": "Load balancer",
+          "fill": "#fbe7a1",
+          "draw": 0.8,
+          "at": "servers"
+        },
+        {
+          "type": "icon",
+          "name": "server",
+          "x": 70,
+          "y": 26,
+          "size": 8,
+          "draw": 0.5,
+          "id": "s1"
+        },
+        {
+          "type": "icon",
+          "name": "server",
+          "x": 70,
+          "y": 52,
+          "size": 8,
+          "draw": 0.5,
+          "id": "s2"
+        },
+        {
+          "type": "arrow",
+          "from": "lb",
+          "to": "s1",
+          "draw": 0.4
+        },
+        {
+          "type": "arrow",
+          "from": "lb",
+          "to": "s2",
+          "draw": 0.4
+        },
+        {
+          "type": "icon",
+          "name": "server",
+          "x": 88,
+          "y": 26,
+          "size": 8,
+          "draw": 0.5,
+          "at": "added",
+          "id": "n1",
+          "color": "#2a9d4b",
+          "label": "new"
+        },
+        {
+          "type": "icon",
+          "name": "server",
+          "x": 88,
+          "y": 52,
+          "size": 8,
+          "draw": 0.5,
+          "id": "n2",
+          "color": "#2a9d4b",
+          "label": "new"
+        },
+        {
+          "type": "arrow",
+          "from": "lb",
+          "to": "n1",
+          "draw": 0.4,
+          "color": "#2a9d4b",
+          "at": "work",
+          "bend": -6
+        },
+        {
+          "type": "arrow",
+          "from": "lb",
+          "to": "n2",
+          "draw": 0.4,
+          "color": "#2a9d4b",
+          "bend": 6
+        },
+        {
+          "type": "text",
+          "x": 79,
+          "y": 76,
+          "size": 4.5,
+          "text": "rush over: extras removed",
+          "draw": 0.8,
+          "at": "removed",
+          "color": "#6b6b6b"
+        },
+        {
+          "type": "image",
+          "name": "gen/internet-myths/cloud",
+          "x": 40,
+          "y": 80,
+          "w": 14,
+          "draw": 1,
+          "at": "autoscaling",
+          "label": "autoscaling"
+        }
+      ]
+    },
+    {
+      "id": "backup",
+      "chapter": "Why it matters",
+      "narration": "Because no one server does all the work, one crash doesn't take the site down. Load balancers often run in pairs, so even they have a backup.",
+      "elements": [
+        {
+          "type": "text",
+          "x": 50,
+          "y": 9,
+          "size": 6.5,
+          "text": "No single point of failure",
+          "draw": 0.8,
+          "start": 0.2
+        },
+        {
+          "type": "icon",
+          "name": "server",
+          "x": 14,
+          "y": 36,
+          "size": 9,
+          "draw": 0.5,
+          "at": "server"
+        },
+        {
+          "type": "icon",
+          "name": "server-crash",
+          "x": 30,
+          "y": 36,
+          "size": 9,
+          "draw": 0.5,
+          "at": "crash",
+          "color": "#c0392b"
+        },
+        {
+          "type": "icon",
+          "name": "server",
+          "x": 46,
+          "y": 36,
+          "size": 9,
+          "draw": 0.5
+        },
+        {
+          "type": "text",
+          "x": 30,
+          "y": 58,
+          "size": 5,
+          "text": "the site stays up",
+          "draw": 0.8,
+          "at": "down",
+          "color": "#2a9d4b"
+        },
+        {
+          "type": "box",
+          "id": "main",
+          "x": 76,
+          "y": 32,
+          "w": 22,
+          "h": 13,
+          "label": "Load balancer",
+          "fill": "#fbe7a1",
+          "draw": 0.8,
+          "at": "pairs"
+        },
+        {
+          "type": "box",
+          "id": "spare",
+          "x": 76,
+          "y": 66,
+          "w": 22,
+          "h": 13,
+          "label": "Backup",
+          "fill": "#e6e6e6",
+          "draw": 0.8,
+          "at": "backup"
+        },
+        {
+          "type": "arrow",
+          "from": "main",
+          "to": "spare",
+          "draw": 0.4,
+          "head": "both",
+          "color": "#6b6b6b"
+        }
+      ]
+    },
+    {
+      "id": "recap",
+      "chapter": "Recap",
+      "narration": "A load balancer spreads visitors across many servers. It picks a server with a simple rule, like round robin or least connections. It skips servers that fail their health checks. And it lets a site grow or shrink with demand. Next time a site stays fast on a busy day, picture the host at the door.",
+      "elements": [
+        {
+          "type": "text",
+          "x": 50,
+          "y": 9,
+          "size": 6.5,
+          "text": "Recap",
+          "draw": 0.8,
+          "start": 0.2
+        },
+        {
+          "type": "icon",
+          "name": "users-round",
+          "x": 12,
+          "y": 24,
+          "size": 6,
+          "draw": 0.5,
+          "at": "visitors"
+        },
+        {
+          "type": "text",
+          "x": 52,
+          "y": 24,
+          "size": 4.5,
+          "text": "spreads visitors across many servers",
+          "draw": 0.8,
+          "at": "spreads"
+        },
+        {
+          "type": "icon",
+          "name": "refresh-cw",
+          "x": 12,
+          "y": 38,
+          "size": 6,
+          "draw": 0.5,
+          "at": "round robin"
+        },
+        {
+          "type": "text",
+          "x": 52,
+          "y": 38,
+          "size": 4.5,
+          "text": "picks one: round robin or least connections",
+          "draw": 0.8,
+          "at": "picks"
+        },
+        {
+          "type": "icon",
+          "name": "heart-pulse",
+          "x": 12,
+          "y": 52,
+          "size": 6,
+          "draw": 0.5,
+          "at": "health",
+          "color": "#c0392b"
+        },
+        {
+          "type": "text",
+          "x": 52,
+          "y": 52,
+          "size": 4.5,
+          "text": "skips servers that fail health checks",
+          "draw": 0.8,
+          "at": "skips"
+        },
+        {
+          "type": "icon",
+          "name": "trending-up",
+          "x": 12,
+          "y": 66,
+          "size": 6,
+          "draw": 0.5,
+          "at": "grow",
+          "color": "#2a9d4b"
+        },
+        {
+          "type": "text",
+          "x": 52,
+          "y": 66,
+          "size": 4.5,
+          "text": "grows and shrinks with demand",
+          "draw": 0.8,
+          "at": "demand"
+        },
+        {
+          "type": "image",
+          "name": "load-balancing/host",
+          "x": 20,
+          "y": 86,
+          "w": 8,
+          "draw": 1,
+          "at": "host"
+        },
+        {
+          "type": "text",
+          "x": 56,
+          "y": 86,
+          "size": 5,
+          "text": "busy day? picture the host at the door",
+          "draw": 0.8,
+          "at": "picture",
+          "color": "#1e6fd9"
+        }
+      ]
+    }
+  ]
+}
